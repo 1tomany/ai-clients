@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Contract\Request\Prompt;
 
-use App\Prompt\Vendor\Model\Contract\Prompt\PromptContentInterface;
+use OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface;
 
 interface CompilePromptRequestInterface
 {
@@ -17,7 +17,7 @@ interface CompilePromptRequestInterface
     public string $model { get; }
 
     /**
-     * @var list<PromptContentInterface>
+     * @var list<ContentInterface>
      */
     public array $contents { get; }
 }

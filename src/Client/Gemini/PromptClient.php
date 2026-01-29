@@ -6,28 +6,23 @@ use OneToMany\AI\Client\Exception\ConnectingToHostFailedException;
 use OneToMany\AI\Client\Exception\DecodingResponseContentFailedException;
 use OneToMany\AI\Client\Gemini\Type\Content\GenerateContentResponse;
 use OneToMany\AI\Client\Gemini\Type\Error\Status;
+use OneToMany\AI\Client\Trait\CompilePromptTrait;
 use OneToMany\AI\Contract\Client\PromptClientInterface;
 use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\Prompt\DispatchedPromptResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface as HttpClientTransportExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function sprintf;
 
-final readonly class PromptClient implements PromptClientInterface
+final readonly class PromptClient extends BaseClient implements PromptClientInterface
 {
-    public function __construct(
-        private HttpClientInterface $httpClient,
-        private DenormalizerInterface $denormalizer,
-    ) {
-    }
+    use CompilePromptTrait;
 
     /**
      * @see OneToMany\AI\Contract\Client\PromptClientInterface
@@ -48,14 +43,14 @@ final readonly class PromptClient implements PromptClientInterface
             $responseContent = $response->toArray(false);
 
             if (200 !== $response->getStatusCode()) {
-                $status = $this->denormalizer->denormalize($responseContent, Status::class, null, [
+                $status = $this->normalizer->denormalize($responseContent, Status::class, null, [
                     UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
                 ]);
 
                 throw new RuntimeException($status->message, $status->code);
             }
 
-            $generateContentResponse = $this->denormalizer->denormalize($responseContent, GenerateContentResponse::class);
+            $generateContentResponse = $this->normalizer->denormalize($responseContent, GenerateContentResponse::class);
         } catch (HttpClientTransportExceptionInterface $e) {
             throw new ConnectingToHostFailedException($url, $e);
         } catch (HttpClientDecodingExceptionInterface|SerializerExceptionInterface $e) {

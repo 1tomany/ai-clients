@@ -1,46 +1,49 @@
 <?php
 
-namespace OneToMany\AI\Client\Gemini;
+namespace OneToMany\AI\Client\Gemini\Serializer;
 
-use OneToMany\AI\Contract\Client\PromptNormalizerInterface;
 use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
 use OneToMany\AI\Request\Prompt\Content\CachedFile;
 use OneToMany\AI\Request\Prompt\Content\InputText;
 use OneToMany\AI\Request\Prompt\Content\JsonSchema;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function in_array;
 
 /**
- * @phpstan-type GeminiPromptFileUri array{
+ * @phpstan-type GeminiContentFileUri array{
  *   fileData: array{
  *     fileUri: non-empty-string,
  *   },
  * }
- * @phpstan-type GeminiPromptInputText array{
+ * @phpstan-type GeminiContentInputText array{
  *   text: non-empty-string,
  * }
+ * @phpstan-type GeminiPrompt array{
+ *   systemInstruction?: array{
+ *     parts: non-empty-list<GeminiContentInputText>,
+ *     role: 'system',
+ *   },
+ *   contents: list<
+ *     array{
+ *       parts: non-empty-list<GeminiContentInputText|GeminiContentFileUri>,
+ *       role: 'user'|'system',
+ *     },
+ *   >,
+ *   generationConfig?: array{
+ *     responseJsonSchema: array<string, mixed>,
+ *     responseMimeType: non-empty-lowercase-string,
+ *   },
+ * }
  */
-final readonly class PromptNormalizer implements PromptNormalizerInterface
+final readonly class PromptNormalizer implements NormalizerInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      *
-     * @return array{
-     *   systemInstruction?: array{
-     *     parts: non-empty-list<GeminiPromptInputText>,
-     *     role: 'system',
-     *   },
-     *   contents: list<
-     *     array{
-     *       parts: non-empty-list<GeminiPromptInputText|GeminiPromptFileUri>,
-     *       role: 'user'|'system',
-     *     },
-     *   >,
-     *   generationConfig?: array{
-     *     responseJsonSchema: array<string, mixed>,
-     *     responseMimeType: non-empty-lowercase-string,
-     *   },
-     * }
+     * @param CompilePromptRequestInterface $data
+     *
+     * @return GeminiPrompt
      */
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
@@ -96,7 +99,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
@@ -104,7 +107,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     public function getSupportedTypes(?string $format): array
     {

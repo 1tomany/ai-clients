@@ -12,19 +12,17 @@ use OneToMany\AI\Contract\Response\File\CachedFileResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\File\CachedFileResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface as HttpClientTransportExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function ceil;
 use function fread;
 use function sprintf;
 use function strlen;
 
-final readonly class FileClient implements FileClientInterface
+final readonly class FileClient extends BaseClient implements FileClientInterface
 {
     /**
      * Files are uploaded in 8MB chunks.
@@ -35,12 +33,6 @@ final readonly class FileClient implements FileClientInterface
      * The header that contains the signed upload URL.
      */
     public const string UPLOAD_URL_HEADER = 'x-goog-upload-url';
-
-    public function __construct(
-        private HttpClientInterface $httpClient,
-        private DenormalizerInterface $denormalizer,
-    ) {
-    }
 
     public function cache(CacheFileRequestInterface $request): CachedFileResponseInterface
     {
@@ -105,7 +97,7 @@ final readonly class FileClient implements FileClientInterface
                 $uploadOffset = $uploadOffset + strlen($fileChunk);
             }
 
-            $file = $this->denormalizer->denormalize($response->toArray(false), File::class, null, [
+            $file = $this->normalizer->denormalize($response->toArray(false), File::class, null, [
                 UnwrappingDenormalizer::UNWRAP_PATH => '[file]',
             ]);
         } catch (HttpClientTransportExceptionInterface $e) {
@@ -114,7 +106,7 @@ final readonly class FileClient implements FileClientInterface
             throw new DecodingResponseContentFailedException(sprintf('Caching the file "%s"', $request->getName()), $e);
         }
 
-        return new CachedFileResponse($request->getVendor(), $file->uri, $file->name, null, $file->expirationTime);
+        return new CachedFileResponse($request->getVendor(), $file->uri, $file->name, $request->getFormat(), null, $file->expirationTime);
     }
 
     /**

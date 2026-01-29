@@ -1,46 +1,49 @@
 <?php
 
-namespace OneToMany\AI\Client\OpenAi;
+namespace OneToMany\AI\Client\OpenAi\Serializer;
 
-use OneToMany\AI\Contract\Client\PromptNormalizerInterface;
 use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
 use OneToMany\AI\Request\Prompt\Content\CachedFile;
 use OneToMany\AI\Request\Prompt\Content\InputText;
 use OneToMany\AI\Request\Prompt\Content\JsonSchema;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 use function in_array;
 
 /**
- * @phpstan-type OpenAiPromptFileUri array{
+ * @phpstan-type OpenAiContentFileUri array{
  *   type: 'input_file',
  *   file_id: non-empty-string,
  * }
- * @phpstan-type OpenAiPromptInputText array{
+ * @phpstan-type OpenAiContentInputText array{
  *   type: 'input_text',
  *   text: non-empty-string,
  * }
+ * @phpstan-type OpenAiPrompt array{
+ *   input?: non-empty-list<
+ *     array{
+ *       content: non-empty-list<OpenAiContentFileUri|OpenAiContentInputText>,
+ *       role: 'system'|'user',
+ *     },
+ *   >,
+ *   text?: array{
+ *     format: array{
+ *       type: 'json_schema',
+ *       name: non-empty-lowercase-string,
+ *       schema: array<string, mixed>,
+ *       strict: bool,
+ *     },
+ *   },
+ * }
  */
-final readonly class PromptNormalizer implements PromptNormalizerInterface
+final readonly class PromptNormalizer implements NormalizerInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      *
-     * @return array{
-     *   input?: non-empty-list<
-     *     array{
-     *       content: non-empty-list<OpenAiPromptFileUri|OpenAiPromptInputText>,
-     *       role: 'system'|'user',
-     *     },
-     *   >,
-     *   text?: array{
-     *     format: array{
-     *       type: 'json_schema',
-     *       name: non-empty-lowercase-string,
-     *       schema: array<string, mixed>,
-     *       strict: bool,
-     *     },
-     *   },
-     * }
+     * @param CompilePromptRequestInterface $data
+     *
+     * @return OpenAiPrompt
      */
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
@@ -89,7 +92,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
@@ -97,7 +100,7 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      */
     public function getSupportedTypes(?string $format): array
     {

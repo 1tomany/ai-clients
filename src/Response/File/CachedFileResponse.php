@@ -10,14 +10,16 @@ final readonly class CachedFileResponse implements CachedFileResponseInterface
      * @param non-empty-lowercase-string $vendor
      * @param non-empty-string $uri
      * @param ?non-empty-string $name
+     * @param non-empty-lowercase-string $format
      * @param ?non-empty-string $purpose
      */
     public function __construct(
-        public string $vendor,
-        public string $uri,
-        public ?string $name = null,
-        public ?string $purpose = null,
-        public ?\DateTimeImmutable $expiresAt = null,
+        private string $vendor,
+        private string $uri,
+        private ?string $name,
+        private string $format,
+        private ?string $purpose = null,
+        private ?\DateTimeImmutable $expiresAt = null,
     ) {
     }
 
@@ -43,6 +45,14 @@ final readonly class CachedFileResponse implements CachedFileResponseInterface
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Response\File\CachedFileResponseInterface
+     */
+    public function getFormat(): string
+    {
+        return $this->format;
     }
 
     /**

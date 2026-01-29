@@ -68,7 +68,7 @@ final readonly class FileClient implements FileClientInterface
             throw new DecodingResponseContentFailedException(sprintf('Caching the file "%s"', $request->getName()), $e);
         }
 
-        return new CachedFileResponse($request->getVendor(), $file->id, $file->filename, $file->purpose, $file->getExpiresAt());
+        return new CachedFileResponse($request->getVendor(), $file->id, $file->filename, $request->getFormat(), $file->purpose, $file->getExpiresAt());
     }
 
     /**

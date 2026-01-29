@@ -3,6 +3,7 @@
 namespace OneToMany\AI\Request\Prompt;
 
 use OneToMany\AI\Contract\Request\Prompt\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 
 final readonly class DispatchPromptRequest implements DispatchPromptRequestInterface
@@ -22,6 +23,11 @@ final readonly class DispatchPromptRequest implements DispatchPromptRequestInter
         if ([] === $request) {
             throw new InvalidArgumentException('The request cannot be empty.');
         }
+    }
+
+    public static function create(CompiledPromptResponseInterface $response): self
+    {
+        return new self($response->getVendor(), $response->getModel(), $response->getRequest());
     }
 
     /**

@@ -1,44 +1,44 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\Gemini;
+namespace OneToMany\AI\Client\Gemini;
 
-use App\Prompt\Vendor\Model\Contract\Client\PromptNormalizerInterface;
-use App\Prompt\Vendor\Model\Contract\Request\Prompt\CompilePromptRequestInterface;
-use App\Prompt\Vendor\Model\Prompt\PromptContentFile;
-use App\Prompt\Vendor\Model\Prompt\PromptContentSchema;
-use App\Prompt\Vendor\Model\Prompt\PromptContentText;
+use OneToMany\AI\Contract\Client\PromptNormalizerInterface;
+use OneToMany\AI\Contract\Request\Prompt\CompilePromptRequestInterface;
+use OneToMany\AI\Request\Prompt\Content\CachedFile;
+use OneToMany\AI\Request\Prompt\Content\InputText;
+use OneToMany\AI\Request\Prompt\Content\JsonSchema;
 
 use function in_array;
 
 /**
- * @phpstan-type TypeGeminiPromptFileUri array{
+ * @phpstan-type GeminiPromptFileUri array{
  *   fileData: array{
  *     fileUri: non-empty-string,
  *   },
  * }
- * @phpstan-type TypeGeminiPromptText array{
+ * @phpstan-type GeminiPromptInputText array{
  *   text: non-empty-string,
  * }
  */
 final readonly class PromptNormalizer implements PromptNormalizerInterface
 {
     /**
-     * @see App\Prompt\Vendor\Model\Contract\Client\PromptNormalizerInterface
+     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
      *
      * @return array{
      *   systemInstruction?: array{
-     *     parts: non-empty-list<TypeGeminiPromptText>,
+     *     parts: non-empty-list<GeminiPromptInputText>,
      *     role: 'system',
      *   },
      *   contents: list<
      *     array{
-     *       parts: non-empty-list<TypeGeminiPromptText|TypeGeminiPromptFileUri>,
+     *       parts: non-empty-list<GeminiPromptInputText|GeminiPromptFileUri>,
      *       role: 'user',
      *     },
      *   >,
      *   generationConfig?: array{
-     *     responseMimeType: non-empty-lowercase-string,
      *     responseJsonSchema: array<string, mixed>,
+     *     responseMimeType: non-empty-lowercase-string,
      *   },
      * }
      */
@@ -47,47 +47,47 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
         $requestContent = ['contents' => []];
 
         foreach ($data->contents as $content) {
-            if ($content instanceof PromptContentText) {
-                if ($content->role->isSystem()) {
+            if ($content instanceof InputText) {
+                if ($content->getRole()->isSystem()) {
                     $requestContent['systemInstruction'] = [
                         'parts' => [
                             [
-                                'text' => $content->text,
+                                'text' => $content->getText(),
                             ],
                         ],
-                        'role' => 'system',
+                        'role' => $content->getRole()->getValue(),
                     ];
                 }
 
-                if ($content->role->isUser()) {
+                if ($content->getRole()->isUser()) {
                     $requestContent['contents'][] = [
                         'parts' => [
                             [
-                                'text' => $content->text,
+                                'text' => $content->getText(),
                             ],
                         ],
-                        'role' => 'user',
+                        'role' => $content->getRole()->getValue(),
                     ];
                 }
             }
 
-            if ($content instanceof PromptContentFile) {
+            if ($content instanceof CachedFile) {
                 $requestContent['contents'][] = [
                     'parts' => [
                         [
                             'fileData' => [
-                                'fileUri' => $content->uri,
+                                'fileUri' => $content->getUri(),
                             ],
                         ],
                     ],
-                    'role' => 'user',
+                    'role' => $content->getRole()->getValue(),
                 ];
             }
 
-            if ($content instanceof PromptContentSchema) {
+            if ($content instanceof JsonSchema) {
                 $requestContent['generationConfig'] = [
-                    'responseMimeType' => $content->format,
-                    'responseJsonSchema' => $content->schema,
+                    'responseJsonSchema' => $content->getSchema(),
+                    'responseMimeType' => $content->getFormat(),
                 ];
             }
         }

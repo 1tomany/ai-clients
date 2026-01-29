@@ -11,6 +11,8 @@ use OneToMany\AI\Request\Prompt\Content\JsonSchema;
 use function in_array;
 
 /**
+ * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+ *
  * @phpstan-type MockPromptFileUri array{
  *   fileUri: non-empty-string,
  *   format: non-empty-lowercase-string,
@@ -32,6 +34,8 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
     }
 
     /**
+     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     *
      * @return array{contents: list<MockPromptInputText|MockPromptFileUri|MockPromptJsonSchema>}
      */
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
@@ -65,11 +69,17 @@ final readonly class PromptNormalizer implements PromptNormalizerInterface
         return $requestContent;
     }
 
+    /**
+     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof CompilePromptRequestInterface && in_array($data->vendor, ['mock']);
     }
 
+    /**
+     * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
+     */
     public function getSupportedTypes(?string $format): array
     {
         return [

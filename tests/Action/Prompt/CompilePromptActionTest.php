@@ -3,7 +3,6 @@
 namespace OneToMany\AI\Tests\Action\Prompt;
 
 use OneToMany\AI\Action\Prompt\CompilePromptAction;
-use OneToMany\AI\Contract\Action\Prompt\CompilePromptActionInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Request\Prompt\CompilePromptRequest;
 use PHPUnit\Framework\TestCase;

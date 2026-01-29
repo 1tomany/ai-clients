@@ -20,10 +20,11 @@ if (!$googApiKey = getenv($keyVar)) {
     exit(1);
 }
 
-$path = realpath($argv[1] ?? '');
+$path = realpath($argv[1] ?? __DIR__.'/../files/water-heater-label.jpeg');
 
 if (!$path || !is_file($path) || !is_readable($path)) {
-    $path = realpath(__DIR__.'/../files/water-heater-label.jpeg');
+    printf("The file '%s' does not exist or not readable.\n", $path);
+    exit(1);
 }
 
 // Construct the HTTP Client

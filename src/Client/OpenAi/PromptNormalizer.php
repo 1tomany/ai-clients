@@ -10,12 +10,27 @@ use OneToMany\AI\Request\Prompt\Content\JsonSchema;
 
 use function str_starts_with;
 
+/**
+ * @phpstan-type OpenAiPromptFileUri array{
+ *   fileData: array{
+ *     fileUri: non-empty-string,
+ *   },
+ * }
+ * @phpstan-type OpenAiPromptInputText array{
+ *   text: non-empty-string,
+ * }
+ */
 final readonly class PromptNormalizer implements PromptNormalizerInterface
 {
     /**
      * @see OneToMany\AI\Contract\Client\PromptNormalizerInterface
      *
-     * @return array<non-empty-string, mixed>
+     * @return array{
+     *   input?: non-empty-list<array{content: non-empty-list<array{type: 'input_text'|'input_file', text?: non-empty-string, file_id?: non-empty-string,}>, role: 'system'|'user'}>,
+     *   text?: array{
+     *     format: array{type: 'json_schema', name: non-empty-lowercase-string, schema: array<string, mixed>, strict: bool},
+     *   },
+     * }
      */
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {

@@ -9,7 +9,9 @@ This library provides a single, unified, framework-independent library for integ
 ### Platform feature support
 | Feature     | Gemini | Mock | OpenAI |
 | ----------- | :-: | :-: | :-: |
-| Uploading files | ✅ | ✅ | ✅ |
+| Caching files | ✅ | ✅ | ✅ |
+| Compiling prompts | ✅ | ✅ | ✅ |
+| Sending prompts | ✅ | ✅ | ❌ |
 
 ## Credits
 - [Vic Cherubini](https://github.com/viccherubini), [1:N Labs, LLC](https://1tomany.com)

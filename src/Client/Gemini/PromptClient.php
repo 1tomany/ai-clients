@@ -19,7 +19,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface as HttpCl
 
 use function sprintf;
 
-final readonly class PromptClient extends GeminiClient implements PromptClientInterface
+final readonly class PromptClient extends BaseClient implements PromptClientInterface
 {
     /**
      * @see OneToMany\AI\Contract\Client\PromptClientInterface

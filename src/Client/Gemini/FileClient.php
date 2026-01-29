@@ -22,7 +22,7 @@ use function fread;
 use function sprintf;
 use function strlen;
 
-final readonly class FileClient extends GeminiClient implements FileClientInterface
+final readonly class FileClient extends BaseClient implements FileClientInterface
 {
     /**
      * Files are uploaded in 8MB chunks.

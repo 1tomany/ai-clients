@@ -9,7 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function trim;
 
-abstract readonly class GeminiClient
+abstract readonly class BaseClient
 {
     protected HttpClientInterface $httpClient;
 

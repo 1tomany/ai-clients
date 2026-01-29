@@ -9,8 +9,10 @@ use OneToMany\AI\Client\Gemini\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
 use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
 use OneToMany\AI\Contract\Response\File\CachedFileResponseInterface;
+use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\File\CachedFileResponse;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
@@ -23,9 +25,12 @@ use function ceil;
 use function fread;
 use function sprintf;
 use function strlen;
+use function trim;
 
 final readonly class FileClient implements FileClientInterface
 {
+    private HttpClientInterface $httpClient;
+
     /**
      * Files are uploaded in 8MB chunks.
      */
@@ -37,9 +42,26 @@ final readonly class FileClient implements FileClientInterface
     public const string UPLOAD_URL_HEADER = 'x-goog-upload-url';
 
     public function __construct(
-        private HttpClientInterface $httpClient,
+        ?string $geminiApiKey,
+        ?HttpClientInterface $httpClient,
         private DenormalizerInterface $denormalizer,
     ) {
+        $geminiApiKey = trim($geminiApiKey ?? '');
+
+        if (empty($geminiApiKey) && null === $httpClient) {
+            throw new InvalidArgumentException('Constructing a Gemini file client requires either an API key or scoped HTTP client, but neither were provided.');
+        }
+
+        if (null === $httpClient) {
+            $httpClient = HttpClient::create([
+                'headers' => [
+                    'accept' => 'application/json',
+                    'x-goog-api-key' => $geminiApiKey,
+                ],
+            ]);
+        }
+
+        $this->httpClient = $httpClient;
     }
 
     public function cache(CacheFileRequestInterface $request): CachedFileResponseInterface

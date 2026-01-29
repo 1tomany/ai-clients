@@ -3,7 +3,6 @@
 use OneToMany\AI\Client\Gemini\FileClient;
 use OneToMany\AI\Contract\Exception\ExceptionInterface as AiExceptionInterface;
 use OneToMany\AI\Request\File\CacheFileRequest;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 require_once __DIR__.'/../bootstrap.php';
@@ -29,16 +28,8 @@ if (!$path || !is_file($path) || !is_readable($path)) {
     exit(1);
 }
 
-// Construct the Symfony HTTP Client
-$httpClient = HttpClient::create([
-    'headers' => [
-        'accept' => 'application/json',
-        'x-goog-api-key' => $googApiKey,
-    ],
-]);
-
-// Construct the Gemini file client
-$fileClient = new FileClient($httpClient, $serializer);
+// Construct the Gemini FileClient
+$fileClient = new FileClient($googApiKey, null, $serializer);
 
 try {
     // Cache the file with Gemini

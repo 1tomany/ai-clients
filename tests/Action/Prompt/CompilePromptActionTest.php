@@ -24,7 +24,7 @@ final class CompilePromptActionTest extends TestCase
         $normalizer = new class implements NormalizerInterface {
             public function normalize(mixed $data, ?string $format = null, array $context = []): null
             {
-                throw new \RuntimeException('Not implemented!');
+                return null;
             }
 
             public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool

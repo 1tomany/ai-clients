@@ -20,12 +20,7 @@ if (!$googApiKey = getenv($keyVar)) {
     exit(1);
 }
 
-if (!is_string($argv[1] ?? null)) {
-    printf("Usage: php %s <file-path>\n", basename(__FILE__));
-    exit(1);
-}
-
-$path = realpath($argv[1]);
+$path = realpath($argv[1] ?? '');
 
 if (!$path || !is_file($path) || !is_readable($path)) {
     $path = realpath(__DIR__.'/../files/water-heater-label.jpeg');

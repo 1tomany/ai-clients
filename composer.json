@@ -1,30 +1,32 @@
 {
-    "name": "1tomany/php-ai-clients",
+    "name": "1tomany/php-ai",
     "description": "",
     "license": "MIT",
     "type": "library",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "keywords": [
-        "openai",
-        "open ai",
+        "ai",
+        "ai client",
         "chatgpt",
-        "gpt",
+        "claude",
         "gemini",
-        "claude"
+        "gpt",
+        "openai",
+        "open ai"
     ],
     "require": {
         "php": ">=8.4",
-        "symfony/http-client": "^7.4"
+        "symfony/http-client": "^7.2|^8.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.90",
+        "friendsofphp/php-cs-fixer": "^3.93",
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^12.4"
+        "phpunit/phpunit": "^12.5"
     },
     "autoload": {
         "psr-4": {
-            "OneToMany\\AI\\Clients\\": "src/"
+            "OneToMany\\AI\\": "src/"
         },
         "exclude-from-classmap": [
             "/Tests/"
@@ -32,7 +34,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OneToMany\\AI\\Clients\\Tests\\": "tests/"
+            "OneToMany\\AI\\Tests\\": "tests/"
         }
     },
     "scripts": {

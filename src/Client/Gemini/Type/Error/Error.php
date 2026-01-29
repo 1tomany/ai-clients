@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\Gemini\Type\Error;
+namespace OneToMany\AI\Client\Gemini\Type\Error;
 
 use function array_filter;
 use function explode;
@@ -13,7 +13,7 @@ final readonly class Error
 
     public function __construct(string $message)
     {
-        // Simple way to remove extra spaces which Gemini likes to add
+        // Remove the extra spaces between sentences that Gemini likes to add
         $this->message = trim(implode(' ', array_filter(explode(' ', $message))));
     }
 }

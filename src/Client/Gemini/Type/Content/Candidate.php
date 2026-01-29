@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\Gemini\Type\Content;
+namespace OneToMany\AI\Client\Gemini\Type\Content;
 
-use App\Prompt\Vendor\Model\Client\Gemini\Type\Content\Enum\FinishReason;
+use OneToMany\AI\Client\Gemini\Type\Content\Enum\FinishReason;
 
 final readonly class Candidate
 {

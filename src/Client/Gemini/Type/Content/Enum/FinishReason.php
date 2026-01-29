@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\Gemini\Type\Content\Enum;
+namespace OneToMany\AI\Client\Gemini\Type\Content\Enum;
 
 enum FinishReason: string
 {

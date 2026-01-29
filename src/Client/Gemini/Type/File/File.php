@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\Gemini\Type\File;
+namespace OneToMany\AI\Client\Gemini\Type\File;
 
 final readonly class File
 {

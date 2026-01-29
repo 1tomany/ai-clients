@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\Gemini\Type\Error;
+namespace OneToMany\AI\Client\Gemini\Type\Error;
 
 final readonly class Status
 {

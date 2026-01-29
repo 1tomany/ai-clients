@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\Gemini;
+namespace OneToMany\AI\Client\Gemini;
 
-use App\Prompt\Vendor\Model\Client\Exception\ConnectingToHostFailedException;
-use App\Prompt\Vendor\Model\Client\Exception\DecodingResponseContentFailedException;
-use App\Prompt\Vendor\Model\Client\Gemini\Type\Error\Error;
-use App\Prompt\Vendor\Model\Client\Gemini\Type\File\File;
-use App\Prompt\Vendor\Model\Contract\Client\FileClientInterface;
-use App\Prompt\Vendor\Model\Contract\Request\File\CacheFileRequestInterface;
-use App\Prompt\Vendor\Model\Contract\Response\File\CachedFileResponseInterface;
-use App\Prompt\Vendor\Model\Exception\RuntimeException;
-use App\Prompt\Vendor\Model\Response\File\CachedFileResponse;
+use OneToMany\AI\Client\Exception\ConnectingToHostFailedException;
+use OneToMany\AI\Client\Exception\DecodingResponseContentFailedException;
+use OneToMany\AI\Client\Gemini\Type\Error\Error;
+use OneToMany\AI\Client\Gemini\Type\File\File;
+use OneToMany\AI\Contract\Client\FileClientInterface;
+use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
+use OneToMany\AI\Contract\Response\File\CachedFileResponseInterface;
+use OneToMany\AI\Exception\RuntimeException;
+use OneToMany\AI\Response\File\CachedFileResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
@@ -52,12 +52,12 @@ final readonly class FileClient implements FileClientInterface
                 'headers' => [
                     'x-goog-upload-command' => 'start',
                     'x-goog-upload-protocol' => 'resumable',
-                    'x-goog-upload-header-content-type' => $request->format,
-                    'x-goog-upload-header-content-length' => $request->size,
+                    'x-goog-upload-header-content-type' => $request->getFormat(),
+                    'x-goog-upload-header-content-length' => $request->getSize(),
                 ],
                 'json' => [
                     'file' => [
-                        'displayName' => $request->name,
+                        'displayName' => $request->getName(),
                     ],
                 ],
             ]);
@@ -79,7 +79,7 @@ final readonly class FileClient implements FileClientInterface
             $uploadChunk = $uploadOffset = 0;
 
             // The total number of chunks needed to complete the upload
-            $uploadChunkCount = (int) ceil($request->size / self::FILE_CHUNK_BYTES);
+            $uploadChunkCount = (int) ceil($request->getSize() / self::FILE_CHUNK_BYTES);
 
             // Open the file to read it
             $fileHandle = $request->open();
@@ -90,7 +90,7 @@ final readonly class FileClient implements FileClientInterface
 
                 $response = $this->httpClient->request('POST', $uploadUrl, [
                     'headers' => [
-                        'content-length' => $request->size,
+                        'content-length' => $request->getSize(),
                         'x-goog-upload-offset' => $uploadOffset,
                         'x-goog-upload-command' => $uploadCommand,
                     ],
@@ -98,7 +98,7 @@ final readonly class FileClient implements FileClientInterface
                 ]);
 
                 if (200 !== $response->getStatusCode()) {
-                    throw new RuntimeException(sprintf('Caching the file "%s" failed because chunk %d of %d was rejected by the server.', $request->name, $uploadChunk, $uploadChunkCount), $response->getStatusCode(), new RuntimeException($response->getContent(false)));
+                    throw new RuntimeException(sprintf('Caching the file "%s" failed because chunk %d of %d was rejected by the server.', $request->getName(), $uploadChunk, $uploadChunkCount), $response->getStatusCode(), new RuntimeException($response->getContent(false)));
                 }
 
                 // Can't always assume the chunk was an even 8MB
@@ -111,10 +111,10 @@ final readonly class FileClient implements FileClientInterface
         } catch (HttpClientTransportExceptionInterface $e) {
             throw new ConnectingToHostFailedException($uploadUrl, $e);
         } catch (HttpClientDecodingExceptionInterface|SerializerExceptionInterface $e) {
-            throw new DecodingResponseContentFailedException(sprintf('Caching the file "%s"', $request->name), $e);
+            throw new DecodingResponseContentFailedException(sprintf('Caching the file "%s"', $request->getName()), $e);
         }
 
-        return new CachedFileResponse($file->uri, $file->name, null, $file->expirationTime);
+        return new CachedFileResponse($request->getVendor(), $file->uri, $file->name, null, $file->expirationTime);
     }
 
     /**

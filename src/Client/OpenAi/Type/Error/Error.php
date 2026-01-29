@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\OpenAi\Type\Error;
+namespace OneToMany\AI\Client\OpenAi\Type\Error;
 
 final readonly class Error
 {

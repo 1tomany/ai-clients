@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\OpenAi;
+namespace OneToMany\AI\Client\OpenAi;
 
-use App\Prompt\Vendor\Model\Client\Exception\ConnectingToHostFailedException;
-use App\Prompt\Vendor\Model\Client\Exception\DecodingResponseContentFailedException;
-use App\Prompt\Vendor\Model\Client\OpenAi\Type\Error\Error;
-use App\Prompt\Vendor\Model\Client\OpenAi\Type\File\File;
-use App\Prompt\Vendor\Model\Contract\Client\FileClientInterface;
-use App\Prompt\Vendor\Model\Contract\Request\File\CacheFileRequestInterface;
-use App\Prompt\Vendor\Model\Contract\Response\File\CachedFileResponseInterface;
-use App\Prompt\Vendor\Model\Exception\RuntimeException;
-use App\Prompt\Vendor\Model\Response\File\CachedFileResponse;
+use OneToMany\AI\Client\Exception\ConnectingToHostFailedException;
+use OneToMany\AI\Client\Exception\DecodingResponseContentFailedException;
+use OneToMany\AI\Client\OpenAi\Type\Error\Error;
+use OneToMany\AI\Client\OpenAi\Type\File\File;
+use OneToMany\AI\Contract\Client\FileClientInterface;
+use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
+use OneToMany\AI\Contract\Response\File\CachedFileResponseInterface;
+use OneToMany\AI\Exception\RuntimeException;
+use OneToMany\AI\Response\File\CachedFileResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
@@ -29,13 +29,16 @@ final readonly class FileClient implements FileClientInterface
     ) {
     }
 
+    /**
+     * @see OneToMany\AI\Contract\Client\FileClientInterface
+     */
     public function cache(CacheFileRequestInterface $request): CachedFileResponseInterface
     {
         $fileHandle = $request->open();
 
         // This avoids Symfony using a MimeTypeGuesser since we already know the file format
-        if (!stream_context_set_option($fileHandle, 'http', 'content_type', $request->format)) {
-            throw new RuntimeException(sprintf('Setting the content type to "%s" for the file "%s" failed.', $request->format, $request->name));
+        if (!stream_context_set_option($fileHandle, 'http', 'content_type', $request->getFormat())) {
+            throw new RuntimeException(sprintf('Setting the content type to "%s" for the file "%s" failed.', $request->getFormat(), $request->getName()));
         }
 
         $url = $this->generateUrl('files');
@@ -44,7 +47,7 @@ final readonly class FileClient implements FileClientInterface
             $response = $this->httpClient->request('POST', $url, [
                 'body' => [
                     'file' => $fileHandle,
-                    'purpose' => $request->purpose,
+                    'purpose' => $request->getPurpose(),
                 ],
             ]);
 
@@ -65,7 +68,7 @@ final readonly class FileClient implements FileClientInterface
             throw new DecodingResponseContentFailedException(sprintf('Caching the file "%s"', $request->name), $e);
         }
 
-        return new CachedFileResponse($file->id, $file->filename, $file->purpose, $file->getExpiresAt());
+        return new CachedFileResponse($request->getVendor(), $file->id, $file->filename, $file->purpose, $file->getExpiresAt());
     }
 
     /**

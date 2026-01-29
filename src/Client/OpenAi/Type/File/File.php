@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Client\OpenAi\Type\File;
+namespace OneToMany\AI\Client\OpenAi\Type\File;
 
 final readonly class File
 {

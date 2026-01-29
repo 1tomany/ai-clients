@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Prompt\Vendor\Model\Response\Prompt;
+namespace OneToMany\AI\Response\Prompt;
 
-use App\Prompt\Vendor\Model\Contract\Response\Prompt\CompiledPromptResponseInterface;
+use OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface;
 
 final readonly class CompiledPromptResponse implements CompiledPromptResponseInterface
 {
@@ -16,5 +16,29 @@ final readonly class CompiledPromptResponse implements CompiledPromptResponseInt
         public string $model,
         public array $request,
     ) {
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface
+     */
+    public function getVendor(): string
+    {
+        return $this->vendor;
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface
+     */
+    public function getModel(): string
+    {
+        return $this->model;
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface
+     */
+    public function getRequest(): array
+    {
+        return $this->request;
     }
 }

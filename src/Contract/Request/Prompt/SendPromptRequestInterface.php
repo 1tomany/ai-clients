@@ -5,17 +5,17 @@ namespace OneToMany\AI\Contract\Request\Prompt;
 interface SendPromptRequestInterface
 {
     /**
-     * @var non-empty-lowercase-string
+     * @return non-empty-lowercase-string
      */
-    public string $vendor { get; }
+    public function getVendor(): string;
 
     /**
-     * @var non-empty-lowercase-string
+     * @return non-empty-lowercase-string
      */
-    public string $model { get; }
+    public function getModel(): string;
 
     /**
      * @var array<string, mixed>
      */
-    public array $request { get; }
+    public function getRequest(): array;
 }

@@ -48,7 +48,9 @@ try {
     exit(1);
 }
 
-printf("Vendor:    %s\n", $cachedFile->getVendor());
-printf("URI:       %s\n", $cachedFile->getUri());
-printf("Name:      %s\n", $cachedFile->getName());
-printf("ExpiresAt: %s\n", $cachedFile->getExpiresAt()?->format('c'));
+printf("URI: %s\n", $cachedFile->getUri());
+printf("Name: %s\n", $cachedFile->getName());
+
+if ($expiresAt = $cachedFile->getExpiresAt()) {
+    printf("ExpiresAt: %s\n", $expiresAt->format('c'));
+}

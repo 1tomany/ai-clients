@@ -2,6 +2,7 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+use OneToMany\AI\Client\Gemini\Serializer\PromptNormalizer as GeminiPromptNormalizer;
 use Symfony\Component\PropertyInfo\Extractor\ConstructorExtractor;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
@@ -35,6 +36,8 @@ function createSerializer(): Serializer
         new BackedEnumNormalizer(),
         new DateTimeNormalizer(),
         new UnwrappingDenormalizer(),
+
+        new GeminiPromptNormalizer(),
 
         // This must come last so the denormalizer injected into the client can use the UnwrappingDenormalizer
         new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter, null, null, null, null, [], $propertyInfoExtractor),

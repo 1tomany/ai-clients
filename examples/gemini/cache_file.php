@@ -7,6 +7,8 @@ use OneToMany\AI\Request\File\CacheFileRequest;
 use OneToMany\AI\Request\Prompt\CompilePromptRequest;
 use OneToMany\AI\Request\Prompt\Content\CachedFile;
 use OneToMany\AI\Request\Prompt\Content\InputText;
+use OneToMany\AI\Request\Prompt\Content\JsonSchema;
+use OneToMany\AI\Request\Prompt\DispatchPromptRequest;
 use Symfony\Component\HttpClient\HttpClient;
 
 require_once __DIR__.'/../bootstrap.php';
@@ -33,7 +35,7 @@ if (!$path || !is_file($path) || !is_readable($path)) {
 $httpClient = HttpClient::create([
     'headers' => [
         'accept' => 'application/json',
-        'x-goog-api-key' => $geminiApiKey,
+        'x-goog-api-key' => $googApiKey,
     ],
 ]);
 
@@ -55,18 +57,49 @@ try {
     $promptClient = new PromptClient(null, $httpClient, $serializer);
 
     // Create the system prompt text
-    $systemInputText = InputText::system(implode(' ', [
-        'First, select a tag that most accurately describes the file.',
-        'Then, write a short five to ten word summary of the file.',
-    ]));
-
     $compilePromptRequest = new CompilePromptRequest('gemini', 'gemini-2.5-flash-lite', [
-        $systemInputText, new CachedFile($cachedFile->getUri()),
+        InputText::system('Select a tag and write a five to ten word summary of the file.'),
+        CachedFile::create($cachedFile->getUri(), $cachedFile->getFormat()),
+        JsonSchema::create('identity', [
+            'title' => 'identity',
+            'type' => 'object',
+            'properties' => [
+                'tag' => [
+                    'type' => 'string',
+                    'enum' => [
+                        'job:notes',
+                        'machinery:label',
+                        'payment:card',
+                        'payment:check',
+                        'payment:cash',
+                        'sales:invoice',
+                        'sales:receipt',
+                        'other',
+                    ],
+                    'description' => 'A label that most accurately describes the file',
+                ],
+                'summary' => [
+                    'type' => 'string',
+                    'description' => 'A five to ten word summary of the file',
+                ],
+            ],
+            'propertyOrdering' => [
+                'tag',
+                'summary',
+            ],
+            'required' => [
+                'tag',
+                'summary',
+            ],
+            'additionalProperties' => false,
+        ]),
     ]);
 
-    $compilePromptRequest->addContent($systemInputText);
+    $compiledPrompt = $promptClient->compile($compilePromptRequest);
 
-    $promptClient->compile($compilePromptRequest);
+    $promptResponse = $promptClient->dispatch(new DispatchPromptRequest($compiledPrompt->getVendor(), $compiledPrompt->getModel(), $compiledPrompt->getRequest()));
+
+    print_r($promptResponse);
 } catch (AiExceptionInterface $e) {
     printf("[ERROR] %s\n", $e->getMessage());
     exit(1);

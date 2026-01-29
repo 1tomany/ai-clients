@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 #[Group('PromptTests')]
 final class CompilePromptRequestTest extends TestCase
 {
-    public function testConstructingEmptyPrompt(): void
+    public function testConstructingPromptWithNoContentsDoesNotThrowException(): void
     {
         $this->assertCount(0, new CompilePromptRequest('mock', 'mock', [])->getContents());
     }

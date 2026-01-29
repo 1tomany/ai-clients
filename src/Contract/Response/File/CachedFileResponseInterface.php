@@ -20,6 +20,11 @@ interface CachedFileResponseInterface
     public function getName(): ?string;
 
     /**
+     * @return non-empty-lowercase-string
+     */
+    public function getFormat(): string;
+
+    /**
      * @return non-empty-string
      */
     public function getPurpose(): ?string;

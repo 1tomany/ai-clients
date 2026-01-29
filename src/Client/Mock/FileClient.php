@@ -18,6 +18,6 @@ final readonly class FileClient implements FileClientInterface
 
     public function cache(CacheFileRequestInterface $request): CachedFileResponseInterface
     {
-        return new CachedFileResponse($request->getVendor(), $this->generateUri('file'));
+        return new CachedFileResponse($request->getVendor(), $this->generateUri('file'), null, $request->getFormat());
     }
 }

@@ -47,7 +47,8 @@ try {
     // Cache the file with Gemini with the FileClient
     $cachedFileResponse = $fileClient->cache($cacheFileRequest);
 
-    printf("File '%s' successfully cached with Gemini!\n", $cacheFileRequest->getName());
+    // Output the caching results
+    printf("File successfully cached!\n\n");
     printf("URI: %s\n", $cachedFileResponse->getUri());
     printf("Name: %s\n", $cachedFileResponse->getName());
 
@@ -124,7 +125,15 @@ try {
         'request' => $dispatchPromptRequest,
     ]);
 
-    print_r($dispatchedPromptResponse);
+    printf("Prompt successfully dispatched!\n\n");
+    printf("URI: %s\n", $dispatchedPromptResponse->getUri());
+    printf("Runtime: %sms\n", $dispatchedPromptResponse->getRuntime());
+
+    if (null !== $output = $dispatchedPromptResponse->getOutput()) {
+        printf("Output: %s\n", json_encode(json_decode($output, true))); // @phpstan-ignore-line
+    }
+
+    printf("%s\n", str_repeat('-', 60));
 } catch (AiExceptionInterface $e) {
     printf("[ERROR] %s\n", $e->getMessage());
     exit(1);

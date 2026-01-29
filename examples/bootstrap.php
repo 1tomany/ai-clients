@@ -40,8 +40,28 @@ function createSerializer(): Serializer
         new GeminiPromptNormalizer(),
 
         // This must come last so the denormalizer injected into the client can use the UnwrappingDenormalizer
-        new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter, null, null, null, null, [], $propertyInfoExtractor),
+        new ObjectNormalizer($classMetadataFactory, $metadataAwareNameConverter, null, $propertyInfoExtractor),
     ]);
 
     return $serializer;
 }
+
+// // Initialize the normalizers and serializer
+//         $constructorExtractor = new ConstructorExtractor(...[
+//             'extractors' => [new PhpDocExtractor()]
+//         ]);
+
+//         $typeExtractor = new PropertyInfoExtractor(...[
+//             'typeExtractors' => [$constructorExtractor]
+//         ]);
+
+//         $objectNormalizer = new ObjectNormalizer(...[
+//             'propertyTypeExtractor' => $typeExtractor
+//         ]);
+
+//         $this->serializer = new Serializer([
+//             new BackedEnumNormalizer(),
+//             new DateTimeNormalizer(),
+//             new ArrayDenormalizer(),
+//             $objectNormalizer,
+//         ]);

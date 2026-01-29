@@ -7,10 +7,11 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-abstract readonly class AbstractGeminiClient
+use function trim;
+
+abstract readonly class GeminiClient
 {
     protected HttpClientInterface $httpClient;
-    protected DenormalizerInterface $denormalizer;
 
     /**
      * @param ?non-empty-string $geminiApiKey
@@ -20,12 +21,12 @@ abstract readonly class AbstractGeminiClient
     public function __construct(
         ?string $geminiApiKey,
         ?HttpClientInterface $httpClient,
-        DenormalizerInterface $denormalizer,
+        protected DenormalizerInterface $denormalizer,
     ) {
         $geminiApiKey = trim($geminiApiKey ?? '');
 
         if (empty($geminiApiKey) && null === $httpClient) {
-            throw new InvalidArgumentException('Constructing the Gemini file client requires either an API key or scoped HTTP client, but neither were provided.');
+            throw new InvalidArgumentException('Constructing a Gemini client requires either an API key or scoped HTTP client, but neither were provided.');
         }
 
         if (null === $httpClient) {
@@ -38,6 +39,5 @@ abstract readonly class AbstractGeminiClient
         }
 
         $this->httpClient = $httpClient;
-        $this->denormalizer = $denormalizer;
     }
 }

@@ -9,25 +9,20 @@ use OneToMany\AI\Client\Gemini\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
 use OneToMany\AI\Contract\Request\File\CacheFileRequestInterface;
 use OneToMany\AI\Contract\Response\File\CachedFileResponseInterface;
-use OneToMany\AI\Exception\InvalidArgumentException;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\File\CachedFileResponse;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface as HttpClientTransportExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function ceil;
 use function fread;
 use function sprintf;
 use function strlen;
-use function trim;
 
-final readonly class FileClient extends AbstractGeminiClient implements FileClientInterface
+final readonly class FileClient extends GeminiClient implements FileClientInterface
 {
     /**
      * Files are uploaded in 8MB chunks.
@@ -38,19 +33,6 @@ final readonly class FileClient extends AbstractGeminiClient implements FileClie
      * The header that contains the signed upload URL.
      */
     public const string UPLOAD_URL_HEADER = 'x-goog-upload-url';
-
-    /**
-     * @param ?non-empty-string $geminiApiKey
-     *
-     * @throws InvalidArgumentException both the `$geminiApiKey` and `$httpClient` arguments are null
-     */
-    public function __construct(
-        ?string $geminiApiKey,
-        ?HttpClientInterface $httpClient,
-        DenormalizerInterface $denormalizer,
-    ) {
-        parent::__construct($geminiApiKey, $httpClient, $denormalizer);
-    }
 
     public function cache(CacheFileRequestInterface $request): CachedFileResponseInterface
     {

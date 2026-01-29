@@ -21,14 +21,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function sprintf;
 
-final readonly class PromptClient implements PromptClientInterface
+final readonly class PromptClient extends GeminiClient implements PromptClientInterface
 {
-    public function __construct(
-        private HttpClientInterface $httpClient,
-        private DenormalizerInterface $denormalizer,
-    ) {
-    }
-
     /**
      * @see OneToMany\AI\Contract\Client\PromptClientInterface
      */

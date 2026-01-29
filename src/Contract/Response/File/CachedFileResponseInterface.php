@@ -5,19 +5,24 @@ namespace OneToMany\AI\Contract\Response\File;
 interface CachedFileResponseInterface
 {
     /**
-     * @var non-empty-string
+     * @return non-empty-lowercase-string
      */
-    public string $uri { get; }
+    public function getVendor(): string;
 
     /**
-     * @var ?non-empty-string
+     * @return non-empty-string
      */
-    public ?string $name { get; }
+    public function getUri(): string;
 
     /**
-     * @var ?non-empty-string
+     * @return ?non-empty-string
      */
-    public ?string $purpose { get; }
+    public function getName(): ?string;
 
-    public ?\DateTimeImmutable $expiresAt { get; }
+    /**
+     * @return non-empty-string
+     */
+    public function getPurpose(): ?string;
+
+    public function getExpiresAt(): ?\DateTimeImmutable;
 }

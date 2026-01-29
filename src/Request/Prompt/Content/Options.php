@@ -7,13 +7,18 @@ use OneToMany\AI\Contract\Request\Prompt\Content\Enum\Role;
 
 final readonly class Options implements ContentInterface
 {
-    public Role $role;
-
     /**
      * @param array<non-empty-string, mixed> $options
      */
     public function __construct(public array $options)
     {
-        $this->role = Role::User;
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface
+     */
+    public function getRole(): Role
+    {
+        return Role::User;
     }
 }

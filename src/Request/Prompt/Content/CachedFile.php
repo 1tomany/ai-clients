@@ -11,8 +11,6 @@ use function trim;
 
 final readonly class CachedFile implements ContentInterface
 {
-    public Role $role;
-
     /**
      * @param non-empty-string $uri
      * @param non-empty-lowercase-string $format
@@ -21,7 +19,6 @@ final readonly class CachedFile implements ContentInterface
         public string $uri,
         public string $format,
     ) {
-        $this->role = Role::User;
     }
 
     public static function create(?string $uri, ?string $format): self
@@ -31,5 +28,13 @@ final readonly class CachedFile implements ContentInterface
         }
 
         return new self($uri, strtolower(trim($format ?? '') ?: 'application/octet-stream'));
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface
+     */
+    public function getRole(): Role
+    {
+        return Role::User;
     }
 }

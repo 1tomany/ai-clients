@@ -11,8 +11,6 @@ use function trim;
 
 final readonly class JsonSchema implements ContentInterface
 {
-    public Role $role;
-
     /**
      * @param non-empty-lowercase-string $name
      * @param array<string, mixed> $schema
@@ -23,7 +21,6 @@ final readonly class JsonSchema implements ContentInterface
         public array $schema,
         public string $format = 'application/json',
     ) {
-        $this->role = Role::User;
     }
 
     /**
@@ -43,5 +40,13 @@ final readonly class JsonSchema implements ContentInterface
         }
 
         return new self(strtolower($name), $schema);
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface
+     */
+    public function getRole(): Role
+    {
+        return Role::User;
     }
 }

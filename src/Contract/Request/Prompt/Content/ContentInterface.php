@@ -6,5 +6,5 @@ use OneToMany\AI\Contract\Request\Prompt\Content\Enum\Role;
 
 interface ContentInterface
 {
-    public Role $role { get; }
+    public function getRole(): Role;
 }

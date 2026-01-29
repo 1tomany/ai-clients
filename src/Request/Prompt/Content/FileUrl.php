@@ -10,14 +10,11 @@ use function trim;
 
 final readonly class FileUrl implements ContentInterface
 {
-    public Role $role;
-
     /**
      * @param non-empty-string $url
      */
     public function __construct(public string $url)
     {
-        $this->role = Role::User;
     }
 
     public static function create(?string $url): self
@@ -27,5 +24,13 @@ final readonly class FileUrl implements ContentInterface
         }
 
         return new self($url);
+    }
+
+    /**
+     * @see OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface
+     */
+    public function getRole(): Role
+    {
+        return Role::User;
     }
 }

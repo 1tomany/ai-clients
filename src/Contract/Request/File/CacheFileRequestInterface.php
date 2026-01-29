@@ -5,31 +5,31 @@ namespace OneToMany\AI\Contract\Request\File;
 interface CacheFileRequestInterface
 {
     /**
-     * @var non-empty-string
+     * @return non-empty-lowercase-string
      */
-    public string $vendor { get; }
+    public function getVendor(): string;
 
     /**
-     * @var non-empty-string
+     * @return non-empty-string
      */
-    public string $path { get; }
+    public function getPath(): string;
 
-    public string $name { get; }
-
-    /**
-     * @var non-negative-int
-     */
-    public int $size { get; }
+    public function getName(): string;
 
     /**
-     * @var non-empty-lowercase-string
+     * @return non-negative-int
      */
-    public string $format { get; }
+    public function getSize(): int;
 
     /**
-     * @var ?non-empty-lowercase-string
+     * @return non-empty-lowercase-string
      */
-    public ?string $purpose { get; }
+    public function getFormat(): string;
+
+    /**
+     * @return ?non-empty-string
+     */
+    public function getPurpose(): ?string;
 
     /**
      * @return resource

@@ -37,4 +37,12 @@ final readonly class InputText implements ContentInterface
     {
         return self::create($text, Role::System);
     }
+
+    /**
+     * @see OneToMany\AI\Contract\Request\Prompt\Content\ContentInterface
+     */
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
 }

@@ -5,7 +5,7 @@ namespace OneToMany\AI\Contract\Response\Error;
 interface ErrorResponseInterface
 {
     /**
-     * @return non-empty-string
+     * @return non-empty-lowercase-string
      */
     public function getVendor(): string;
 

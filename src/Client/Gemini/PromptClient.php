@@ -12,12 +12,10 @@ use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\Prompt\DispatchedPromptResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface as HttpClientTransportExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function sprintf;
 

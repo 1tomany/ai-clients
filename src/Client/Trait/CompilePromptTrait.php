@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Client\Trait;
 
-use OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\CompileRequestInputInterface;
 use OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\Prompt\CompiledPromptResponse;
@@ -13,7 +13,7 @@ trait CompilePromptTrait
     /**
      * @see OneToMany\AI\Contract\Client\PromptClientInterface
      */
-    public function compile(CompilePromptRequestInterface $request): CompiledPromptResponseInterface
+    public function compile(CompileRequestInputInterface $request): CompiledPromptResponseInterface
     {
         try {
             /** @var array<string, mixed> $compiledRequest */

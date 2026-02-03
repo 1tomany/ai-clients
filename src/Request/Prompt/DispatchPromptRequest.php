@@ -2,11 +2,11 @@
 
 namespace OneToMany\AI\Request\Prompt;
 
-use OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\DispatchRequestInputInterface;
 use OneToMany\AI\Contract\Response\Prompt\CompiledPromptResponseInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
 
-final readonly class DispatchPromptRequest implements DispatchPromptRequestInterface
+final readonly class DispatchPromptRequest implements DispatchRequestInputInterface
 {
     /**
      * @param non-empty-lowercase-string $vendor
@@ -31,7 +31,7 @@ final readonly class DispatchPromptRequest implements DispatchPromptRequestInter
     }
 
     /**
-     * @see OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\DispatchRequestInputInterface
      */
     public function getVendor(): string
     {
@@ -39,7 +39,7 @@ final readonly class DispatchPromptRequest implements DispatchPromptRequestInter
     }
 
     /**
-     * @see OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\DispatchRequestInputInterface
      */
     public function getModel(): string
     {
@@ -47,7 +47,7 @@ final readonly class DispatchPromptRequest implements DispatchPromptRequestInter
     }
 
     /**
-     * @see OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\DispatchRequestInputInterface
      */
     public function getRequest(): array
     {

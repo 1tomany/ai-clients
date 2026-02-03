@@ -5,7 +5,7 @@ namespace OneToMany\AI\Client\Mock;
 use OneToMany\AI\Client\Mock\Trait\GenerateUriTrait;
 use OneToMany\AI\Client\Trait\CompilePromptTrait;
 use OneToMany\AI\Contract\Client\PromptClientInterface;
-use OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\DispatchRequestInputInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Response\Prompt\DispatchedPromptResponse;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -25,7 +25,7 @@ final readonly class PromptClient implements PromptClientInterface
         $this->faker = \Faker\Factory::create();
     }
 
-    public function dispatch(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
+    public function dispatch(DispatchRequestInputInterface $request): DispatchedPromptResponseInterface
     {
         $uri = $this->generateUri('resp');
 

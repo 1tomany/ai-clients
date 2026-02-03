@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Client\Mock\Serializer;
 
-use OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\CompileRequestInputInterface;
 use OneToMany\AI\Request\Prompt\Content\CachedFile;
 use OneToMany\AI\Request\Prompt\Content\InputText;
 use OneToMany\AI\Request\Prompt\Content\JsonSchema;
@@ -33,7 +33,7 @@ final readonly class PromptNormalizer implements NormalizerInterface
     /**
      * @see Symfony\Component\Serializer\Normalizer\NormalizerInterface
      *
-     * @param CompilePromptRequestInterface $data
+     * @param CompileRequestInputInterface $data
      *
      * @return MockPrompt
      */
@@ -73,7 +73,7 @@ final readonly class PromptNormalizer implements NormalizerInterface
      */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return $data instanceof CompilePromptRequestInterface && in_array($data->getVendor(), ['mock']);
+        return $data instanceof CompileRequestInputInterface && in_array($data->getVendor(), ['mock']);
     }
 
     /**
@@ -82,7 +82,7 @@ final readonly class PromptNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [
-            CompilePromptRequestInterface::class => true,
+            CompileRequestInputInterface::class => true,
         ];
     }
 }

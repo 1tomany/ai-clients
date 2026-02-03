@@ -3,7 +3,7 @@
 namespace OneToMany\AI\Action\Request;
 
 use OneToMany\AI\Contract\Action\Request\DispatchRequestActionInterface;
-use OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\DispatchRequestInputInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Factory\PromptClientFactory;
 
@@ -16,7 +16,7 @@ final readonly class DispatchRequestAction implements DispatchRequestActionInter
     /**
      * @see OneToMany\AI\Contract\Action\Request\DispatchRequestActionInterface
      */
-    public function act(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
+    public function act(DispatchRequestInputInterface $request): DispatchedPromptResponseInterface
     {
         return $this->promptClientFactory->create($request->getVendor())->dispatch($request);
     }

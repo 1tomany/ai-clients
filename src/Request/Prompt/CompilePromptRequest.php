@@ -2,10 +2,10 @@
 
 namespace OneToMany\AI\Request\Prompt;
 
-use OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\CompileRequestInputInterface;
 use OneToMany\AI\Contract\Input\Request\Content\ContentInterface;
 
-final class CompilePromptRequest implements CompilePromptRequestInterface
+final class CompilePromptRequest implements CompileRequestInputInterface
 {
     /**
      * @param non-empty-lowercase-string $vendor
@@ -20,7 +20,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompileRequestInputInterface
      */
     public function getVendor(): string
     {
@@ -28,7 +28,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompileRequestInputInterface
      */
     public function getModel(): string
     {
@@ -36,7 +36,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompileRequestInputInterface
      */
     public function getContents(): array
     {
@@ -44,7 +44,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompileRequestInputInterface
      */
     public function addContent(ContentInterface $content): static
     {
@@ -54,7 +54,7 @@ final class CompilePromptRequest implements CompilePromptRequestInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Input\Request\CompilePromptRequestInterface
+     * @see OneToMany\AI\Contract\Input\Request\CompileRequestInputInterface
      */
     public function hasContents(): bool
     {

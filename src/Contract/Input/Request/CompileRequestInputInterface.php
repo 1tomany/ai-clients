@@ -4,13 +4,8 @@ namespace OneToMany\AI\Contract\Input\Request;
 
 use OneToMany\AI\Contract\Input\Request\Content\ContentInterface;
 
-interface CompilePromptRequestInterface
+interface CompileRequestInputInterface
 {
-    /**
-     * @return non-empty-lowercase-string
-     */
-    public function getVendor(): string;
-
     /**
      * @return non-empty-lowercase-string
      */

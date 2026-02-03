@@ -8,7 +8,7 @@ use OneToMany\AI\Client\Gemini\Type\Content\GenerateContentResponse;
 use OneToMany\AI\Client\Gemini\Type\Error\Status;
 use OneToMany\AI\Client\Trait\CompilePromptTrait;
 use OneToMany\AI\Contract\Client\PromptClientInterface;
-use OneToMany\AI\Contract\Input\Request\DispatchPromptRequestInterface;
+use OneToMany\AI\Contract\Input\Request\DispatchRequestInputInterface;
 use OneToMany\AI\Contract\Response\Prompt\DispatchedPromptResponseInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Response\Prompt\DispatchedPromptResponse;
@@ -27,7 +27,7 @@ final readonly class PromptClient extends BaseClient implements PromptClientInte
     /**
      * @see OneToMany\AI\Contract\Client\PromptClientInterface
      */
-    public function dispatch(DispatchPromptRequestInterface $request): DispatchedPromptResponseInterface
+    public function dispatch(DispatchRequestInputInterface $request): DispatchedPromptResponseInterface
     {
         $timer = new Stopwatch(true)->start('dispatch');
 

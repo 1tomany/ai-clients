@@ -2,13 +2,8 @@
 
 namespace OneToMany\AI\Contract\Input\Request;
 
-interface DispatchPromptRequestInterface
+interface DispatchRequestInputInterface
 {
-    /**
-     * @return non-empty-lowercase-string
-     */
-    public function getVendor(): string;
-
     /**
      * @return non-empty-lowercase-string
      */

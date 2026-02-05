@@ -7,16 +7,26 @@ use function strtolower;
 final readonly class UploadResponse
 {
     /**
+     * @param non-empty-lowercase-string $model
      * @param non-empty-string $uri
      * @param ?non-empty-string $name
      * @param ?non-empty-string $purpose
      */
     public function __construct(
+        private string $model,
         private string $uri,
         private ?string $name = null,
         private ?string $purpose = null,
         private ?\DateTimeImmutable $expiresAt = null,
     ) {
+    }
+
+    /**
+     * @return non-empty-lowercase-string
+     */
+    public function getModel(): string
+    {
+        return $this->model;
     }
 
     /**

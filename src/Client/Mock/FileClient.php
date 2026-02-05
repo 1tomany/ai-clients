@@ -15,7 +15,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
      */
     public function upload(UploadRequest $request): UploadResponse
     {
-        return new UploadResponse($this->generateUri('file'));
+        return new UploadResponse($request->getModel(), $this->generateUri('file'));
     }
 
     /**

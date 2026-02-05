@@ -114,7 +114,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
             $this->handleHttpException($e);
         }
 
-        return new UploadResponse($file['file']['uri'], $file['file']['name'], null, new \DateTimeImmutable($file['file']['expirationTime']));
+        return new UploadResponse($request->getModel(), $file['file']['uri'], $file['file']['name'], null, new \DateTimeImmutable($file['file']['expirationTime']));
     }
 
     /**

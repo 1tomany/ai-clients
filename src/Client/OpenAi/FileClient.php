@@ -40,17 +40,6 @@ final readonly class FileClient extends OpenAiClient implements FileClientInterf
              * } $file
              */
             $file = $response->toArray(true);
-
-            print_r($file);
-            // if (200 !== $response->getStatusCode() || isset($responseContent['error'])) {
-            //     $error = $this->denormalizer->denormalize($responseContent, Error::class, null, [
-            //         UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
-            //     ]);
-
-            //     throw new RuntimeException($error->message);
-            // }
-
-            // $file = $this->denormalizer->denormalize($responseContent, File::class);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }

@@ -2,6 +2,9 @@
 
 namespace OneToMany\AI\Client\OpenAi\Type\File\Enum;
 
+use function strtolower;
+use function trim;
+
 enum Purpose: string
 {
     case Assistants = 'assistants';
@@ -13,7 +16,7 @@ enum Purpose: string
 
     public static function create(?string $purpose): self
     {
-        return self::tryFrom(\strtolower(\trim($purpose ?? ''))) ?: self::UserData;
+        return self::tryFrom(strtolower(trim($purpose ?? ''))) ?: self::UserData;
     }
 
     /**

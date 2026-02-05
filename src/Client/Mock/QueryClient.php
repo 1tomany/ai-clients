@@ -14,7 +14,7 @@ use OneToMany\AI\Response\Query\ExecuteResponse;
 use function json_encode;
 use function random_int;
 
-final readonly class QueryClient extends BaseClient implements QueryClientInterface
+final readonly class QueryClient extends MockClient implements QueryClientInterface
 {
     /**
      * @see OneToMany\AI\Contract\Client\QueryClientInterface
@@ -56,11 +56,11 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
      */
     public function execute(ExecuteRequest $request): ExecuteResponse
     {
-        $uri = $this->generateUri('query');
+        $id = $this->generateResponseId('query');
 
         /** @var non-empty-string $output */
         $output = json_encode(['tag' => $this->faker->word(), 'summary' => $this->faker->sentence(10)]);
 
-        return new ExecuteResponse($request->getModel(), $uri, $output, ['id' => $uri, 'output' => $output], random_int(100, 10000));
+        return new ExecuteResponse($request->getModel(), $id, $output, ['id' => $id, 'output' => $output], random_int(100, 10000));
     }
 }

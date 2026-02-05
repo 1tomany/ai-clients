@@ -3,14 +3,18 @@
 namespace OneToMany\AI\Action\Query;
 
 use OneToMany\AI\Contract\Action\Query\CompileQueryActionInterface;
+use OneToMany\AI\Contract\Client\QueryClientInterface;
+use OneToMany\AI\Contract\Factory\ClientFactoryInterface;
 use OneToMany\AI\Exception\InvalidArgumentException;
-use OneToMany\AI\Factory\QueryClientFactory;
 use OneToMany\AI\Request\Query\CompileRequest;
 use OneToMany\AI\Response\Query\CompileResponse;
 
 final readonly class CompileQueryAction implements CompileQueryActionInterface
 {
-    public function __construct(private QueryClientFactory $queryClientFactory)
+    /**
+     * @param ClientFactoryInterface<QueryClientInterface> $clientFactory
+     */
+    public function __construct(private ClientFactoryInterface $clientFactory)
     {
     }
 
@@ -25,6 +29,6 @@ final readonly class CompileQueryAction implements CompileQueryActionInterface
             throw new InvalidArgumentException('Compiling a query requires one more more components.');
         }
 
-        return $this->queryClientFactory->create($request)->compile($request);
+        return $this->clientFactory->create($request->getModel())->compile($request);
     }
 }

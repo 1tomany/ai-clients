@@ -50,7 +50,7 @@ try {
     // Upload the file to Gemini with the FileClient
     $response = $fileClient->upload($uploadRequest);
 
-    // Output the upload results
+    // Output the upload response
     printf("File successfully uploaded!\n\n");
     printf("URI: %s\n", $response->getUri());
     printf("Name: %s\n", $response->getName());
@@ -126,6 +126,7 @@ try {
     $response = $queryClient->execute($executeRequest);
 
     printf("Query successfully executed!\n\n");
+    printf("Model: %s\n", $response->getModel());
     printf("URI: %s\n", $response->getUri());
     printf("Runtime: %sms\n", $response->getRuntime());
     printf("Output: %s\n", json_encode($response->toRecord()));

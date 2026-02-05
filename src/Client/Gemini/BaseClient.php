@@ -4,6 +4,9 @@ namespace OneToMany\AI\Client\Gemini;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+use function ltrim;
+use function sprintf;
+
 abstract readonly class BaseClient
 {
     public function __construct(protected HttpClientInterface $httpClient)
@@ -31,12 +34,10 @@ abstract readonly class BaseClient
     }
 
     /**
-     * @param non-empty-string $model
-     *
      * @return non-empty-string
      */
     protected function generateUrl(string $path): string
     {
-        return \sprintf('https://generativelanguage.googleapis.com/%s', \ltrim($path, '/'));
+        return sprintf('https://generativelanguage.googleapis.com/%s', ltrim($path, '/'));
     }
 }

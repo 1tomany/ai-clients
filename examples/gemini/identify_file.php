@@ -3,7 +3,6 @@
 use OneToMany\AI\Client\Gemini\FileClient;
 use OneToMany\AI\Client\Gemini\PromptClient;
 use OneToMany\AI\Contract\Exception\ExceptionInterface as AiExceptionInterface;
-use OneToMany\AI\Request\File\CacheFileRequest;
 use OneToMany\AI\Request\File\UploadRequest;
 use OneToMany\AI\Request\Prompt\CompilePromptRequest;
 use OneToMany\AI\Request\Prompt\Content\CachedFile;

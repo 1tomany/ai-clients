@@ -15,7 +15,7 @@ use function tmpfile;
 
 #[Group('UnitTests')]
 #[Group('RequestTests')]
-#[Group('QueryTests')]
+#[Group('FileTests')]
 final class UploadRequestTest extends TestCase
 {
     public function testGettingSizeRequiresFileToExist(): void

@@ -1,6 +1,7 @@
 <?php
 
 use OneToMany\AI\Client\OpenAi\FileClient;
+use OneToMany\AI\Contract\Exception\ExceptionInterface as AiExceptionInterface;
 use OneToMany\AI\Request\File\DeleteRequest;
 use OneToMany\AI\Request\File\UploadRequest;
 use Symfony\Component\HttpClient\HttpClient;
@@ -20,17 +21,27 @@ if (false === is_file($path = $argv[1] ?? '')) {
     $path = realpath(__DIR__.'/../../data/label.jpeg');
 }
 
-// if (!$format = mime_content_type())
-
 // Create the OpenAI FileClient
 $fileClient = new FileClient(HttpClient::create(), $apiKey);
 
-// Create the request to upload a file
-$uploadRequest = new UploadRequest($model)->atPath($path)->withFormat(...[
-    'format' => mime_content_type($path) ?: null,
-]);
-// ->withFormat()
-// ->withPurpose('user_data');
+try {
+    // Upload the file
+    $response = $fileClient->upload(new UploadRequest($model)->atPath($path));
 
-print_r($uploadRequest);
-// print_r($fileClient->delete(new DeleteRequest($model, 'file-7kxcDx7KxCu1GLobsjvaYK')));
+    printf("File uploaded successfully!\n");
+    printf("  Model:   %s\n", $response->getModel());
+    printf("  URI:     %s\n", $response->getUri());
+    printf("  Name:    %s\n", $response->getName());
+    printf("  Purpose: %s\n", $response->getPurpose());
+    printf("%s\n", str_repeat('-', 60));
+
+    // Delete the file
+    $response = $fileClient->delete(new DeleteRequest($model, $response->getUri()));
+
+    printf("File deleted successfully!\n");
+    printf("  Model:   %s\n", $response->getModel());
+    printf("  URI:     %s\n", $response->getUri());
+    printf("%s\n", str_repeat('-', 60));
+} catch (AiExceptionInterface $e) {
+    printf("[ERROR(%d)] %s\n", $e->getCode(), $e->getMessage());
+}

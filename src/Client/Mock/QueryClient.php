@@ -11,7 +11,6 @@ use OneToMany\AI\Request\Query\ExecuteRequest;
 use OneToMany\AI\Response\Query\CompileResponse;
 use OneToMany\AI\Response\Query\ExecuteResponse;
 
-use function in_array;
 use function json_encode;
 use function random_int;
 
@@ -63,13 +62,5 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
         $output = json_encode(['tag' => $this->faker->word(), 'summary' => $this->faker->sentence(10)]);
 
         return new ExecuteResponse($request->getModel(), $uri, $output, ['id' => $uri, 'output' => $output], random_int(100, 10000));
-    }
-
-    /**
-     * @see OneToMany\AI\Contract\Client\ClientInterface
-     */
-    public function supportsRequest(object $request): bool
-    {
-        return ($request instanceof CompileRequest || $request instanceof ExecuteRequest) && in_array($request->getModel(), $this->getSupportedModels());
     }
 }

@@ -123,14 +123,6 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\ClientInterface
-     */
-    public function supportsRequest(object $request): bool
-    {
-        return ($request instanceof CompileRequest || $request instanceof ExecuteRequest) && in_array($request->getModel(), $this->getSupportedModels());
-    }
-
-    /**
      * @param non-empty-string $model
      *
      * @return non-empty-string

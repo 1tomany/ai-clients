@@ -21,7 +21,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
     use ExceptionTrait;
 
     /**
-     * @see App\File\Vendor\AI\Contract\Client\FileClientInterface
+     * @see OneToMany\AI\Contract\Client\FileClientInterface
      *
      * @throws LogicException an empty file is uploaded
      * @throws RuntimeException Gemini fails to generate a signed URL
@@ -115,13 +115,5 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
         }
 
         return new UploadResponse($request->getModel(), $file['file']['uri'], $file['file']['name'], null, new \DateTimeImmutable($file['file']['expirationTime']));
-    }
-
-    /**
-     * @see App\File\Vendor\AI\Contract\Client\ModelClientInterface
-     */
-    public function supportsRequest(object $request): bool
-    {
-        return $request instanceof UploadRequest && in_array($request->getModel(), $this->getSupportedModels());
     }
 }

@@ -3,8 +3,9 @@
 namespace OneToMany\AI\Client\Gemini;
 
 use OneToMany\AI\Client\Gemini\Type\Error\ErrorType;
-use OneToMany\AI\Client\ModelClient;
+use OneToMany\AI\Client\HttpAwareClient;
 use OneToMany\AI\Client\Trait\SupportsModelTrait;
+use OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -12,7 +13,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use function ltrim;
 use function sprintf;
 
-abstract readonly class GeminiClient extends ModelClient
+abstract readonly class GeminiClient extends HttpAwareClient
 {
     use SupportsModelTrait;
 
@@ -56,9 +57,9 @@ abstract readonly class GeminiClient extends ModelClient
     }
 
     /**
-     * @see OneToMany\AI\Client\ModelClient
+     * @see OneToMany\AI\Client\HttpAwareClient
      */
-    protected function decodeErrorResponse(ResponseInterface $response): ErrorType
+    protected function decodeErrorResponse(ResponseInterface $response): ErrorTypeInterface
     {
         try {
             /**

@@ -8,7 +8,7 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExcep
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface as HttpClientHttpExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-abstract readonly class ModelClient
+abstract readonly class HttpAwareClient
 {
     abstract protected function decodeErrorResponse(ResponseInterface $response): ErrorTypeInterface;
 

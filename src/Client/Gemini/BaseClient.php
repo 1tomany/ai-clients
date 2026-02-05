@@ -17,7 +17,13 @@ abstract readonly class BaseClient
 {
     use SupportsModelTrait;
 
-    public function __construct(protected HttpClientInterface $httpClient)
+    /**
+     * @param non-empty-string $apiKey
+     */
+    public function __construct(
+        protected HttpClientInterface $httpClient,
+        #[\SensitiveParameter] protected string $apiKey,
+    )
     {
     }
 

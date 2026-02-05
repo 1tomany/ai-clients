@@ -81,6 +81,9 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
 
         try {
             $response = $this->httpClient->request('POST', $request->getUrl(), [
+                'headers' => [
+                    'x-goog-api-key' => $this->apiKey,
+                ],
                 'json' => $request->getRequest(),
             ]);
 

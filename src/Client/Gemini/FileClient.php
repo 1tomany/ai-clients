@@ -44,6 +44,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
 
             $response = $this->httpClient->request('POST', $url, [
                 'headers' => [
+                    'x-goog-api-key' => $this->apiKey,
                     'x-goog-upload-command' => 'start',
                     'x-goog-upload-protocol' => 'resumable',
                     'x-goog-upload-header-content-type' => $request->getFormat(),
@@ -73,6 +74,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
                 $response = $this->httpClient->request('POST', $uploadUrl, [
                     'headers' => [
                         'content-length' => $request->getSize(),
+                        'x-goog-api-key' => $this->apiKey,
                         'x-goog-upload-offset' => $uploadOffset,
                         'x-goog-upload-command' => $uploadCommand,
                     ],

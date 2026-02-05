@@ -13,10 +13,11 @@ abstract readonly class MockClient
 {
     use SupportsModelTrait;
 
+    protected \Faker\Generator $faker;
 
-    public function __construct(protected \Faker\Generator $faker = \Faker\Factory::create())
+    public function __construct()
     {
-        // $this->faker = \Faker\Factory::create();
+        $this->faker = \Faker\Factory::create();
     }
 
     /**

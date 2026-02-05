@@ -2,6 +2,14 @@
 
 namespace OneToMany\AI\Client\Gemini;
 
+use OneToMany\AI\Client\Gemini\Trait\ExceptionTrait;
+use OneToMany\AI\Contract\Client\QueryClientInterface;
+use OneToMany\AI\Request\Query\CompileRequest;
+use OneToMany\AI\Request\Query\Component\FileUriComponent;
+use OneToMany\AI\Request\Query\Component\TextComponent;
+use OneToMany\AI\Request\Query\ExecuteRequest;
+use OneToMany\AI\Response\Query\CompileResponse;
+use OneToMany\AI\Response\Query\ExecuteResponse;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
@@ -13,7 +21,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     use ExceptionTrait;
 
     /**
-     * @see App\File\Vendor\AI\Contract\Client\QueryClientInterface
+     * @see OneToMany\AI\Contract\Client\QueryClientInterface
      */
     public function compile(CompileRequest $request): CompileResponse
     {
@@ -68,7 +76,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     }
 
     /**
-     * @see App\File\Vendor\AI\Contract\Client\QueryClientInterface
+     * @see OneToMany\AI\Contract\Client\QueryClientInterface
      */
     public function execute(ExecuteRequest $request): ExecuteResponse
     {
@@ -114,7 +122,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     }
 
     /**
-     * @see App\File\Vendor\AI\Contract\Client\ModelClientInterface
+     * @see OneToMany\AI\Contract\Client\ModelClientInterface
      */
     public function supportsRequest(object $request): bool
     {

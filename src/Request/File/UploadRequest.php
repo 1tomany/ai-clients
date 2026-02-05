@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Request\File;
 
+use OneToMany\AI\Exception\RuntimeException;
+
 use function basename;
 use function fclose;
 use function filesize;
@@ -105,6 +107,8 @@ class UploadRequest
 
     /**
      * @return non-negative-int
+     *
+     * @throws RuntimeException the filesize could not be calculated
      */
     public function getSize(): int
     {
@@ -147,6 +151,8 @@ class UploadRequest
 
     /**
      * @return resource
+     *
+     * @throws RuntimeException opening the file failed
      */
     public function openFileHandle(): mixed
     {

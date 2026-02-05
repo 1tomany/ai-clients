@@ -2,6 +2,8 @@
 
 namespace OneToMany\AI\Client\Gemini\Trait;
 
+use OneToMany\AI\Client\Gemini\Type\ErrorType;
+use OneToMany\AI\Exception\RuntimeException;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface as HttpClientHttpExceptionInterface;

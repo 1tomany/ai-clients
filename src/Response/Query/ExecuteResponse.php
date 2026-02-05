@@ -53,12 +53,14 @@ final readonly class ExecuteResponse
     }
 
     /**
-     * @return array<string, mixed>
+     * @return list<array<string, mixed>>|array<string, mixed>
+     *
+     * @throws RuntimeException the output is not valid JSON
      */
     public function toRecord(): array
     {
         try {
-            /** @var array<string, mixed> $record */
+            /** @var list<array<string, mixed>>|array<string, mixed> $record */
             $record = json_decode($this->output, true, 512, JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new RuntimeException('Converting the output to a record failed.', previous: $e);

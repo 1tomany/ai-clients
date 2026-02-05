@@ -15,18 +15,16 @@ class ExecuteRequest
     /**
      * @var non-empty-string
      */
-    private string $url = 'llm://mock';
+    private string $url = 'mock';
 
     /**
      * @var array<string, mixed>
      */
     private array $request = [];
 
-    public function __construct(?string $model = null)
+    public function __construct(string $model = 'mock')
     {
-        if (null !== $model) {
-            $this->forModel($model);
-        }
+        $this->forModel($model);
     }
 
     public function forModel(string $model): static

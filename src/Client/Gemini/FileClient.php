@@ -2,6 +2,12 @@
 
 namespace OneToMany\AI\Client\Gemini;
 
+use OneToMany\AI\Client\Gemini\Trait\ExceptionTrait;
+use OneToMany\AI\Contract\Client\FileClientInterface;
+use OneToMany\AI\Exception\LogicException;
+use OneToMany\AI\Exception\RuntimeException;
+use OneToMany\AI\Request\File\UploadRequest;
+use OneToMany\AI\Response\File\UploadResponse;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 use function ceil;

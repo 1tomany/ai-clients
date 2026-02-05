@@ -23,8 +23,7 @@ abstract readonly class BaseClient
     public function __construct(
         protected HttpClientInterface $httpClient,
         #[\SensitiveParameter] protected string $apiKey,
-    )
-    {
+    ) {
     }
 
     /**

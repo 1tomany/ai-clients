@@ -1,12 +1,12 @@
 <?php
 
-namespace App\File\Vendor\AI\Request\Query;
+namespace OneToMany\AI\Request\Query;
 
-use App\File\Vendor\AI\Contract\Request\Query\Component\ComponentInterface;
-use App\File\Vendor\AI\Contract\Request\Query\Component\Enum\Role;
-use App\File\Vendor\AI\Request\Query\Component\FileUriComponent;
-use App\File\Vendor\AI\Request\Query\Component\SchemaComponent;
-use App\File\Vendor\AI\Request\Query\Component\TextComponent;
+use OneToMany\AI\Contract\Request\Query\Component\ComponentInterface;
+use OneToMany\AI\Contract\Request\Query\Component\Enum\Role;
+use OneToMany\AI\Request\Query\Component\FileUriComponent;
+use OneToMany\AI\Request\Query\Component\SchemaComponent;
+use OneToMany\AI\Request\Query\Component\TextComponent;
 
 use function strtolower;
 use function trim;

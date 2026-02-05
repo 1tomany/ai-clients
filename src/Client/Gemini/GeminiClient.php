@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Client\Gemini;
 
-use OneToMany\AI\Client\Gemini\Type\ErrorType;
+use OneToMany\AI\Client\Gemini\Type\Error\ErrorType;
 use OneToMany\AI\Client\ModelClient;
 use OneToMany\AI\Client\Trait\SupportsModelTrait;
 use OneToMany\AI\Exception\RuntimeException;

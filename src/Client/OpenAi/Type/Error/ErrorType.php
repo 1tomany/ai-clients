@@ -2,9 +2,11 @@
 
 namespace OneToMany\AI\Client\OpenAi\Type\Error;
 
+use OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface;
+
 use function rtrim;
 
-final readonly class ErrorType
+final readonly class ErrorType implements ErrorTypeInterface
 {
     /**
      * @param ?non-empty-string $type
@@ -19,11 +21,17 @@ final readonly class ErrorType
     ) {
     }
 
+    /**
+     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface
+     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
+    /**
+     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface
+     */
     public function getInlineMessage(): string
     {
         return rtrim($this->getMessage(), '.');

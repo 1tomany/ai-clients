@@ -4,7 +4,6 @@ namespace OneToMany\AI\Request\Query;
 
 use OneToMany\AI\Request\BaseRequest;
 
-use function strtolower;
 use function trim;
 
 class ExecuteRequest extends BaseRequest

@@ -2,6 +2,9 @@
 
 namespace OneToMany\AI\Factory;
 
+use OneToMany\AI\Contract\Client\QueryClientInterface;
+use OneToMany\AI\Exception\UnexpectedTypeException;
+
 use function array_find;
 use function array_values;
 use function get_debug_type;
@@ -24,7 +27,7 @@ final readonly class QueryClientFactory
     }
 
     /**
-     * @throws InvalidArgumentException a client that implements `QueryClientInterface` cannot be found
+     * @throws UnexpectedTypeException a client that implements `QueryClientInterface` cannot be found
      */
     public function create(object $request): QueryClientInterface
     {

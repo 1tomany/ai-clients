@@ -6,6 +6,7 @@ use OneToMany\AI\Client\Gemini\Trait\ExceptionTrait;
 use OneToMany\AI\Contract\Client\QueryClientInterface;
 use OneToMany\AI\Request\Query\CompileRequest;
 use OneToMany\AI\Request\Query\Component\FileUriComponent;
+use OneToMany\AI\Request\Query\Component\SchemaComponent;
 use OneToMany\AI\Request\Query\Component\TextComponent;
 use OneToMany\AI\Request\Query\ExecuteRequest;
 use OneToMany\AI\Response\Query\CompileResponse;

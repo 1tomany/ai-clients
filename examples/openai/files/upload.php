@@ -18,6 +18,7 @@ if (!$apiKey = getenv($apiKeyName)) {
 $model = getenv('OPENAI_MODEL') ?: 'gpt-5.1';
 
 if (false === is_file($path = $argv[1] ?? '')) {
+    /** @var non-empty-string $path */
     $path = realpath(__DIR__.'/../../data/label.jpeg');
 }
 

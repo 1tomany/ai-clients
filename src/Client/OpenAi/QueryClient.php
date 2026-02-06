@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Client\OpenAi;
 
-use OneToMany\AI\Client\OpenAi\Type\Request\Response\Input\Enum\Type as InputType;
+use OneToMany\AI\Client\OpenAi\Type\Response\Input\Enum\Type as InputType;
 use OneToMany\AI\Client\OpenAi\Type\Response\Response;
 use OneToMany\AI\Contract\Client\QueryClientInterface;
 use OneToMany\AI\Exception\RuntimeException;

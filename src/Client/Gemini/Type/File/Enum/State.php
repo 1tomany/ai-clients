@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Client\Gemini\File\Enum;
+namespace OneToMany\AI\Client\Gemini\Type\File\Enum;
 
 enum State: string
 {

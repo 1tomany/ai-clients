@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Client\Gemini\File;
+namespace OneToMany\AI\Client\Gemini\Type\File;
 
-use OneToMany\AI\Client\Gemini\File\Enum\Source;
-use OneToMany\AI\Client\Gemini\File\Enum\State;
+use OneToMany\AI\Client\Gemini\Type\File\Enum\Source;
+use OneToMany\AI\Client\Gemini\Type\File\Enum\State;
 
 final readonly class File
 {

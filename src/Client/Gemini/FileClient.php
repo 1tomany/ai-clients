@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Client\Gemini;
 
-use OneToMany\AI\Client\Gemini\File\File;
+use OneToMany\AI\Client\Gemini\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Request\File\DeleteRequest;

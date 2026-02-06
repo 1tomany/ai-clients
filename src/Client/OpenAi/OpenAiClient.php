@@ -2,10 +2,17 @@
 
 namespace OneToMany\AI\Client\OpenAi;
 
-use OneToMany\AI\Client\OpenAi\Type\Error\ErrorType;
+use OneToMany\AI\Client\OpenAi\Type\Error\Error;
 use OneToMany\AI\Client\Trait\HttpExceptionTrait;
 use OneToMany\AI\Client\Trait\SupportsModelTrait;
-use OneToMany\AI\Contract\Client\Type\Error\ErrorTypeInterface;
+use OneToMany\AI\Contract\Client\Type\Error\ErrorInterface;
+use OneToMany\AI\Exception\RuntimeException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -23,9 +30,18 @@ abstract readonly class OpenAiClient
      * @param non-empty-string $apiKey
      */
     public function __construct(
+        protected SerializerInterface&NormalizerInterface&DenormalizerInterface $serializer,
         protected HttpClientInterface $httpClient,
         #[\SensitiveParameter] protected string $apiKey,
     ) {
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    public function getApiKey(): string
+    {
+        return $this->apiKey;
     }
 
     /**
@@ -65,24 +81,18 @@ abstract readonly class OpenAiClient
         return sprintf('https://api.openai.com/v1/%s', ltrim(implode('/', $paths), '/'));
     }
 
-    protected function decodeErrorResponse(ResponseInterface $response): ErrorTypeInterface
+    protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
     {
         try {
-            /**
-             * @var array{
-             *   error: array{
-             *     message: non-empty-string,
-             *     type?: ?non-empty-string,
-             *     param?: ?non-empty-string,
-             *     code?: ?non-empty-string,
-             *   },
-             * } $error
-             */
-            $error = $response->toArray(false);
-        } catch (HttpClientExceptionInterface) {
-            return new ErrorType($response->getContent(false));
+            $error = $this->serializer->denormalize($response->toArray(false), Error::class, null, [
+                UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
+            ]);
+        } catch (HttpClientExceptionInterface $e) {
+            $error = new Error($e instanceof HttpClientDecodingExceptionInterface ? $e->getMessage() : $response->getContent(false));
+        } catch (SerializerExceptionInterface $e) {
+            throw new RuntimeException($e->getMessage(), previous: $e);
         }
 
-        return new ErrorType($error['error']['message'], $error['error']['type'] ?? null, $error['error']['param'] ?? null, $error['error']['code'] ?? null);
+        return $error;
     }
 }

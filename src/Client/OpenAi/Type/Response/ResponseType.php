@@ -9,7 +9,6 @@ use OneToMany\AI\Exception\RuntimeException;
 final readonly class ResponseType
 {
     /**
-     *
      * @param non-empty-string $id
      * @param 'response' $object
      * @param non-negative-int $created_at

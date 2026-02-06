@@ -50,26 +50,34 @@ enum Type: string
 
     /**
      * @return 'apply_patch_call'
-     *  |'apply_patch_call_output'
-     *  |'code_interpreter_call'
-     *  |'compaction'
-     *  |'computer_call'
-     *  |'custom_tool_call'
-     *  |'file_search_call'
-     *  |'function_call'
-     *  |'image_generation_call'
-     *  |'local_shell_call'
-     *  |'mcp_approval_request'
-     *  |'mcp_call'
-     *  |'mcp_list_tools'
-     *  |'message'
-     *  |'reasoning'
-     *  |'shell_call'
-     *  |'shell_call_output'
-     *  |'web_search_call'
+     *   |'apply_patch_call_output'
+     *   |'code_interpreter_call'
+     *   |'compaction'
+     *   |'computer_call'
+     *   |'custom_tool_call'
+     *   |'file_search_call'
+     *   |'function_call'
+     *   |'image_generation_call'
+     *   |'local_shell_call'
+     *   |'mcp_approval_request'
+     *   |'mcp_call'
+     *   |'mcp_list_tools'
+     *   |'message'
+     *   |'reasoning'
+     *   |'shell_call'
+     *   |'shell_call_output'
+     *   |'web_search_call'
      */
     public function getValue(): string
     {
         return $this->value;
+    }
+
+    /**
+     * @phpstan-assert-if-true self::Message $this
+     */
+    public function isMessage(): bool
+    {
+        return self::Message === $this;
     }
 }

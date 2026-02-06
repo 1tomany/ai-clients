@@ -8,6 +8,8 @@ use OneToMany\AI\Client\OpenAi\Type\Response\Output\Content\OutputTextType;
 use OneToMany\AI\Client\OpenAi\Type\Response\Output\Enum\Type;
 use OneToMany\AI\Exception\InvalidArgumentException;
 
+use function sprintf;
+
 final readonly class OutputType
 {
     /**
@@ -22,7 +24,7 @@ final readonly class OutputType
         public ?array $content = null,
     ) {
         if ($type->isMessage() && empty($content)) {
-            throw new InvalidArgumentException(\sprintf('The content must be a non-empty-list when the type is "%s".', Type::Message->getValue()));
+            throw new InvalidArgumentException(sprintf('The content must be a non-empty-list when the type is "%s".', Type::Message->getValue()));
         }
     }
 }

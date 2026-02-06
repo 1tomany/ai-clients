@@ -12,21 +12,21 @@ This library provides a single, unified, framework-independent library for integ
 
 **Note:** Each platform refers to running model inference differently; OpenAI uses the word "Responses" while Gemini uses the word "Content". I've decided the word "Query" is the most succinct term to describe interacting with an LLM. The "Queries" section below refers to the ability to compile and execute a query against a large language model.
 
-| Feature       | Gemini | Mock | OpenAI |
-| ------------- | :----: | :--: | :----: |
-| **Batches**   |        |      |        |
-| Create        |   ❌   |  ❌  |   ❌   |
-| Read          |   ❌   |  ❌  |   ❌   |
-| Cancel        |   ❌   |  ❌  |   ❌   |
-| **Files**     |        |      |        |
-| Upload        |   ✅   |  ✅  |   ✅   |
-| Read          |   ❌   |  ❌  |   ❌   |
-| List          |   ❌   |  ❌  |   ❌   |
-| Download      |   ❌   |  ❌  |   ❌   |
-| Delete        |   ❌   |  ✅  |   ✅   |
+| Feature     | Gemini | Mock | OpenAI |
+| ----------- | :----: | :--: | :----: |
+| **Batches** |        |      |        |
+| Create      |   ❌   |  ❌  |   ❌   |
+| Read        |   ❌   |  ❌  |   ❌   |
+| Cancel      |   ❌   |  ❌  |   ❌   |
+| **Files**   |        |      |        |
+| Upload      |   ✅   |  ✅  |   ✅   |
+| Read        |   ❌   |  ❌  |   ❌   |
+| List        |   ❌   |  ❌  |   ❌   |
+| Download    |   ❌   |  ❌  |   ❌   |
+| Delete      |   ❌   |  ✅  |   ✅   |
 | **Queries** |        |      |        |
-| Compile       |   ✅   |  ✅  |   ✅   |
-| Execute       |   ✅   |  ✅  |   ✅   |
+| Compile     |   ✅   |  ✅  |   ✅   |
+| Execute     |   ✅   |  ✅  |   ✅   |
 
 ## Credits
 

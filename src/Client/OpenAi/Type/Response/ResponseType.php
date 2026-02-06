@@ -9,6 +9,7 @@ use OneToMany\AI\Exception\RuntimeException;
 
 use function array_map;
 use function implode;
+use function sprintf;
 use function trim;
 
 final readonly class ResponseType
@@ -39,9 +40,9 @@ final readonly class ResponseType
     public function getOutput(): string
     {
         if (null !== $this->output && [] !== $this->output) {
-            $output = implode('', array_map(fn ($o) => $o->getOutput(), $this->output));
+            $output = array_map(fn ($o) => $o->getOutput(), $this->output);
         }
 
-        return trim($output ?? '') ?: throw new RuntimeException(\sprintf('The model "%s" failed to generate any output.', $this->model));
+        return trim(implode('', $output ?? '')) ?: throw new RuntimeException(sprintf('The model "%s" failed to generate any output.', $this->model));
     }
 }

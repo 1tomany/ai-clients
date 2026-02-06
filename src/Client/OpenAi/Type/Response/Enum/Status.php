@@ -34,6 +34,6 @@ enum Status: string
      */
     public function isCompleted(): bool
     {
-        return $this === self::Completed;
+        return self::Completed === $this;
     }
 }

@@ -7,7 +7,6 @@ use OneToMany\AI\Client\OpenAi\Type\Response\Enum\Status;
 use OneToMany\AI\Client\OpenAi\Type\Response\Output\Content\OutputTextType;
 use OneToMany\AI\Client\OpenAi\Type\Response\Output\Enum\Type;
 use OneToMany\AI\Exception\InvalidArgumentException;
-use OneToMany\AI\Exception\RuntimeException;
 
 use function array_map;
 use function implode;
@@ -42,9 +41,9 @@ final readonly class OutputType
         }
 
         if ($this->type->isMessage() && $this->status?->isCompleted()) {
-            $output = implode('', array_map(fn ($c) => (string) $c->text, $this->content));
+            $output = array_map(fn ($c) => (string) $c->text, $this->content);
         }
 
-        return trim($output ?? '') ?: null;
+        return trim(implode('', $output ?? '')) ?: null;
     }
 }

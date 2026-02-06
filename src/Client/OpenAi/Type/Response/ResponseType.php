@@ -7,6 +7,8 @@ use OneToMany\AI\Client\OpenAi\Type\Response\Enum\Status;
 use OneToMany\AI\Client\OpenAi\Type\Response\Output\OutputType;
 use OneToMany\AI\Exception\RuntimeException;
 
+use function is_array;
+
 final readonly class ResponseType
 {
     /**
@@ -34,6 +36,11 @@ final readonly class ResponseType
      */
     public function getOutput(): string
     {
+        if (true === is_array($this->output)) {
+            foreach ($this->output as $output) {
+            }
+        }
+
         throw new RuntimeException('Not implemented!');
     }
 }

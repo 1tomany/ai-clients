@@ -45,8 +45,8 @@ $fileClient = new FileClient($serializer, $httpClient, getenv('OPENAI_API_KEY'))
 // $response = $fileClient->upload(new UploadRequest('gpt-5-nano')->atPath('/Users/vic/Downloads/furnace-label.jpg')->withFormat('image/jpeg')->withPurpose('user_data'));
 // print_r($response);
 try {
-$fileClient->delete(new DeleteRequest('gpt-5-nano', 'file-VGQ1uhQ8ignfcBBUbVfxap'));
-} catch (\Throwable $e) {
+    $fileClient->delete(new DeleteRequest('gpt-5-nano', 'file-VGQ1uhQ8ignfcBBUbVfxap'));
+} catch (Throwable $e) {
     do {
         printf("[%s]: %s\n", get_class($e), $e->getMessage());
     } while ($e = $e->getPrevious());

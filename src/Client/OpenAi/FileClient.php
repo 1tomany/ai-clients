@@ -6,14 +6,11 @@ use OneToMany\AI\Client\OpenAi\Type\File\DeletedFile;
 use OneToMany\AI\Client\OpenAi\Type\File\Enum\Purpose;
 use OneToMany\AI\Client\OpenAi\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
-use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Request\File\DeleteRequest;
 use OneToMany\AI\Request\File\UploadRequest;
 use OneToMany\AI\Response\File\DeleteResponse;
 use OneToMany\AI\Response\File\UploadResponse;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
-
-use function sprintf;
 
 final readonly class FileClient extends OpenAiClient implements FileClientInterface
 {

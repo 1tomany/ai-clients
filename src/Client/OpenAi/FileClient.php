@@ -2,6 +2,7 @@
 
 namespace OneToMany\AI\Client\OpenAi;
 
+use OneToMany\AI\Client\OpenAi\Type\File\DeletedFile;
 use OneToMany\AI\Client\OpenAi\Type\File\Enum\Purpose;
 use OneToMany\AI\Client\OpenAi\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
@@ -34,7 +35,6 @@ final readonly class FileClient extends OpenAiClient implements FileClientInterf
                 ],
             ]);
 
-            print_r($response->toArray(true));
             $file = $this->serializer->denormalize($response->toArray(true), File::class);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
@@ -55,13 +55,11 @@ final readonly class FileClient extends OpenAiClient implements FileClientInterf
                 'auth_bearer' => $this->apiKey,
             ]);
 
-            if (200 !== $statusCode = $response->getStatusCode()) {
-                throw new RuntimeException(sprintf('Deletion failed: %s.', $this->decodeErrorResponse($response)->getInlineMessage()), $statusCode);
-            }
+            $deletedFile = $this->serializer->denormalize($response->toArray(true), DeletedFile::class);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }
 
-        return new DeleteResponse($request->getModel(), $request->getUri());
+        return new DeleteResponse($request->getModel(), $deletedFile->id);
     }
 }

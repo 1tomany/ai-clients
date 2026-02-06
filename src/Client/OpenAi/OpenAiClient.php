@@ -6,9 +6,13 @@ use OneToMany\AI\Client\OpenAi\Type\Error\Error;
 use OneToMany\AI\Client\Trait\HttpExceptionTrait;
 use OneToMany\AI\Client\Trait\SupportsModelTrait;
 use OneToMany\AI\Contract\Client\Type\Error\ErrorInterface;
+use OneToMany\AI\Exception\RuntimeException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -72,21 +76,15 @@ abstract readonly class OpenAiClient
     protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
     {
         try {
-            /**
-             * @var array{
-             *   error: array{
-             *     message: non-empty-string,
-             *     type?: ?non-empty-string,
-             *     param?: ?non-empty-string,
-             *     code?: ?non-empty-string,
-             *   },
-             * } $error
-             */
-            $error = $response->toArray(false);
-        } catch (HttpClientExceptionInterface) {
-            return new Error($response->getContent(false));
+            $error = $this->serializer->denormalize($response->toArray(false), Error::class, null, [
+                UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
+            ]);
+        } catch (HttpClientExceptionInterface $e) {
+            $error = new Error($e instanceof HttpClientDecodingExceptionInterface ? $e->getMessage() : $response->getContent(false));
+        } catch (SerializerExceptionInterface $e) {
+            throw new RuntimeException($e->getMessage(), previous: $e);
         }
 
-        return new Error($error['error']['message'], $error['error']['type'] ?? null, $error['error']['param'] ?? null, $error['error']['code'] ?? null);
+        return $error;
     }
 }

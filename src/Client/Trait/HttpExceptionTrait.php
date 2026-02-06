@@ -9,8 +9,6 @@ use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface as HttpClientH
 trait HttpExceptionTrait
 {
     /**
-     * Decodes, wraps, and throws any exception thrown by the Symfony HTTP Client.
-     *
      * @throws RuntimeException
      */
     protected function handleHttpException(HttpClientExceptionInterface $exception): never

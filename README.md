@@ -10,6 +10,8 @@ This library provides a single, unified, framework-independent library for integ
 
 ### Platform feature support
 
+**Note** Each platform refers to generating content differently. I've decided the word "query" is the most succinct term to describe the process by which a large language model generates content. The "Queries" section below refers to the ability to compile and execute a query against a large language model.
+
 | Feature       | Gemini | Mock | OpenAI |
 | ------------- | :----: | :--: | :----: |
 | **Batches**   |        |      |        |
@@ -18,8 +20,11 @@ This library provides a single, unified, framework-independent library for integ
 | Cancel        |   ❌   |  ❌  |   ❌   |
 | **Files**     |        |      |        |
 | Upload        |   ✅   |  ✅  |   ✅   |
+| Read          |   ❌   |  ❌  |   ❌   |
+| List          |   ❌   |  ❌  |   ❌   |
+| Download      |   ❌   |  ❌  |   ❌   |
 | Delete        |   ❌   |  ✅  |   ✅   |
-| **Inference** |        |      |        |
+| **Queries** |        |      |        |
 | Compile       |   ✅   |  ✅  |   ✅   |
 | Execute       |   ✅   |  ✅  |   ✅   |
 

@@ -24,24 +24,7 @@ enum Type: string
     case WebSearchCall = 'web_search_call';
 
     /**
-     * @return 'ApplyPatchCall'
-     *                          |'ApplyPatchCallOutput'
-     *                          |'CodeInterpreterCall'
-     *                          |'Compaction'
-     *                          |'ComputerCall'
-     *                          |'CustomToolCall'
-     *                          |'FileSearchCall'
-     *                          |'FunctionCall'
-     *                          |'ImageGenerationCall'
-     *                          |'LocalShellCall'
-     *                          |'McpApprovalRequest'
-     *                          |'McpCall'
-     *                          |'McpListTools'
-     *                          |'Message'
-     *                          |'Reasoning'
-     *                          |'ShellCall'
-     *                          |'ShellCallOutput'
-     *                          |'WebSearchCall'
+     * @return 'ApplyPatchCall'|'ApplyPatchCallOutput'|'CodeInterpreterCall'|'Compaction'|'ComputerCall'|'CustomToolCall'|'FileSearchCall'|'FunctionCall'|'ImageGenerationCall'|'LocalShellCall'|'McpApprovalRequest'|'McpCall'|'McpListTools'|'Message'|'Reasoning'|'ShellCall'|'ShellCallOutput'|'WebSearchCall'
      */
     public function getName(): string
     {

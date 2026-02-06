@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Client\OpenAi;
 
-use OneToMany\AI\Client\OpenAi\Type\Response\Enum\FileType;
+use OneToMany\AI\Client\OpenAi\Type\Request\Response\Input\Enum\Type as InputType;
 use OneToMany\AI\Client\OpenAi\Type\Response\Response;
 use OneToMany\AI\Contract\Client\QueryClientInterface;
 use OneToMany\AI\Exception\RuntimeException;
@@ -30,10 +30,12 @@ final readonly class QueryClient extends OpenAiClient implements QueryClientInte
 
         foreach ($request->getComponents() as $component) {
             if ($component instanceof TextComponent) {
+                $inputType = InputType::InputText;
+
                 $requestContent['input'][] = [
                     'content' => [
                         [
-                            'type' => 'input_text',
+                            'type' => $inputType->getValue(),
                             'text' => $component->getText(),
                         ],
                     ],
@@ -42,14 +44,16 @@ final readonly class QueryClient extends OpenAiClient implements QueryClientInte
             }
 
             if ($component instanceof FileUriComponent) {
-                $fileType = FileType::create(...[
-                    'format' => $component->getFormat(),
-                ]);
+                $inputType = InputType::InputFile;
+
+                if ($component->isImage()) {
+                    $inputType = InputType::InputImage;
+                }
 
                 $requestContent['input'][] = [
                     'content' => [
                         [
-                            'type' => $fileType->getValue(),
+                            'type' => $inputType->getValue(),
                             'file_id' => $component->getUri(),
                         ],
                     ],
@@ -58,9 +62,11 @@ final readonly class QueryClient extends OpenAiClient implements QueryClientInte
             }
 
             if ($component instanceof SchemaComponent) {
+                $inputType = InputType::JsonSchema;
+
                 $requestContent['text'] = [
                     'format' => [
-                        'type' => 'json_schema',
+                        'type' => $inputType->getValue(),
                         'name' => $component->getName(),
                         'schema' => $component->getSchema(),
                         'strict' => $component->isStrict(),

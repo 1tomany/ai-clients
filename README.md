@@ -10,13 +10,18 @@ This library provides a single, unified, framework-independent library for integ
 
 ### Platform feature support
 
-| Feature           | Gemini | Mock | OpenAI |
-| ----------------- | :----: | :--: | :----: |
-| **Files**         |        |      |        |
-| Uploading files   |   ✅   |  ✅  |   ✅   |
-| Deleting files    |   ❌   |  ✅  |   ✅   |
-| Compiling queries |   ✅   |  ✅  |   ✅   |
-| Executing queries |   ✅   |  ✅  |   ✅   |
+| Feature       | Gemini | Mock | OpenAI |
+| ------------- | :----: | :--: | :----: |
+| **Batches**   |        |      |        |
+| Create        |   ❌   |  ❌  |   ❌   |
+| Read          |   ❌   |  ❌  |   ❌   |
+| Cancel        |   ❌   |  ❌  |   ❌   |
+| **Files**     |        |      |        |
+| Upload        |   ✅   |  ✅  |   ✅   |
+| Delete        |   ❌   |  ✅  |   ✅   |
+| **Inference** |        |      |        |
+| Compile       |   ✅   |  ✅  |   ✅   |
+| Execute       |   ✅   |  ✅  |   ✅   |
 
 ## Credits
 

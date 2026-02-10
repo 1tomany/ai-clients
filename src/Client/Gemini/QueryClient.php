@@ -13,7 +13,7 @@ use OneToMany\AI\Response\Query\ExecuteResponse;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
-use function sprintf;
+use function vsprintf;
 
 final readonly class QueryClient extends GeminiClient implements QueryClientInterface
 {
@@ -122,12 +122,12 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
     }
 
     /**
-     * @param non-empty-string $model
+     * @param non-empty-string $paths
      *
      * @return non-empty-string
      */
-    protected function generateUrl(string $model): string
+    protected function generateUrl(string ...$paths): string
     {
-        return parent::generateUrl(sprintf('/v1beta/models/%s:generateContent', $model));
+        return parent::generateUrl(vsprintf('/v1beta/models/%s:generateContent', $paths));
     }
 }

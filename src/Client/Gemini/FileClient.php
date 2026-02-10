@@ -115,7 +115,9 @@ final readonly class FileClient extends GeminiClient implements FileClientInterf
                 ],
             ]);
 
-            $response->getStatusCode();
+            if (200 !== $response->getStatusCode()) {
+                throw new RuntimeException(sprintf('Deleting the file "%s" failed.', $request->getUri()));
+            }
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }

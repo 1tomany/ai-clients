@@ -23,43 +23,7 @@ I learn best by looking at actual code samples, so lets take a look at the two m
 
 ### Direct usage
 
-```php
-<?php
-
-require_once __DIR__.'/vendor/autoload.php';
-
-use Symfony\Component\PropertyInfo\Extractor\ConstructorExtractor;
-use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
-use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
-use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
-use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-
-// Initialize the normalizers and serializer
-$constructorExtractor = new ConstructorExtractor(...[
-    'extractors' => [new PhpDocExtractor()]
-]);
-
-$typeExtractor = new PropertyInfoExtractor(...[
-    'typeExtractors' => [$constructorExtractor]
-]);
-
-$objectNormalizer = new ObjectNormalizer(...[
-    'propertyTypeExtractor' => $typeExtractor
-]);
-
-$this->serializer = new Serializer([
-    new BackedEnumNormalizer(),
-    new DateTimeNormalizer(),
-    new ArrayDenormalizer(),
-    $objectNormalizer,
-]);
-
-```
-
+See the [`basic_query.php`](https://github.com/1tomany/php-ai/blob/master/examples/gemini/basic_query.php) example.
 
 
 ## Supported platforms

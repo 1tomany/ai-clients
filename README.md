@@ -10,7 +10,7 @@ Install the library using Composer:
 composer require 1tomany/php-ai
 ```
 
-**Note:** A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you wish to integrate this library into your Symfony applications with autowiring and configuration support. 
+**Note:** A [Symfony bundle](https://github.com/1tomany/php-ai-bundle) is available if you wish to integrate this library into your Symfony applications with autowiring and configuration support.
 
 ## Supported platforms
 
@@ -33,7 +33,7 @@ composer require 1tomany/php-ai
 | Read        |   ❌   |  ❌  |   ❌   |
 | List        |   ❌   |  ❌  |   ❌   |
 | Download    |   ❌   |  ❌  |   ❌   |
-| Delete      |   ❌   |  ✅  |   ✅   |
+| Delete      |   ✅   |  ✅  |   ✅   |
 | **Queries** |        |      |        |
 | Compile     |   ✅   |  ✅  |   ✅   |
 | Execute     |   ✅   |  ✅  |   ✅   |

@@ -44,7 +44,7 @@ enum Model: string
      */
     public function getId(): string
     {
-        $id = match($this) {
+        $id = match ($this) {
             self::Gpt52Pro => 'gpt-5.2-pro-2025-12-11',
             self::Gpt52 => 'gpt-5.2-2025-12-11',
             self::Gpt51 => 'gpt-5.1-2025-11-13',

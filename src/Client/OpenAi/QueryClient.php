@@ -13,6 +13,7 @@ use OneToMany\AI\Request\Query\Component\TextComponent;
 use OneToMany\AI\Request\Query\ExecuteRequest;
 use OneToMany\AI\Response\Query\CompileResponse;
 use OneToMany\AI\Response\Query\ExecuteResponse;
+use OneToMany\AI\Response\Query\UsageResponse;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
@@ -107,6 +108,6 @@ final readonly class QueryClient extends OpenAiClient implements QueryClientInte
             throw new RuntimeException($output->error->getMessage());
         }
 
-        return new ExecuteResponse($request->getModel(), $output->id, $output->getOutput(), $responseContent, $timer->getDuration());
+        return new ExecuteResponse($request->getModel(), $output->id, $output->getOutput(), $responseContent, $timer->getDuration(), new UsageResponse($output->usage->getInputTokens(), $output->usage->getCachedTokens(), $output->usage->getOutputTokens()));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace OneToMany\AI\Client\Gemini;
 
+use OneToMany\AI\Client\Gemini\Type\Content\UsageMetadata;
 use OneToMany\AI\Contract\Client\QueryClientInterface;
 use OneToMany\AI\Request\Query\CompileRequest;
 use OneToMany\AI\Request\Query\Component\FileUriComponent;
@@ -10,6 +11,9 @@ use OneToMany\AI\Request\Query\Component\TextComponent;
 use OneToMany\AI\Request\Query\ExecuteRequest;
 use OneToMany\AI\Response\Query\CompileResponse;
 use OneToMany\AI\Response\Query\ExecuteResponse;
+use OneToMany\AI\Response\Query\UsageResponse;
+use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
@@ -105,9 +109,11 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
              *   >,
              *   usageMetadata: array{
              *     promptTokenCount?: non-negative-int,
+             *     cachedContentTokenCount?: non-negative-int,
              *     candidatesTokenCount?: non-negative-int,
-             *     totalTokenCount?: non-negative-int,
+             *     toolUsePromptTokenCount?: non-negative-int,
              *     thoughtsTokenCount?: non-negative-int,
+             *     totalTokenCount?: non-negative-int,
              *   },
              *   modelVersion: non-empty-lowercase-string,
              *   responseId: non-empty-string,
@@ -116,9 +122,30 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
             $responseContent = $response->toArray(true);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
+        } finally {
+            $timer->stop();
         }
 
-        return new ExecuteResponse($request->getModel(), $responseContent['responseId'], $responseContent['candidates'][0]['content']['parts'][0]['text'], $responseContent, $timer->stop()->getDuration());
+        try {
+            $usage = $this->serializer->denormalize($responseContent, UsageMetadata::class, null, [
+                UnwrappingDenormalizer::UNWRAP_PATH => '[usageMetadata]',
+            ]);
+        } catch (SerializerExceptionInterface) {
+            $usage = new UsageMetadata();
+        }
+
+        return new ExecuteResponse(
+            $request->getModel(),
+            $responseContent['responseId'],
+            $responseContent['candidates'][0]['content']['parts'][0]['text'],
+            $responseContent,
+            $timer->getDuration(),
+            new UsageResponse(
+                $usage->getInputTokens(),
+                $usage->getCachedTokens(),
+                $usage->getOutputTokens(),
+            ),
+        );
     }
 
     /**

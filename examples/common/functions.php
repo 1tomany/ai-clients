@@ -14,3 +14,16 @@ function read_api_key(string $name): string
 
     return $apiKey;
 }
+
+/**
+ * @param non-empty-lowercase-string $default
+ * @return non-empty-lowercase-string
+ */
+function read_model_name(string $default): string
+{
+    if ($modelId = getenv('MODEL_ID')) {
+        return strtolower($modelId);
+    }
+
+    return $default;
+}

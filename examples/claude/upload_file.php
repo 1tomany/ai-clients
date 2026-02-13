@@ -1,5 +1,6 @@
 <?php
 
+use OneToMany\AI\Request\File\DeleteRequest;
 use OneToMany\AI\Request\File\UploadRequest;
 
 require_once __DIR__.'/bootstrap.php';
@@ -11,5 +12,9 @@ if (!is_string($filePath) || !is_file($filePath)) {
 }
 
 $response = $fileClient->upload(new UploadRequest('claude-opus-4-6')->atPath($filePath));
+
+print_r($response);
+
+$response = $fileClient->delete(new DeleteRequest($response->getModel(), $response->getUri()));
 
 print_r($response);

@@ -15,8 +15,9 @@ $serializer = require __DIR__.'/../serializer.php';
 
 $filePath = $argv[1] ?? null;
 
-if (!is_string($filePath) || !is_file($filePath)) {
+if (empty($filePath) || !is_file($filePath)) {
     printf("Usage: php %s <file-path>\n", basename(__FILE__));
+    exit(1);
 }
 
 $httpClient = HttpClient::create([

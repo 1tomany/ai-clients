@@ -11,7 +11,6 @@ final readonly class DeletedFile
     public function __construct(
         public string $id,
         public string $type,
-    )
-    {
+    ) {
     }
 }

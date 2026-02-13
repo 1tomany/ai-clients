@@ -5,7 +5,6 @@ namespace OneToMany\AI\Client\Claude;
 use OneToMany\AI\Client\Claude\Type\File\DeletedFile;
 use OneToMany\AI\Client\Claude\Type\File\File;
 use OneToMany\AI\Contract\Client\FileClientInterface;
-use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Request\File\DeleteRequest;
 use OneToMany\AI\Request\File\UploadRequest;
 use OneToMany\AI\Response\File\DeleteResponse;
@@ -51,7 +50,6 @@ final readonly class FileClient extends ClaudeClient implements FileClientInterf
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }
-
 
         return new DeleteResponse($request->getModel(), $deletedFile->id);
     }

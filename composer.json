@@ -1,5 +1,5 @@
 {
-    "name": "1tomany/php-ai",
+    "name": "1tomany/ai-clients",
     "description": "A single, unified, framework-independent library for integration with many popular AI platforms and large language models",
     "license": "MIT",
     "type": "library",
@@ -8,11 +8,15 @@
     "keywords": [
         "ai",
         "ai client",
+        "ai sdk",
         "chatgpt",
         "chat gpt",
         "claude",
         "gemini",
         "gpt",
+        "llm",
+        "llm client",
+        "llm sdk",
         "openai",
         "open ai"
     ],

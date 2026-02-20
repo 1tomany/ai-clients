@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Request\File;
+namespace OneToMany\AI\Clients\Request\File;
 
-use OneToMany\AI\Request\BaseRequest;
+use OneToMany\AI\Clients\Request\BaseRequest;
 
 class DeleteRequest extends BaseRequest
 {

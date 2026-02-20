@@ -1,15 +1,15 @@
 <?php
 
-namespace OneToMany\AI\Client\Mock;
+namespace OneToMany\AI\Clients\Client\Mock;
 
-use OneToMany\AI\Contract\Client\QueryClientInterface;
-use OneToMany\AI\Request\Query\CompileRequest;
-use OneToMany\AI\Request\Query\Component\FileUriComponent;
-use OneToMany\AI\Request\Query\Component\SchemaComponent;
-use OneToMany\AI\Request\Query\Component\TextComponent;
-use OneToMany\AI\Request\Query\ExecuteRequest;
-use OneToMany\AI\Response\Query\CompileResponse;
-use OneToMany\AI\Response\Query\ExecuteResponse;
+use OneToMany\AI\Clients\Contract\Client\QueryClientInterface;
+use OneToMany\AI\Clients\Request\Query\CompileRequest;
+use OneToMany\AI\Clients\Request\Query\Component\FileUriComponent;
+use OneToMany\AI\Clients\Request\Query\Component\SchemaComponent;
+use OneToMany\AI\Clients\Request\Query\Component\TextComponent;
+use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
+use OneToMany\AI\Clients\Response\Query\CompileResponse;
+use OneToMany\AI\Clients\Response\Query\ExecuteResponse;
 
 use function json_encode;
 use function random_int;
@@ -17,7 +17,7 @@ use function random_int;
 final readonly class QueryClient extends MockClient implements QueryClientInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Client\QueryClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
      */
     public function compile(CompileRequest $request): CompileResponse
     {
@@ -52,7 +52,7 @@ final readonly class QueryClient extends MockClient implements QueryClientInterf
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\QueryClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
      */
     public function execute(ExecuteRequest $request): ExecuteResponse
     {

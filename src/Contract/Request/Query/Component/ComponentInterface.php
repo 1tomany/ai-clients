@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Contract\Request\Query\Component;
+namespace OneToMany\AI\Clients\Contract\Request\Query\Component;
 
-use OneToMany\AI\Contract\Request\Query\Component\Enum\Role;
+use OneToMany\AI\Clients\Contract\Request\Query\Component\Enum\Role;
 
 interface ComponentInterface
 {

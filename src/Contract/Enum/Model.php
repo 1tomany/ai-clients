@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Contract\Enum;
+namespace OneToMany\AI\Clients\Contract\Enum;
 
 enum Model: string
 {

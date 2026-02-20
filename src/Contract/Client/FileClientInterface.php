@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\AI\Contract\Client;
+namespace OneToMany\AI\Clients\Contract\Client;
 
-use OneToMany\AI\Request\File\DeleteRequest;
-use OneToMany\AI\Request\File\UploadRequest;
-use OneToMany\AI\Response\File\DeleteResponse;
-use OneToMany\AI\Response\File\UploadResponse;
+use OneToMany\AI\Clients\Request\File\DeleteRequest;
+use OneToMany\AI\Clients\Request\File\UploadRequest;
+use OneToMany\AI\Clients\Response\File\DeleteResponse;
+use OneToMany\AI\Clients\Response\File\UploadResponse;
 
 interface FileClientInterface extends ClientInterface
 {

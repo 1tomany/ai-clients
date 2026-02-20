@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Client\OpenAi\Type\Error;
+namespace OneToMany\AI\Clients\Client\OpenAi\Type\Error;
 
-use OneToMany\AI\Contract\Client\Type\Error\ErrorInterface;
+use OneToMany\AI\Clients\Contract\Client\Type\Error\ErrorInterface;
 
 use function rtrim;
 
@@ -22,7 +22,7 @@ final readonly class Error implements ErrorInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorInterface
+     * @see OneToMany\AI\Clients\Contract\Client\Type\Error\ErrorInterface
      */
     public function getMessage(): string
     {
@@ -30,7 +30,7 @@ final readonly class Error implements ErrorInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorInterface
+     * @see OneToMany\AI\Clients\Contract\Client\Type\Error\ErrorInterface
      */
     public function getInlineMessage(): string
     {

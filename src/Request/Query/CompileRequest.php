@@ -1,13 +1,13 @@
 <?php
 
-namespace OneToMany\AI\Request\Query;
+namespace OneToMany\AI\Clients\Request\Query;
 
-use OneToMany\AI\Contract\Request\Query\Component\ComponentInterface;
-use OneToMany\AI\Contract\Request\Query\Component\Enum\Role;
-use OneToMany\AI\Request\BaseRequest;
-use OneToMany\AI\Request\Query\Component\FileUriComponent;
-use OneToMany\AI\Request\Query\Component\SchemaComponent;
-use OneToMany\AI\Request\Query\Component\TextComponent;
+use OneToMany\AI\Clients\Contract\Request\Query\Component\ComponentInterface;
+use OneToMany\AI\Clients\Contract\Request\Query\Component\Enum\Role;
+use OneToMany\AI\Clients\Request\BaseRequest;
+use OneToMany\AI\Clients\Request\Query\Component\FileUriComponent;
+use OneToMany\AI\Clients\Request\Query\Component\SchemaComponent;
+use OneToMany\AI\Clients\Request\Query\Component\TextComponent;
 
 class CompileRequest extends BaseRequest
 {

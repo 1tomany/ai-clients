@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Tests\Request\File;
+namespace OneToMany\AI\Clients\Tests\Request\File;
 
 use OneToMany\AI\Exception\RuntimeException;
 use OneToMany\AI\Request\File\UploadRequest;

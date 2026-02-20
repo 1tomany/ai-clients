@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\AI\Factory;
+namespace OneToMany\AI\Clients\Factory;
 
-use OneToMany\AI\Contract\Client\ClientInterface;
-use OneToMany\AI\Contract\Factory\ClientFactoryInterface;
-use OneToMany\AI\Exception\InvalidArgumentException;
+use OneToMany\AI\Clients\Contract\Client\ClientInterface;
+use OneToMany\AI\Clients\Contract\Factory\ClientFactoryInterface;
+use OneToMany\AI\Clients\Exception\InvalidArgumentException;
 
 use function sprintf;
 

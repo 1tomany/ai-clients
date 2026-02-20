@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Response\Query;
+namespace OneToMany\AI\Clients\Response\Query;
 
 final readonly class UsageResponse
 {

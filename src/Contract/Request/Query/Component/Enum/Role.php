@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Contract\Request\Query\Component\Enum;
+namespace OneToMany\AI\Clients\Contract\Request\Query\Component\Enum;
 
 enum Role: string
 {

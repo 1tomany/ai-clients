@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Request;
+namespace OneToMany\AI\Clients\Request;
 
 use function strtolower;
 use function trim;

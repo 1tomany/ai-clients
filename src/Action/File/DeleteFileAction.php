@@ -1,12 +1,12 @@
 <?php
 
-namespace OneToMany\AI\Action\File;
+namespace OneToMany\AI\Clients\Action\File;
 
-use OneToMany\AI\Contract\Action\File\DeleteFileActionInterface;
-use OneToMany\AI\Contract\Client\FileClientInterface;
-use OneToMany\AI\Contract\Factory\ClientFactoryInterface;
-use OneToMany\AI\Request\File\DeleteRequest;
-use OneToMany\AI\Response\File\DeleteResponse;
+use OneToMany\AI\Clients\Contract\Action\File\DeleteFileActionInterface;
+use OneToMany\AI\Clients\Contract\Client\FileClientInterface;
+use OneToMany\AI\Clients\Contract\Factory\ClientFactoryInterface;
+use OneToMany\AI\Clients\Request\File\DeleteRequest;
+use OneToMany\AI\Clients\Response\File\DeleteResponse;
 
 final readonly class DeleteFileAction implements DeleteFileActionInterface
 {
@@ -18,7 +18,7 @@ final readonly class DeleteFileAction implements DeleteFileActionInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Action\File\DeleteFileActionInterface
+     * @see OneToMany\AI\Clients\Contract\Action\File\DeleteFileActionInterface
      */
     public function act(DeleteRequest $request): DeleteResponse
     {

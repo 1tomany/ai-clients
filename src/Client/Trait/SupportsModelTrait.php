@@ -1,13 +1,13 @@
 <?php
 
-namespace OneToMany\AI\Client\Trait;
+namespace OneToMany\AI\Clients\Client\Trait;
 
 use function in_array;
 
 trait SupportsModelTrait
 {
     /**
-     * @see OneToMany\AI\Contract\Client\ClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\ClientInterface
      *
      * @param non-empty-lowercase-string $model
      */

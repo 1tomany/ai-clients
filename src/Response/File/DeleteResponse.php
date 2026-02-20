@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Response\File;
+namespace OneToMany\AI\Clients\Response\File;
 
-use OneToMany\AI\Response\BaseResponse;
+use OneToMany\AI\Clients\Response\BaseResponse;
 
 final readonly class DeleteResponse extends BaseResponse
 {

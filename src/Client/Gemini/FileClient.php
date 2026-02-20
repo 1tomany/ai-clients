@@ -1,14 +1,14 @@
 <?php
 
-namespace OneToMany\AI\Client\Gemini;
+namespace OneToMany\AI\Clients\Client\Gemini;
 
-use OneToMany\AI\Client\Gemini\Type\File\File;
-use OneToMany\AI\Contract\Client\FileClientInterface;
-use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Request\File\DeleteRequest;
-use OneToMany\AI\Request\File\UploadRequest;
-use OneToMany\AI\Response\File\DeleteResponse;
-use OneToMany\AI\Response\File\UploadResponse;
+use OneToMany\AI\Clients\Client\Gemini\Type\File\File;
+use OneToMany\AI\Clients\Contract\Client\FileClientInterface;
+use OneToMany\AI\Clients\Exception\RuntimeException;
+use OneToMany\AI\Clients\Request\File\DeleteRequest;
+use OneToMany\AI\Clients\Request\File\UploadRequest;
+use OneToMany\AI\Clients\Response\File\DeleteResponse;
+use OneToMany\AI\Clients\Response\File\UploadResponse;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
@@ -20,7 +20,7 @@ use function strlen;
 final readonly class FileClient extends GeminiClient implements FileClientInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Client\FileClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\FileClientInterface
      *
      * @throws RuntimeException an empty file is uploaded
      * @throws RuntimeException a signed URL is not generated
@@ -104,7 +104,7 @@ final readonly class FileClient extends GeminiClient implements FileClientInterf
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\FileClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\FileClientInterface
      */
     public function delete(DeleteRequest $request): DeleteResponse
     {

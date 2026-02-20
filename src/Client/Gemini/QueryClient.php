@@ -1,17 +1,17 @@
 <?php
 
-namespace OneToMany\AI\Client\Gemini;
+namespace OneToMany\AI\Clients\Client\Gemini;
 
-use OneToMany\AI\Client\Gemini\Type\Content\UsageMetadata;
-use OneToMany\AI\Contract\Client\QueryClientInterface;
-use OneToMany\AI\Request\Query\CompileRequest;
-use OneToMany\AI\Request\Query\Component\FileUriComponent;
-use OneToMany\AI\Request\Query\Component\SchemaComponent;
-use OneToMany\AI\Request\Query\Component\TextComponent;
-use OneToMany\AI\Request\Query\ExecuteRequest;
-use OneToMany\AI\Response\Query\CompileResponse;
-use OneToMany\AI\Response\Query\ExecuteResponse;
-use OneToMany\AI\Response\Query\UsageResponse;
+use OneToMany\AI\Clients\Client\Gemini\Type\Content\UsageMetadata;
+use OneToMany\AI\Clients\Contract\Client\QueryClientInterface;
+use OneToMany\AI\Clients\Request\Query\CompileRequest;
+use OneToMany\AI\Clients\Request\Query\Component\FileUriComponent;
+use OneToMany\AI\Clients\Request\Query\Component\SchemaComponent;
+use OneToMany\AI\Clients\Request\Query\Component\TextComponent;
+use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
+use OneToMany\AI\Clients\Response\Query\CompileResponse;
+use OneToMany\AI\Clients\Response\Query\ExecuteResponse;
+use OneToMany\AI\Clients\Response\Query\UsageResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -22,7 +22,7 @@ use function vsprintf;
 final readonly class QueryClient extends GeminiClient implements QueryClientInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Client\QueryClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
      */
     public function compile(CompileRequest $request): CompileResponse
     {
@@ -77,7 +77,7 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\QueryClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
      */
     public function execute(ExecuteRequest $request): ExecuteResponse
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Contract\Client;
+namespace OneToMany\AI\Clients\Contract\Client;
 
 interface ClientInterface
 {

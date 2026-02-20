@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Tests\Request\Query;
+namespace OneToMany\AI\Clients\Tests\Request\Query;
 
 use OneToMany\AI\Request\Query\CompileRequest;
 use PHPUnit\Framework\Attributes\Group;

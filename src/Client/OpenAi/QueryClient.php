@@ -1,26 +1,26 @@
 <?php
 
-namespace OneToMany\AI\Client\OpenAi;
+namespace OneToMany\AI\Clients\Client\OpenAi;
 
-use OneToMany\AI\Client\OpenAi\Type\Response\Input\Enum\Type as InputType;
-use OneToMany\AI\Client\OpenAi\Type\Response\Response;
-use OneToMany\AI\Contract\Client\QueryClientInterface;
-use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Request\Query\CompileRequest;
-use OneToMany\AI\Request\Query\Component\FileUriComponent;
-use OneToMany\AI\Request\Query\Component\SchemaComponent;
-use OneToMany\AI\Request\Query\Component\TextComponent;
-use OneToMany\AI\Request\Query\ExecuteRequest;
-use OneToMany\AI\Response\Query\CompileResponse;
-use OneToMany\AI\Response\Query\ExecuteResponse;
-use OneToMany\AI\Response\Query\UsageResponse;
+use OneToMany\AI\Clients\Client\OpenAi\Type\Response\Input\Enum\Type as InputType;
+use OneToMany\AI\Clients\Client\OpenAi\Type\Response\Response;
+use OneToMany\AI\Clients\Contract\Client\QueryClientInterface;
+use OneToMany\AI\Clients\Exception\RuntimeException;
+use OneToMany\AI\Clients\Request\Query\CompileRequest;
+use OneToMany\AI\Clients\Request\Query\Component\FileUriComponent;
+use OneToMany\AI\Clients\Request\Query\Component\SchemaComponent;
+use OneToMany\AI\Clients\Request\Query\Component\TextComponent;
+use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
+use OneToMany\AI\Clients\Response\Query\CompileResponse;
+use OneToMany\AI\Clients\Response\Query\ExecuteResponse;
+use OneToMany\AI\Clients\Response\Query\UsageResponse;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 final readonly class QueryClient extends OpenAiClient implements QueryClientInterface
 {
     /**
-     * @see OneToMany\AI\Contract\Client\QueryClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
      */
     public function compile(CompileRequest $request): CompileResponse
     {
@@ -80,7 +80,7 @@ final readonly class QueryClient extends OpenAiClient implements QueryClientInte
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\QueryClientInterface
+     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
      */
     public function execute(ExecuteRequest $request): ExecuteResponse
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Contract\Factory;
+namespace OneToMany\AI\Clients\Contract\Factory;
 
-use OneToMany\AI\Contract\Client\ClientInterface;
+use OneToMany\AI\Clients\Contract\Client\ClientInterface;
 
 /**
  * @template T of ClientInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Client\Claude\Type\File;
+namespace OneToMany\AI\Clients\Client\Claude\Type\File;
 
 final readonly class File
 {

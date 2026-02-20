@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\AI\Client\OpenAi\Type\Response;
+namespace OneToMany\AI\Clients\Client\OpenAi\Type\Response;
 
-use OneToMany\AI\Client\OpenAi\Type\Response\Usage\InputTokensDetails;
-use OneToMany\AI\Client\OpenAi\Type\Response\Usage\OutputTokensDetails;
-use OneToMany\AI\Contract\Client\Type\Usage\UsageInterface;
+use OneToMany\AI\Clients\Client\OpenAi\Type\Response\Usage\InputTokensDetails;
+use OneToMany\AI\Clients\Client\OpenAi\Type\Response\Usage\OutputTokensDetails;
+use OneToMany\AI\Clients\Contract\Client\Type\Usage\UsageInterface;
 
 final readonly class Usage implements UsageInterface
 {
@@ -23,7 +23,7 @@ final readonly class Usage implements UsageInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Usage\UsageInterface
+     * @see OneToMany\AI\Clients\Contract\Client\Type\Usage\UsageInterface
      */
     public function getInputTokens(): int
     {
@@ -31,7 +31,7 @@ final readonly class Usage implements UsageInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Usage\UsageInterface
+     * @see OneToMany\AI\Clients\Contract\Client\Type\Usage\UsageInterface
      */
     public function getCachedTokens(): int
     {
@@ -39,7 +39,7 @@ final readonly class Usage implements UsageInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Usage\UsageInterface
+     * @see OneToMany\AI\Clients\Contract\Client\Type\Usage\UsageInterface
      */
     public function getOutputTokens(): int
     {

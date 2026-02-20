@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Client\Trait;
+namespace OneToMany\AI\Clients\Client\Trait;
 
-use OneToMany\AI\Exception\RuntimeException;
+use OneToMany\AI\Clients\Exception\RuntimeException;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface as HttpClientHttpExceptionInterface;
 

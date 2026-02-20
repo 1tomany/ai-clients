@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Response\Query;
+namespace OneToMany\AI\Clients\Response\Query;
 
-use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Response\BaseResponse;
+use OneToMany\AI\Clients\Exception\RuntimeException;
+use OneToMany\AI\Clients\Response\BaseResponse;
 
 use function json_decode;
 use function max;

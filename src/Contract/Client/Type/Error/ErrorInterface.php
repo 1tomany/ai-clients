@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Contract\Client\Type\Error;
+namespace OneToMany\AI\Clients\Contract\Client\Type\Error;
 
 interface ErrorInterface
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Contract\Action\File;
+namespace OneToMany\AI\Clients\Contract\Action\File;
 
-use OneToMany\AI\Request\File\DeleteRequest;
-use OneToMany\AI\Response\File\DeleteResponse;
+use OneToMany\AI\Clients\Request\File\DeleteRequest;
+use OneToMany\AI\Clients\Response\File\DeleteResponse;
 
 interface DeleteFileActionInterface
 {

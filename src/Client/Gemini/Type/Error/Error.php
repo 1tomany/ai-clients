@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Client\Gemini\Type\Error;
+namespace OneToMany\AI\Clients\Client\Gemini\Type\Error;
 
-use OneToMany\AI\Contract\Client\Type\Error\ErrorInterface;
+use OneToMany\AI\Clients\Contract\Client\Type\Error\ErrorInterface;
 
 use function array_filter;
 use function explode;
@@ -19,7 +19,7 @@ final readonly class Error implements ErrorInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorInterface
+     * @see OneToMany\AI\Clients\Contract\Client\Type\Error\ErrorInterface
      */
     public function getMessage(): string
     {
@@ -28,7 +28,7 @@ final readonly class Error implements ErrorInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Client\Type\Error\ErrorInterface
+     * @see OneToMany\AI\Clients\Contract\Client\Type\Error\ErrorInterface
      */
     public function getInlineMessage(): string
     {

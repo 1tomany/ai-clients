@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Exception;
+namespace OneToMany\AI\Clients\Exception;
 
-use OneToMany\AI\Contract\Exception\ExceptionInterface;
+use OneToMany\AI\Clients\Contract\Exception\ExceptionInterface;
 
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {

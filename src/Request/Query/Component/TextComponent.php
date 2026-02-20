@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Request\Query\Component;
+namespace OneToMany\AI\Clients\Request\Query\Component;
 
-use OneToMany\AI\Contract\Request\Query\Component\ComponentInterface;
-use OneToMany\AI\Contract\Request\Query\Component\Enum\Role;
+use OneToMany\AI\Clients\Contract\Request\Query\Component\ComponentInterface;
+use OneToMany\AI\Clients\Contract\Request\Query\Component\Enum\Role;
 
 final readonly class TextComponent implements ComponentInterface
 {
@@ -25,7 +25,7 @@ final readonly class TextComponent implements ComponentInterface
     }
 
     /**
-     * @see OneToMany\AI\Contract\Request\Query\Component\ComponentInterface
+     * @see OneToMany\AI\Clients\Contract\Request\Query\Component\ComponentInterface
      */
     public function getRole(): Role
     {

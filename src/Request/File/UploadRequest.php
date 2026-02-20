@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Request\File;
+namespace OneToMany\AI\Clients\Request\File;
 
-use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Request\BaseRequest;
+use OneToMany\AI\Clients\Exception\RuntimeException;
+use OneToMany\AI\Clients\Request\BaseRequest;
 
 use function basename;
 use function fclose;

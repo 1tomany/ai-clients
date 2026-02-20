@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Clients\Response\File;
+namespace OneToMany\LlmSdk\Response\File;
 
-use OneToMany\AI\Clients\Response\BaseResponse;
+use OneToMany\LlmSdk\Response\BaseResponse;
 
 use function strtolower;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Contract\Exception;
+namespace OneToMany\LlmSdk\Contract\Exception;
 
 interface ExceptionInterface extends \Throwable
 {

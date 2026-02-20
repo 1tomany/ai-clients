@@ -1,26 +1,26 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\OpenAI;
+namespace OneToMany\LlmSdk\Client\OpenAI;
 
-use OneToMany\AI\Clients\Client\OpenAI\Type\Response\Input\Enum\Type as InputType;
-use OneToMany\AI\Clients\Client\OpenAI\Type\Response\Response;
-use OneToMany\AI\Clients\Contract\Client\QueryClientInterface;
-use OneToMany\AI\Clients\Exception\RuntimeException;
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
-use OneToMany\AI\Clients\Request\Query\Component\FileUriComponent;
-use OneToMany\AI\Clients\Request\Query\Component\SchemaComponent;
-use OneToMany\AI\Clients\Request\Query\Component\TextComponent;
-use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
-use OneToMany\AI\Clients\Response\Query\CompileResponse;
-use OneToMany\AI\Clients\Response\Query\ExecuteResponse;
-use OneToMany\AI\Clients\Response\Query\UsageResponse;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Input\Enum\Type as InputType;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Response;
+use OneToMany\LlmSdk\Contract\Client\QueryClientInterface;
+use OneToMany\LlmSdk\Exception\RuntimeException;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Request\Query\Component\FileUriComponent;
+use OneToMany\LlmSdk\Request\Query\Component\SchemaComponent;
+use OneToMany\LlmSdk\Request\Query\Component\TextComponent;
+use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
+use OneToMany\LlmSdk\Response\Query\CompileResponse;
+use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
+use OneToMany\LlmSdk\Response\Query\UsageResponse;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 final readonly class QueryClient extends BaseClient implements QueryClientInterface
 {
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\QueryClientInterface
      */
     public function compile(CompileRequest $request): CompileResponse
     {
@@ -80,7 +80,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\QueryClientInterface
      */
     public function execute(ExecuteRequest $request): ExecuteResponse
     {

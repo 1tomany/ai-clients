@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Exception;
+namespace OneToMany\LlmSdk\Exception;
 
 class UnexpectedTypeException extends RuntimeException
 {

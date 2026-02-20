@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Clients\Contract\Action\Query;
+namespace OneToMany\LlmSdk\Contract\Action\Query;
 
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
-use OneToMany\AI\Clients\Response\Query\CompileResponse;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Response\Query\CompileResponse;
 
 interface CompileQueryActionInterface
 {

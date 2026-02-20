@@ -1,13 +1,13 @@
 <?php
 
-namespace OneToMany\AI\Clients\Action\Query;
+namespace OneToMany\LlmSdk\Action\Query;
 
-use OneToMany\AI\Clients\Contract\Action\Query\ExecuteQueryActionInterface;
-use OneToMany\AI\Clients\Contract\Client\QueryClientInterface;
-use OneToMany\AI\Clients\Contract\Factory\ClientFactoryInterface;
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
-use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
-use OneToMany\AI\Clients\Response\Query\ExecuteResponse;
+use OneToMany\LlmSdk\Contract\Action\Query\ExecuteQueryActionInterface;
+use OneToMany\LlmSdk\Contract\Client\QueryClientInterface;
+use OneToMany\LlmSdk\Contract\Factory\ClientFactoryInterface;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
+use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
 
 final readonly class ExecuteQueryAction implements ExecuteQueryActionInterface
 {
@@ -19,7 +19,7 @@ final readonly class ExecuteQueryAction implements ExecuteQueryActionInterface
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Action\Query\ExecuteQueryActionInterface
+     * @see OneToMany\LlmSdk\Contract\Action\Query\ExecuteQueryActionInterface
      */
     public function act(CompileRequest|ExecuteRequest $request): ExecuteResponse
     {

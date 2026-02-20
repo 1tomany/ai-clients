@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\OpenAI\Type\Response\Output\Content;
+namespace OneToMany\LlmSdk\Client\OpenAI\Type\Response\Output\Content;
 
-use OneToMany\AI\Clients\Client\OpenAI\Type\Response\Output\Content\Enum\Type;
-use OneToMany\AI\Clients\Exception\InvalidArgumentException;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Output\Content\Enum\Type;
+use OneToMany\LlmSdk\Exception\InvalidArgumentException;
 
 use function sprintf;
 

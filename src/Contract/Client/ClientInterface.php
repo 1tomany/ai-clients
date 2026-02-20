@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Contract\Client;
+namespace OneToMany\LlmSdk\Contract\Client;
 
 interface ClientInterface
 {

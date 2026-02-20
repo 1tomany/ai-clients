@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Clients\Tests\Request\Query;
+namespace OneToMany\LlmSdk\Tests\Request\Query;
 
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

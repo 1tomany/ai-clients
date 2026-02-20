@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\Mock;
+namespace OneToMany\LlmSdk\Client\Mock;
 
-use OneToMany\AI\Clients\Client\Trait\SupportsModelTrait;
+use OneToMany\LlmSdk\Client\Trait\SupportsModelTrait;
 
 use function bin2hex;
 use function random_bytes;
@@ -21,7 +21,7 @@ abstract readonly class MockClient
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\ClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\ClientInterface
      *
      * @return non-empty-list<non-empty-lowercase-string>
      */

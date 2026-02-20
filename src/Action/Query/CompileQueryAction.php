@@ -1,13 +1,13 @@
 <?php
 
-namespace OneToMany\AI\Clients\Action\Query;
+namespace OneToMany\LlmSdk\Action\Query;
 
-use OneToMany\AI\Clients\Contract\Action\Query\CompileQueryActionInterface;
-use OneToMany\AI\Clients\Contract\Client\QueryClientInterface;
-use OneToMany\AI\Clients\Contract\Factory\ClientFactoryInterface;
-use OneToMany\AI\Clients\Exception\InvalidArgumentException;
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
-use OneToMany\AI\Clients\Response\Query\CompileResponse;
+use OneToMany\LlmSdk\Contract\Action\Query\CompileQueryActionInterface;
+use OneToMany\LlmSdk\Contract\Client\QueryClientInterface;
+use OneToMany\LlmSdk\Contract\Factory\ClientFactoryInterface;
+use OneToMany\LlmSdk\Exception\InvalidArgumentException;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Response\Query\CompileResponse;
 
 final readonly class CompileQueryAction implements CompileQueryActionInterface
 {
@@ -19,7 +19,7 @@ final readonly class CompileQueryAction implements CompileQueryActionInterface
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Action\Query\CompileQueryActionInterface
+     * @see OneToMany\LlmSdk\Contract\Action\Query\CompileQueryActionInterface
      *
      * @throws InvalidArgumentException the request does not have any components
      */

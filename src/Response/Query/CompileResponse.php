@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Clients\Response\Query;
+namespace OneToMany\LlmSdk\Response\Query;
 
-use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
-use OneToMany\AI\Clients\Response\BaseResponse;
+use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
+use OneToMany\LlmSdk\Response\BaseResponse;
 
 final readonly class CompileResponse extends BaseResponse
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\Claude;
+namespace OneToMany\LlmSdk\Client\Claude;
 
-use OneToMany\AI\Clients\Client\Claude\Type\File\DeletedFile;
-use OneToMany\AI\Clients\Client\Claude\Type\File\File;
-use OneToMany\AI\Clients\Contract\Client\FileClientInterface;
-use OneToMany\AI\Clients\Request\File\DeleteRequest;
-use OneToMany\AI\Clients\Request\File\UploadRequest;
-use OneToMany\AI\Clients\Response\File\DeleteResponse;
-use OneToMany\AI\Clients\Response\File\UploadResponse;
+use OneToMany\LlmSdk\Client\Claude\Type\File\DeletedFile;
+use OneToMany\LlmSdk\Client\Claude\Type\File\File;
+use OneToMany\LlmSdk\Contract\Client\FileClientInterface;
+use OneToMany\LlmSdk\Request\File\DeleteRequest;
+use OneToMany\LlmSdk\Request\File\UploadRequest;
+use OneToMany\LlmSdk\Response\File\DeleteResponse;
+use OneToMany\LlmSdk\Response\File\UploadResponse;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -17,7 +17,7 @@ use function array_merge_recursive;
 final readonly class FileClient extends ClaudeClient implements FileClientInterface
 {
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\FileClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\FileClientInterface
      */
     public function upload(UploadRequest $request): UploadResponse
     {
@@ -39,7 +39,7 @@ final readonly class FileClient extends ClaudeClient implements FileClientInterf
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\FileClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\FileClientInterface
      */
     public function delete(DeleteRequest $request): DeleteResponse
     {

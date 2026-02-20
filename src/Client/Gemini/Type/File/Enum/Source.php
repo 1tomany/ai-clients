@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\Gemini\Type\File\Enum;
+namespace OneToMany\LlmSdk\Client\Gemini\Type\File\Enum;
 
 enum Source: string
 {

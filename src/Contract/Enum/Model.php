@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Contract\Enum;
+namespace OneToMany\LlmSdk\Contract\Enum;
 
 enum Model: string
 {

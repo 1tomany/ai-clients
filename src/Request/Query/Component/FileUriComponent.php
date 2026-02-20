@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Clients\Request\Query\Component;
+namespace OneToMany\LlmSdk\Request\Query\Component;
 
-use OneToMany\AI\Clients\Contract\Request\Query\Component\ComponentInterface;
-use OneToMany\AI\Clients\Contract\Request\Query\Component\Enum\Role;
+use OneToMany\LlmSdk\Contract\Request\Query\Component\ComponentInterface;
+use OneToMany\LlmSdk\Contract\Request\Query\Component\Enum\Role;
 
 use function str_starts_with;
 
@@ -41,7 +41,7 @@ final readonly class FileUriComponent implements ComponentInterface
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Request\Query\Component\ComponentInterface
+     * @see OneToMany\LlmSdk\Contract\Request\Query\Component\ComponentInterface
      */
     public function getRole(): Role
     {

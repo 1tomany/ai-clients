@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\Gemini\Type\Content;
+namespace OneToMany\LlmSdk\Client\Gemini\Type\Content;
 
-use OneToMany\AI\Clients\Contract\Client\Type\Usage\UsageInterface;
+use OneToMany\LlmSdk\Contract\Client\Type\Usage\UsageInterface;
 
 final readonly class UsageMetadata implements UsageInterface
 {
@@ -25,7 +25,7 @@ final readonly class UsageMetadata implements UsageInterface
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\Type\Usage\UsageInterface
+     * @see OneToMany\LlmSdk\Contract\Client\Type\Usage\UsageInterface
      */
     public function getInputTokens(): int
     {
@@ -33,7 +33,7 @@ final readonly class UsageMetadata implements UsageInterface
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\Type\Usage\UsageInterface
+     * @see OneToMany\LlmSdk\Contract\Client\Type\Usage\UsageInterface
      */
     public function getCachedTokens(): int
     {
@@ -41,7 +41,7 @@ final readonly class UsageMetadata implements UsageInterface
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\Type\Usage\UsageInterface
+     * @see OneToMany\LlmSdk\Contract\Client\Type\Usage\UsageInterface
      */
     public function getOutputTokens(): int
     {

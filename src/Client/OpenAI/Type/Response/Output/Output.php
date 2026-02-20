@@ -1,12 +1,12 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\OpenAI\Type\Response\Output;
+namespace OneToMany\LlmSdk\Client\OpenAI\Type\Response\Output;
 
-use OneToMany\AI\Clients\Client\OpenAI\Type\Response\Enum\Role;
-use OneToMany\AI\Clients\Client\OpenAI\Type\Response\Enum\Status;
-use OneToMany\AI\Clients\Client\OpenAI\Type\Response\Output\Content\OutputText;
-use OneToMany\AI\Clients\Client\OpenAI\Type\Response\Output\Enum\Type;
-use OneToMany\AI\Clients\Exception\InvalidArgumentException;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Enum\Role;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Enum\Status;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Output\Content\OutputText;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Output\Enum\Type;
+use OneToMany\LlmSdk\Exception\InvalidArgumentException;
 
 use function array_map;
 use function implode;

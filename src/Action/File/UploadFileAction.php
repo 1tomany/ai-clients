@@ -1,12 +1,12 @@
 <?php
 
-namespace OneToMany\AI\Clients\Action\File;
+namespace OneToMany\LlmSdk\Action\File;
 
-use OneToMany\AI\Clients\Contract\Action\File\UploadFileActionInterface;
-use OneToMany\AI\Clients\Contract\Client\FileClientInterface;
-use OneToMany\AI\Clients\Contract\Factory\ClientFactoryInterface;
-use OneToMany\AI\Clients\Request\File\UploadRequest;
-use OneToMany\AI\Clients\Response\File\UploadResponse;
+use OneToMany\LlmSdk\Contract\Action\File\UploadFileActionInterface;
+use OneToMany\LlmSdk\Contract\Client\FileClientInterface;
+use OneToMany\LlmSdk\Contract\Factory\ClientFactoryInterface;
+use OneToMany\LlmSdk\Request\File\UploadRequest;
+use OneToMany\LlmSdk\Response\File\UploadResponse;
 
 final readonly class UploadFileAction implements UploadFileActionInterface
 {
@@ -18,7 +18,7 @@ final readonly class UploadFileAction implements UploadFileActionInterface
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Action\File\UploadFileActionInterface
+     * @see OneToMany\LlmSdk\Contract\Action\File\UploadFileActionInterface
      */
     public function act(UploadRequest $request): UploadResponse
     {

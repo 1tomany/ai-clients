@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Contract\Client\Type\Usage;
+namespace OneToMany\LlmSdk\Contract\Client\Type\Usage;
 
 interface UsageInterface
 {

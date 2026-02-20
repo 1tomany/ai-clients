@@ -1,21 +1,21 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\OpenAI;
+namespace OneToMany\LlmSdk\Client\OpenAI;
 
-use OneToMany\AI\Clients\Client\OpenAI\Type\File\DeletedFile;
-use OneToMany\AI\Clients\Client\OpenAI\Type\File\Enum\Purpose;
-use OneToMany\AI\Clients\Client\OpenAI\Type\File\File;
-use OneToMany\AI\Clients\Contract\Client\FileClientInterface;
-use OneToMany\AI\Clients\Request\File\DeleteRequest;
-use OneToMany\AI\Clients\Request\File\UploadRequest;
-use OneToMany\AI\Clients\Response\File\DeleteResponse;
-use OneToMany\AI\Clients\Response\File\UploadResponse;
+use OneToMany\LlmSdk\Client\OpenAI\Type\File\DeletedFile;
+use OneToMany\LlmSdk\Client\OpenAI\Type\File\Enum\Purpose;
+use OneToMany\LlmSdk\Client\OpenAI\Type\File\File;
+use OneToMany\LlmSdk\Contract\Client\FileClientInterface;
+use OneToMany\LlmSdk\Request\File\DeleteRequest;
+use OneToMany\LlmSdk\Request\File\UploadRequest;
+use OneToMany\LlmSdk\Response\File\DeleteResponse;
+use OneToMany\LlmSdk\Response\File\UploadResponse;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 final readonly class FileClient extends BaseClient implements FileClientInterface
 {
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\FileClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\FileClientInterface
      */
     public function upload(UploadRequest $request): UploadResponse
     {
@@ -41,7 +41,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\FileClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\FileClientInterface
      */
     public function delete(DeleteRequest $request): DeleteResponse
     {

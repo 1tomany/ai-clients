@@ -1,10 +1,10 @@
 <?php
 
-namespace OneToMany\AI\Clients\Contract\Action\Query;
+namespace OneToMany\LlmSdk\Contract\Action\Query;
 
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
-use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
-use OneToMany\AI\Clients\Response\Query\ExecuteResponse;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
+use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
 
 interface ExecuteQueryActionInterface
 {

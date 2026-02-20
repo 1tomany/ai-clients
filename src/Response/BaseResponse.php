@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Response;
+namespace OneToMany\LlmSdk\Response;
 
 abstract readonly class BaseResponse
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Clients\Tests\Request\File;
+namespace OneToMany\LlmSdk\Tests\Request\File;
 
-use OneToMany\AI\Clients\Exception\RuntimeException;
-use OneToMany\AI\Clients\Request\File\UploadRequest;
+use OneToMany\LlmSdk\Exception\RuntimeException;
+use OneToMany\LlmSdk\Request\File\UploadRequest;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

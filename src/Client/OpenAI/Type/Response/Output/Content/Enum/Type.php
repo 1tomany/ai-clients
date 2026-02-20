@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\OpenAI\Type\Response\Output\Content\Enum;
+namespace OneToMany\LlmSdk\Client\OpenAI\Type\Response\Output\Content\Enum;
 
 enum Type: string
 {

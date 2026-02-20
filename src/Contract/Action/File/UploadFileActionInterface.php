@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\AI\Clients\Contract\Action\File;
+namespace OneToMany\LlmSdk\Contract\Action\File;
 
-use OneToMany\AI\Clients\Request\File\UploadRequest;
-use OneToMany\AI\Clients\Response\File\UploadResponse;
+use OneToMany\LlmSdk\Request\File\UploadRequest;
+use OneToMany\LlmSdk\Response\File\UploadResponse;
 
 interface UploadFileActionInterface
 {

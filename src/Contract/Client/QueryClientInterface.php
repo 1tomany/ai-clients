@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\AI\Clients\Contract\Client;
+namespace OneToMany\LlmSdk\Contract\Client;
 
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
-use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
-use OneToMany\AI\Clients\Response\Query\CompileResponse;
-use OneToMany\AI\Clients\Response\Query\ExecuteResponse;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
+use OneToMany\LlmSdk\Response\Query\CompileResponse;
+use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
 
 interface QueryClientInterface extends ClientInterface
 {

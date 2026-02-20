@@ -1,17 +1,17 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\Gemini;
+namespace OneToMany\LlmSdk\Client\Gemini;
 
-use OneToMany\AI\Clients\Client\Gemini\Type\Content\UsageMetadata;
-use OneToMany\AI\Clients\Contract\Client\QueryClientInterface;
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
-use OneToMany\AI\Clients\Request\Query\Component\FileUriComponent;
-use OneToMany\AI\Clients\Request\Query\Component\SchemaComponent;
-use OneToMany\AI\Clients\Request\Query\Component\TextComponent;
-use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
-use OneToMany\AI\Clients\Response\Query\CompileResponse;
-use OneToMany\AI\Clients\Response\Query\ExecuteResponse;
-use OneToMany\AI\Clients\Response\Query\UsageResponse;
+use OneToMany\LlmSdk\Client\Gemini\Type\Content\UsageMetadata;
+use OneToMany\LlmSdk\Contract\Client\QueryClientInterface;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Request\Query\Component\FileUriComponent;
+use OneToMany\LlmSdk\Request\Query\Component\SchemaComponent;
+use OneToMany\LlmSdk\Request\Query\Component\TextComponent;
+use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
+use OneToMany\LlmSdk\Response\Query\CompileResponse;
+use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
+use OneToMany\LlmSdk\Response\Query\UsageResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -22,7 +22,7 @@ use function vsprintf;
 final readonly class QueryClient extends GeminiClient implements QueryClientInterface
 {
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\QueryClientInterface
      */
     public function compile(CompileRequest $request): CompileResponse
     {
@@ -77,7 +77,7 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\QueryClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\QueryClientInterface
      */
     public function execute(ExecuteRequest $request): ExecuteResponse
     {

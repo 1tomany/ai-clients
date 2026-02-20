@@ -1,11 +1,11 @@
 <?php
 
-namespace OneToMany\AI\Clients\Tests\Action\Query;
+namespace OneToMany\LlmSdk\Tests\Action\Query;
 
-use OneToMany\AI\Clients\Action\Query\CompileQueryAction;
-use OneToMany\AI\Clients\Exception\InvalidArgumentException;
-use OneToMany\AI\Clients\Factory\ClientFactory;
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Action\Query\CompileQueryAction;
+use OneToMany\LlmSdk\Exception\InvalidArgumentException;
+use OneToMany\LlmSdk\Factory\ClientFactory;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

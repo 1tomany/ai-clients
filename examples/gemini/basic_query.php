@@ -1,8 +1,8 @@
 <?php
 
-use OneToMany\AI\Clients\Client\Gemini\QueryClient;
-use OneToMany\AI\Clients\Request\Query\CompileRequest;
-use OneToMany\AI\Clients\Request\Query\ExecuteRequest;
+use OneToMany\LlmSdk\Client\Gemini\QueryClient;
+use OneToMany\LlmSdk\Request\Query\CompileRequest;
+use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 

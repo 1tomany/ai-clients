@@ -1,8 +1,8 @@
 <?php
 
-namespace OneToMany\AI\Clients\Request\Query;
+namespace OneToMany\LlmSdk\Request\Query;
 
-use OneToMany\AI\Clients\Request\BaseRequest;
+use OneToMany\LlmSdk\Request\BaseRequest;
 
 use function trim;
 

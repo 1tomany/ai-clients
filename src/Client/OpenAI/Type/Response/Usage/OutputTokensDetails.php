@@ -1,6 +1,6 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\OpenAI\Type\Response\Usage;
+namespace OneToMany\LlmSdk\Client\OpenAI\Type\Response\Usage;
 
 final readonly class OutputTokensDetails
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace OneToMany\AI\Clients\Client\Gemini;
+namespace OneToMany\LlmSdk\Client\Gemini;
 
-use OneToMany\AI\Clients\Client\Gemini\Type\Error\Error;
-use OneToMany\AI\Clients\Client\Trait\HttpExceptionTrait;
-use OneToMany\AI\Clients\Client\Trait\SupportsModelTrait;
-use OneToMany\AI\Clients\Contract\Client\Type\Error\ErrorInterface;
-use OneToMany\AI\Clients\Exception\RuntimeException;
+use OneToMany\LlmSdk\Client\Gemini\Type\Error\Error;
+use OneToMany\LlmSdk\Client\Trait\HttpExceptionTrait;
+use OneToMany\LlmSdk\Client\Trait\SupportsModelTrait;
+use OneToMany\LlmSdk\Contract\Client\Type\Error\ErrorInterface;
+use OneToMany\LlmSdk\Exception\RuntimeException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
@@ -43,7 +43,7 @@ abstract readonly class GeminiClient
     }
 
     /**
-     * @see OneToMany\AI\Clients\Contract\Client\ClientInterface
+     * @see OneToMany\LlmSdk\Contract\Client\ClientInterface
      *
      * @return non-empty-list<non-empty-lowercase-string>
      */

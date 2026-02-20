@@ -4,7 +4,7 @@
         <ini name="error_reporting" value="-1"/>
     </php>
     <testsuites>
-        <testsuite name="ai-clients Test Suite">
+        <testsuite name="llm-sdk Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

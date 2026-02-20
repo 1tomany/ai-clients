@@ -7,7 +7,7 @@ This library provides a single, unified, framework-independent library for integ
 Install the library using Composer:
 
 ```shell
-composer require 1tomany/ai-clients
+composer require 1tomany/llm-sdk
 ```
 
 ## Usage
@@ -15,15 +15,15 @@ composer require 1tomany/ai-clients
 There are two ways to use this library:
 
 1. **Direct** Instantiate the AI client you wish to use and send a request object to it. This method is easier to use, but comes with the cost that your application will be less flexible and testable.
-2. **Actions** Register the clients you wish to use with a `OneToMany\AI\Clients\Factory\ClientFactory` instance, inject that instance into each action you wish to take, and interact with the action instead of through the client.
+2. **Actions** Register the clients you wish to use with a `OneToMany\LlmSdk\Factory\ClientFactory` instance, inject that instance into each action you wish to take, and interact with the action instead of through the client.
 
-**Note:** A [Symfony bundle](https://github.com/1tomany/ai-clients-bundle) is available if you wish to integrate this library into your Symfony applications with autowiring and configuration support.
+**Note:** A [Symfony bundle](https://github.com/1tomany/llm-sdk-bundle) is available if you wish to integrate this library into your Symfony applications with autowiring and configuration support.
 
 I learn best by looking at actual code samples, so lets take a look at the two methods first.
 
 ### Direct usage
 
-See the [`basic_query.php`](https://github.com/1tomany/ai-clients/blob/master/examples/gemini/basic_query.php) example.
+See the [`basic_query.php`](https://github.com/1tomany/llm-sdk/blob/master/examples/gemini/basic_query.php) example.
 
 ## Supported platforms
 

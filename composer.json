@@ -1,5 +1,5 @@
 {
-    "name": "1tomany/ai-clients",
+    "name": "1tomany/llm-sdk",
     "description": "A single, unified, framework-independent library for integration with many popular AI platforms and large language models",
     "license": "MIT",
     "type": "library",
@@ -37,7 +37,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OneToMany\\AI\\Clients\\": "src/"
+            "OneToMany\\LlmSdk\\": "src/"
         },
         "exclude-from-classmap": [
             "/Tests/"
@@ -45,7 +45,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OneToMany\\AI\\Clients\\Tests\\": "tests/"
+            "OneToMany\\LlmSdk\\Tests\\": "tests/"
         }
     },
     "scripts": {

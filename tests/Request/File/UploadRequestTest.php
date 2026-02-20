@@ -2,8 +2,8 @@
 
 namespace OneToMany\AI\Clients\Tests\Request\File;
 
-use OneToMany\AI\Exception\RuntimeException;
-use OneToMany\AI\Request\File\UploadRequest;
+use OneToMany\AI\Clients\Exception\RuntimeException;
+use OneToMany\AI\Clients\Request\File\UploadRequest;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

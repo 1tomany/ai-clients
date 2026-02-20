@@ -2,7 +2,7 @@
 
 namespace OneToMany\AI\Clients\Tests\Request\Query;
 
-use OneToMany\AI\Request\Query\CompileRequest;
+use OneToMany\AI\Clients\Request\Query\CompileRequest;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 

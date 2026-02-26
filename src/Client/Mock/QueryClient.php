@@ -14,7 +14,7 @@ use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
 use function json_encode;
 use function random_int;
 
-final readonly class QueryClient extends MockClient implements QueryClientInterface
+final readonly class QueryClient extends BaseClient implements QueryClientInterface
 {
     /**
      * @see OneToMany\LlmSdk\Contract\Client\QueryClientInterface

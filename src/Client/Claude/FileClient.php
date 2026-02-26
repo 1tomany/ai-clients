@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 use function array_merge_recursive;
 
-final readonly class FileClient extends ClaudeClient implements FileClientInterface
+final readonly class FileClient extends BaseClient implements FileClientInterface
 {
     /**
      * @see OneToMany\LlmSdk\Contract\Client\FileClientInterface

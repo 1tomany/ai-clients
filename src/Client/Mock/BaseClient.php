@@ -9,7 +9,7 @@ use function random_bytes;
 use function sprintf;
 use function strtolower;
 
-abstract readonly class MockClient
+abstract readonly class BaseClient
 {
     use SupportsModelTrait;
 

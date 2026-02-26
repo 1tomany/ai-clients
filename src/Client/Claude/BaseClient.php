@@ -20,7 +20,7 @@ use function implode;
 use function ltrim;
 use function sprintf;
 
-abstract readonly class ClaudeClient
+abstract readonly class BaseClient
 {
     use HttpExceptionTrait;
     use SupportsModelTrait;

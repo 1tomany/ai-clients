@@ -17,7 +17,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 use function sprintf;
 
-abstract readonly class GeminiClient
+abstract readonly class BaseClient
 {
     use HttpExceptionTrait;
     use SupportsModelTrait;

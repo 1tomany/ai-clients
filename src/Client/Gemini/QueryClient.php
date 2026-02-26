@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
-final readonly class QueryClient extends GeminiClient implements QueryClientInterface
+final readonly class QueryClient extends BaseClient implements QueryClientInterface
 {
     /**
      * @see OneToMany\LlmSdk\Contract\Client\QueryClientInterface

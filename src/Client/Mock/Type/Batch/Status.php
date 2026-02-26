@@ -1,16 +1,13 @@
 <?php
 
-namespace OneToMany\LlmSdk\Client\OpenAI\Type\Batch\Enum;
+namespace OneToMany\LlmSdk\Client\Mock\Type\Batch;
 
 enum Status: string
 {
-    case Validating = 'validating';
-    case Failed = 'failed';
-    case InProgress = 'in_progress';
-    case Finalizing = 'finalizing';
+    case Processing = 'processing';
     case Completed = 'completed';
+    case Failed = 'failed';
     case Expired = 'expired';
-    case Cancelling = 'cancelling';
     case Cancelled = 'cancelled';
 
     /**

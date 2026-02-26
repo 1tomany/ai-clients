@@ -9,16 +9,14 @@ abstract readonly class BatchResponse extends BaseResponse
     /**
      * @param non-empty-lowercase-string $model
      * @param non-empty-string $uri
+     * @param non-empty-string $status
      * @param ?non-empty-string $fileUri
      */
     public function __construct(
         string $model,
         private string $uri,
+        private string $status,
         private ?string $fileUri = null,
-        private bool $isCompleted = false,
-        private bool $isFailed = false,
-        private bool $isCancelled = false,
-        private bool $isExpired = false,
     ) {
         parent::__construct($model);
     }
@@ -32,30 +30,18 @@ abstract readonly class BatchResponse extends BaseResponse
     }
 
     /**
+     * @return non-empty-string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
      * @return ?non-empty-string
      */
     public function getFileUri(): ?string
     {
         return $this->fileUri;
-    }
-
-    public function isCompleted(): bool
-    {
-        return $this->isCompleted;
-    }
-
-    public function isFailed(): bool
-    {
-        return $this->isFailed;
-    }
-
-    public function isCancelled(): bool
-    {
-        return $this->isCancelled;
-    }
-
-    public function isExpired(): bool
-    {
-        return $this->isExpired;
     }
 }

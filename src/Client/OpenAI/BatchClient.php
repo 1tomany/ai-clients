@@ -20,15 +20,13 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
         $url = $this->generateUrl('batches');
 
         try {
-            $requestContent = [
-                'completion_window' => '24h',
-                'endpoint' => '/v1/responses',
-            ];
+            $inputFileId = $request->getFileUri();
 
-            $response = $this->httpClient->request('POST', $url, [
-                'auth_bearer' => $this->getApiKey(),
-                'json' => $requestContent + [
-                    'input_file_id' => $request->getFileUri(),
+            $response = $this->doRequest('POST', $url, [
+                'json' => [
+                    'completion_window' => '24h',
+                    'endpoint' => '/v1/responses',
+                    'input_file_id' => $inputFileId,
                 ],
             ]);
 
@@ -37,15 +35,7 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
             $this->handleHttpException($e);
         }
 
-        return new CreateResponse(
-            $request->getModel(),
-            $batch->id,
-            $batch->output_file_id,
-            $batch->status->isCompleted(),
-            $batch->status->isFailed(),
-            $batch->status->isCancelled(),
-            $batch->status->isExpired(),
-        );
+        return new CreateResponse($request->getModel(), $batch->id, $batch->status->getValue(), $batch->output_file_id);
     }
 
     /**
@@ -53,6 +43,14 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
      */
     public function read(ReadRequest $request): ReadResponse
     {
-        throw new \Exception('Not implemented');
+        $url = $this->generateUrl('batches', $request->getUri());
+
+        try {
+            $batch = $this->denormalizer->denormalize($this->doRequest('GET', $url)->toArray(true), Batch::class);
+        } catch (HttpClientExceptionInterface $e) {
+            $this->handleHttpException($e);
+        }
+
+        return new ReadResponse($request->getModel(), $batch->id, $batch->status->getValue(), $batch->output_file_id);
     }
 }

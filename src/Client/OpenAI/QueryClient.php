@@ -96,15 +96,14 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
         $timer = new Stopwatch(true)->start('execute');
 
         try {
-            $response = $this->httpClient->request('POST', $request->getUrl(), [
-                'auth_bearer' => $this->getApiKey(),
+            $response = $this->doRequest('POST', $request->getUrl(), [
                 'json' => $request->getRequest(),
             ]);
 
             /**
              * @var array<string, mixed> $responseContent
              */
-            $responseContent = $response->toArray(true);
+            $responseContent = $response->toArray();
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         } finally {

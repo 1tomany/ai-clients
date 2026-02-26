@@ -2,6 +2,7 @@
 
 namespace OneToMany\LlmSdk\Client\Mock;
 
+use OneToMany\LlmSdk\Client\Mock\Type\Batch\Status;
 use OneToMany\LlmSdk\Contract\Client\BatchClientInterface;
 use OneToMany\LlmSdk\Request\Batch\CreateRequest;
 use OneToMany\LlmSdk\Request\Batch\ReadRequest;
@@ -15,7 +16,7 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
      */
     public function create(CreateRequest $request): CreateResponse
     {
-        return new CreateResponse($request->getModel(), $this->generateResponseId('batch'));
+        return new CreateResponse($request->getModel(), $this->generateResponseId('batch'), Status::Processing->getValue());
     }
 
     /**
@@ -23,6 +24,6 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
      */
     public function read(ReadRequest $request): ReadResponse
     {
-        throw new \Exception('Not implemented');
+        return new ReadResponse($request->getModel(), $request->getUri(), Status::Completed->getValue(), $this->generateResponseId('file'));
     }
 }

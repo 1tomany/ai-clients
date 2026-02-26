@@ -81,6 +81,20 @@ abstract readonly class BaseClient
         return sprintf('%s/%s', self::BASE_URI, ltrim(implode('/', $paths), '/'));
     }
 
+    /**
+     * @param 'GET'|'POST'|'PUT'|'DELETE' $method
+     * @param non-empty-string $url
+     * @param array<mixed> $options
+     */
+    protected function doRequest(string $method, string $url, array $options = []): ResponseInterface
+    {
+        $options = array_merge_recursive($options, [
+            'auth_bearer' => $this->getApiKey(),
+        ]);
+
+        return $this->httpClient->request($method, $url, $options);
+    }
+
     protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
     {
         try {

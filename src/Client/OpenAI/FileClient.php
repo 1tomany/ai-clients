@@ -24,15 +24,14 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
         try {
             $purpose = Purpose::create($request->getPurpose());
 
-            $response = $this->httpClient->request('POST', $url, [
-                'auth_bearer' => $this->getApiKey(),
+            $response = $this->doRequest('POST', $url, [
                 'body' => [
                     'purpose' => $purpose->getValue(),
                     'file' => $request->openFileHandle(),
                 ],
             ]);
 
-            $file = $this->denormalizer->denormalize($response->toArray(true), File::class);
+            $file = $this->denormalizer->denormalize($response->toArray(), File::class);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }
@@ -48,11 +47,11 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
         $url = $this->generateUrl('files', $request->getUri());
 
         try {
-            $response = $this->httpClient->request('DELETE', $url, [
-                'auth_bearer' => $this->getApiKey(),
+            $response = $this->doRequest('DELETE', $url, [
+                'timeout' => 60.0,
             ]);
 
-            $deletedFile = $this->denormalizer->denormalize($response->toArray(true), DeletedFile::class);
+            $deletedFile = $this->denormalizer->denormalize($response->toArray(), DeletedFile::class);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }

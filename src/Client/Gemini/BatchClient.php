@@ -35,22 +35,14 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
                 ],
             ]);
 
-            $batch = $this->denormalizer->denormalize($response->toArray(true), Batch::class, null, [
+            $batch = $this->denormalizer->denormalize($response->toArray(), Batch::class, null, [
                 UnwrappingDenormalizer::UNWRAP_PATH => '[metadata]',
             ]);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }
 
-        return new CreateResponse(
-            $request->getModel(),
-            $batch->name,
-            null,
-            $batch->state->isSucceeded(),
-            $batch->state->isFailed(),
-            $batch->state->isCancelled(),
-            $batch->state->isExpired(),
-        );
+        return new CreateResponse($request->getModel(), $batch->name, $batch->state->getValue());
     }
 
     /**

@@ -86,7 +86,7 @@ abstract readonly class BaseClient
      * @param non-empty-string $url
      * @param array<mixed> $options
      */
-    protected function doRequest(string $method, string $url, array $options): ResponseInterface
+    protected function doRequest(string $method, string $url, array $options = []): ResponseInterface
     {
         $headers = [
             'headers' => [

@@ -24,12 +24,17 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
      */
     public function compile(CompileRequest $request): CompileResponse
     {
+        $url = $this->generateUrl('responses');
+
         $requestContent = [
             'model' => $request->getModel(),
-            'input' => [],
         ];
 
         foreach ($request->getComponents() as $component) {
+            if (!isset($requestContent['input'])) {
+                $requestContent['input'] = [];
+            }
+
             if ($component instanceof TextComponent) {
                 $inputType = InputType::InputText;
 
@@ -76,7 +81,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
             }
         }
 
-        return new CompileResponse($request->getModel(), $this->generateUrl('responses'), $requestContent);
+        return new CompileResponse($request->getModel(), $url, $this->convertToBatchRequest($request->getKey(), $url, $requestContent));
     }
 
     /**
@@ -120,5 +125,21 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
                 $output->usage->getOutputTokens(),
             ),
         );
+    }
+
+    /**
+     * @param ?non-empty-string $key
+     * @param non-empty-string $key
+     * @param array<string, mixed> $request
+     *
+     * @return array<string, mixed>
+     */
+    private function convertToBatchRequest(?string $key, string $url, array $request): array
+    {
+        if (null === $key) {
+            return $request;
+        }
+
+        return ['custom_id' => $key, 'method' => 'POST', 'url' => $url, 'body' => $request];
     }
 }

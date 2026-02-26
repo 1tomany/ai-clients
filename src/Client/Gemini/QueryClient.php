@@ -73,14 +73,7 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
             }
         }
 
-        if ($request->getKey()) {
-            $requestContent = [
-                'key' => $request->getKey(),
-                'request' => $requestContent,
-            ];
-        }
-
-        return new CompileResponse($request->getModel(), $url, $requestContent);
+        return new CompileResponse($request->getModel(), $url, $this->convertToBatchRequest($request->getKey(), $requestContent));
     }
 
     /**
@@ -153,5 +146,20 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
                 $usage->getOutputTokens(),
             ),
         );
+    }
+
+    /**
+     * @param ?non-empty-string $key
+     * @param array<string, mixed> $request
+     *
+     * @return array<string, mixed>
+     */
+    private function convertToBatchRequest(?string $key, array $request): array
+    {
+        if (null === $key) {
+            return $request;
+        }
+
+        return ['key' => $key, 'request' => $request];
     }
 }

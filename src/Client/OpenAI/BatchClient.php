@@ -18,10 +18,13 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
         $url = $this->generateUrl('batches');
 
         try {
+            $requestContent = [
+                'completion_window' => '24h',
+            ];
+
             $response = $this->httpClient->request('POST', $url, [
                 'auth_bearer' => $this->getApiKey(),
-                'json' => [
-                    'completion_window' => '24h',
+                'json' => $requestContent + [
                     'endpoint' => $request->getEndpoint(),
                     'input_file_id' => $request->getFileUri(),
                 ],

@@ -2,14 +2,14 @@
 
 namespace OneToMany\LlmSdk\Client\Gemini;
 
+use OneToMany\LlmSdk\Client\Exception\DecodingResponseContentFailedException;
 use OneToMany\LlmSdk\Client\Gemini\Type\Batch\Batch;
 use OneToMany\LlmSdk\Contract\Client\BatchClientInterface;
 use OneToMany\LlmSdk\Request\Batch\CreateRequest;
 use OneToMany\LlmSdk\Request\Batch\ReadRequest;
 use OneToMany\LlmSdk\Response\Batch\CreateResponse;
 use OneToMany\LlmSdk\Response\Batch\ReadResponse;
-use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
-use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 
 final readonly class BatchClient extends BaseClient implements BatchClientInterface
 {
@@ -21,10 +21,7 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
         $url = $this->generateUrl($request->getModel(), 'batchGenerateContent');
 
         try {
-            $response = $this->httpClient->request('POST', $url, [
-                'headers' => [
-                    'x-goog-api-key' => $this->getApiKey(),
-                ],
+            $data = $this->doRequest('POST', $url, [
                 'json' => [
                     'batch' => [
                         'displayName' => $request->getName(),
@@ -35,14 +32,12 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
                 ],
             ]);
 
-            $batch = $this->denormalizer->denormalize($response->toArray(), Batch::class, null, [
-                UnwrappingDenormalizer::UNWRAP_PATH => '[metadata]',
-            ]);
-        } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
+            $batch = $this->denormalizer->denormalize($data, Batch::class);
+        } catch (SerializerExceptionInterface $e) {
+            throw new DecodingResponseContentFailedException($request, $e);
         }
 
-        return new CreateResponse($request->getModel(), $batch->name, $batch->state->getValue());
+        return new CreateResponse($request->getModel(), $batch->name, $batch->metadata->state->getValue());
     }
 
     /**
@@ -50,6 +45,14 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
      */
     public function read(ReadRequest $request): ReadResponse
     {
+        $url = $this->generateUrl($request->getUri());
+
+        try {
+            $batch = $this->denormalizer->denormalize($this->doRequest('GET', $url), Batch::class);
+        } catch (SerializerExceptionInterface $e) {
+            throw new DecodingResponseContentFailedException($request, $e);
+        }
+
         throw new \Exception('Not implemented');
     }
 }

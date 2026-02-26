@@ -15,6 +15,8 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExcep
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
+use function implode;
+use function ltrim;
 use function sprintf;
 
 abstract readonly class BaseClient
@@ -26,11 +28,13 @@ abstract readonly class BaseClient
 
     /**
      * @param non-empty-string $apiKey
+     * @param non-empty-string $apiVersion
      */
     public function __construct(
         protected DenormalizerInterface $denormalizer,
         protected HttpClientInterface $httpClient,
         #[\SensitiveParameter] protected string $apiKey,
+        protected string $apiVersion = 'v1beta',
     ) {
     }
 
@@ -40,6 +44,14 @@ abstract readonly class BaseClient
     public function getApiKey(): string
     {
         return $this->apiKey;
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    public function getApiVersion(): string
+    {
+        return $this->apiVersion;
     }
 
     /**
@@ -62,14 +74,47 @@ abstract readonly class BaseClient
     }
 
     /**
+     * @param array<mixed> $options
+     *
+     * @return list<array<string, mixed>>|array<string, mixed>
+     */
+    protected function doRequest(string $method, string $url, array $options = []): array
+    {
+        try {
+            $options = array_merge_recursive($options, [
+                'headers' => [
+                    'x-goog-api-key' => $this->getApiKey(),
+                ],
+            ]);
+
+            /** @var list<array<string, mixed>>|array<string, mixed> $content */
+            $content = $this->httpClient->request($method, $url, $options)->toArray(true);
+        } catch (HttpClientExceptionInterface $e) {
+            $this->handleHttpException($e);
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param non-empty-string $paths
+     *
+     * @return non-empty-string
+     */
+    protected function generateUrl(string ...$paths): string
+    {
+        return sprintf('%s/%s', self::BASE_URI, ltrim(implode('/', $paths), '/'));
+    }
+
+    /**
      * @param non-empty-lowercase-string $model
      * @param non-empty-string $action
      *
      * @return non-empty-string
      */
-    protected function generateUrl(string $model, string $action): string
+    protected function generateModelUrl(string $model, string $action): string
     {
-        return sprintf('%s/v1beta/models/%s:%s', self::BASE_URI, $model, $action);
+        return $this->generateUrl($this->getApiVersion(), 'models', sprintf('%s:%s', $model, $action));
     }
 
     protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface

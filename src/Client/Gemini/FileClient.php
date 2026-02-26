@@ -44,7 +44,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
 
         try {
             // Generate a signed URL to upload the file with
-            $url = sprintf('%s/%s', self::BASE_URI, 'upload/v1beta/files');
+            $url = $this->generateUrl('upload', $this->getApiVersion(), 'files');
 
             $response = $this->httpClient->request('POST', $url, [
                 'headers' => [

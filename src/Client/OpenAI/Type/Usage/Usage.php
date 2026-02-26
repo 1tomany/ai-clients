@@ -1,9 +1,9 @@
 <?php
 
-namespace OneToMany\LlmSdk\Client\OpenAI\Type\Response;
+namespace OneToMany\LlmSdk\Client\OpenAI\Type\Usage;
 
-use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Usage\InputTokensDetails;
-use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Usage\OutputTokensDetails;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Usage\Details\InputTokensDetails;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Usage\Details\OutputTokensDetails;
 use OneToMany\LlmSdk\Contract\Client\Type\Usage\UsageInterface;
 
 final readonly class Usage implements UsageInterface

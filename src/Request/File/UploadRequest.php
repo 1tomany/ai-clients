@@ -35,9 +35,9 @@ class UploadRequest extends BaseRequest
     private ?int $size = null;
 
     /**
-     * @var non-empty-lowercase-string
+     * @var ?non-empty-lowercase-string
      */
-    private string $format = 'application/octet-stream';
+    private ?string $format = null;
 
     /**
      * @var ?non-empty-lowercase-string
@@ -58,10 +58,6 @@ class UploadRequest extends BaseRequest
     {
         $this->path = trim($path ?? '') ?: null;
 
-        if ($this->path && is_file($this->path) && is_readable($this->path)) {
-            $this->withFormat(mime_content_type($this->path) ?: $this->format);
-        }
-
         return $this;
     }
 
@@ -75,7 +71,7 @@ class UploadRequest extends BaseRequest
 
     public function withName(?string $name): static
     {
-        $this->name = trim($name ?? '') ?: (basename($this->path ?? '') ?: null);
+        $this->name = trim($name ?? '') ?: null;
 
         return $this;
     }
@@ -85,6 +81,10 @@ class UploadRequest extends BaseRequest
      */
     public function getName(): ?string
     {
+        if (!$this->name && null !== $this->getPath()) {
+            $this->withName(basename($this->getPath()));
+        }
+
         return $this->name;
     }
 
@@ -104,7 +104,7 @@ class UploadRequest extends BaseRequest
 
     public function withFormat(?string $format): static
     {
-        $this->format = strtolower(trim($format ?? '')) ?: $this->format;
+        $this->format = strtolower(trim($format ?? '')) ?: null;
 
         return $this;
     }
@@ -114,7 +114,13 @@ class UploadRequest extends BaseRequest
      */
     public function getFormat(): string
     {
-        return $this->format;
+        if (null === $this->format && null !== $this->getPath()) {
+            if (is_file($this->getPath()) && is_readable($this->getPath())) {
+                $this->withFormat(mime_content_type($this->getPath()) ?: null);
+            }
+        }
+
+        return $this->format ?? 'application/octet-stream';
     }
 
     public function withPurpose(?string $purpose): static

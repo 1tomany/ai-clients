@@ -5,6 +5,7 @@ namespace OneToMany\LlmSdk\Client\OpenAI\Type\Response;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Error\Error;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Enum\Status;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Output\Output;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Usage\Usage;
 use OneToMany\LlmSdk\Exception\RuntimeException;
 
 use function array_map;

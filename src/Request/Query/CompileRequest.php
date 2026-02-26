@@ -39,12 +39,16 @@ class CompileRequest extends BaseRequest
     }
 
     /**
-     * @param non-empty-string $fileUri
-     * @param non-empty-lowercase-string $format
+     * @param ?non-empty-string $fileUri
+     * @param ?non-empty-lowercase-string $format
      */
-    public function withFileUri(string $fileUri, string $format): static
+    public function withFileUri(?string $fileUri, ?string $format): static
     {
-        return $this->addComponent(new FileUriComponent($fileUri, $format));
+        if (null !== $fileUri && null !== $format) {
+            $this->addComponent(new FileUriComponent($fileUri, $format));
+        }
+
+        return $this;
     }
 
     /**
@@ -57,17 +61,21 @@ class CompileRequest extends BaseRequest
     }
 
     /**
-     * @param non-empty-string $text
+     * @param ?non-empty-string $text
      */
-    public function withText(string $text, Role $role = Role::User): static
+    public function withText(?string $text, Role $role = Role::User): static
     {
-        return $this->addComponent(new TextComponent($text, $role));
+        if (null !== $text) {
+            $this->addComponent(new TextComponent($text, $role));
+        }
+
+        return $this;
     }
 
     /**
-     * @param non-empty-string $text
+     * @param ?non-empty-string $text
      */
-    public function withSystemText(string $text): static
+    public function withSystemText(?string $text): static
     {
         return $this->withText($text, Role::System);
     }

@@ -2,6 +2,8 @@
 
 namespace OneToMany\LlmSdk\Client\Gemini\Type\Batch;
 
+use OneToMany\LlmSdk\Client\Gemini\Type\Batch\Enum\State;
+
 final readonly class Batch
 {
     /**
@@ -12,9 +14,7 @@ final readonly class Batch
         public string $name,
         public string $displayName,
         public ?Output $output = null,
-        // public Stats $batchStats,
-        // public State $state,
-        // public bool $done = false,
+        public State $state = State::Pending,
     ) {
     }
 }

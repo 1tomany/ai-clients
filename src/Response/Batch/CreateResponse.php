@@ -4,7 +4,7 @@ namespace OneToMany\LlmSdk\Response\Batch;
 
 use OneToMany\LlmSdk\Response\BaseResponse;
 
-final readonly class UploadResponse extends BaseResponse
+final readonly class CreateResponse extends BaseResponse
 {
     /**
      * @param non-empty-lowercase-string $model

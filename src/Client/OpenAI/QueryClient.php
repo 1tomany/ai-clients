@@ -17,6 +17,10 @@ use OneToMany\LlmSdk\Response\Query\UsageResponse;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
+use function parse_url;
+
+use const PHP_URL_PATH;
+
 final readonly class QueryClient extends BaseClient implements QueryClientInterface
 {
     /**
@@ -129,17 +133,17 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
 
     /**
      * @param ?non-empty-string $key
-     * @param non-empty-string $key
+     * @param non-empty-string $url
      * @param array<string, mixed> $request
      *
      * @return array<string, mixed>
      */
-    private function convertToBatchRequest(?string $key, string $url, array $request): array
+    private function convertToBatchRequest(?string $key, $url, array $request): array
     {
         if (null === $key) {
             return $request;
         }
 
-        return ['custom_id' => $key, 'method' => 'POST', 'url' => $url, 'body' => $request];
+        return ['custom_id' => $key, 'method' => 'POST', 'url' => parse_url($url, PHP_URL_PATH), 'body' => $request];
     }
 }

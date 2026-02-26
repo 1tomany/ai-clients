@@ -5,7 +5,9 @@ namespace OneToMany\LlmSdk\Client\Gemini;
 use OneToMany\LlmSdk\Client\Gemini\Type\Batch\Batch;
 use OneToMany\LlmSdk\Contract\Client\BatchClientInterface;
 use OneToMany\LlmSdk\Request\Batch\CreateRequest;
+use OneToMany\LlmSdk\Request\Batch\ReadRequest;
 use OneToMany\LlmSdk\Response\Batch\CreateResponse;
+use OneToMany\LlmSdk\Response\Batch\ReadResponse;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
@@ -49,5 +51,13 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
             $batch->state->isCancelled(),
             $batch->state->isExpired(),
         );
+    }
+
+    /**
+     * @see OneToMany\LlmSdk\Contract\Client\BatchClientInterface
+     */
+    public function read(ReadRequest $request): ReadResponse
+    {
+        throw new \Exception('Not implemented');
     }
 }

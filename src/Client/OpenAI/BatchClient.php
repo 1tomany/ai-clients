@@ -5,7 +5,9 @@ namespace OneToMany\LlmSdk\Client\OpenAI;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Batch\Batch;
 use OneToMany\LlmSdk\Contract\Client\BatchClientInterface;
 use OneToMany\LlmSdk\Request\Batch\CreateRequest;
+use OneToMany\LlmSdk\Request\Batch\ReadRequest;
 use OneToMany\LlmSdk\Response\Batch\CreateResponse;
+use OneToMany\LlmSdk\Response\Batch\ReadResponse;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 final readonly class BatchClient extends BaseClient implements BatchClientInterface
@@ -44,5 +46,13 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
             $batch->status->isCancelled(),
             $batch->status->isExpired(),
         );
+    }
+
+    /**
+     * @see OneToMany\LlmSdk\Contract\Client\BatchClientInterface
+     */
+    public function read(ReadRequest $request): ReadResponse
+    {
+        throw new \Exception('Not implemented');
     }
 }

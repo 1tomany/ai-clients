@@ -5,7 +5,6 @@ namespace OneToMany\LlmSdk\Client\OpenAI;
 use OneToMany\LlmSdk\Contract\Client\BatchClientInterface;
 use OneToMany\LlmSdk\Request\Batch\CreateRequest;
 use OneToMany\LlmSdk\Response\Batch\CreateResponse;
-use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 final readonly class BatchClient extends BaseClient implements BatchClientInterface

@@ -11,10 +11,15 @@ final readonly class Batch
      */
     public function __construct(
         public string $model,
-        public string $name,
         public string $displayName,
-        public ?Output $output = null,
-        public State $state = State::Pending,
+
+        // public InputConfig $inputConfig,
+        public \DateTimeImmutable $createTime,
+        public \DateTimeImmutable $updateTime,
+        // public Stats $batchStats,
+        public State $state,
+        public string $name,
+        // public ?Output $output = null,
     ) {
     }
 }

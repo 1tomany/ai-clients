@@ -18,6 +18,16 @@ class CreateRequest extends BaseRequest
      */
     private ?string $fileUri = null;
 
+    /**
+     * @var ?non-empty-string
+     */
+    private ?string $fileName = null;
+
+    /**
+     * @var ?non-empty-string
+     */
+    private ?string $endpoint = null;
+
     public function withName(?string $name): static
     {
         $this->name = trim($name ?? '') ?: null;
@@ -49,5 +59,38 @@ class CreateRequest extends BaseRequest
     public function getFileUri(): ?string
     {
         return $this->fileUri;
+    }
+
+    /**
+     * @param ?non-empty-string $fileName
+     */
+    public function withFileName(?string $fileName): static
+    {
+        $this->fileName = trim($fileName ?? '') ?: null;
+
+        return $this;
+    }
+
+    /**
+     * @return ?non-empty-string
+     */
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    public function withEndpoint(?string $endpoint): static
+    {
+        $this->endpoint = trim($endpoint ?? '') ?: null;
+
+        return $this;
+    }
+
+    /**
+     * @return ?non-empty-string
+     */
+    public function getEndpoint(): ?string
+    {
+        return $this->endpoint;
     }
 }

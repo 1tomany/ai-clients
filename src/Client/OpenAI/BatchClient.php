@@ -2,6 +2,7 @@
 
 namespace OneToMany\LlmSdk\Client\OpenAI;
 
+use OneToMany\LlmSdk\Client\OpenAI\Type\Batch\Batch;
 use OneToMany\LlmSdk\Contract\Client\BatchClientInterface;
 use OneToMany\LlmSdk\Request\Batch\CreateRequest;
 use OneToMany\LlmSdk\Response\Batch\CreateResponse;
@@ -20,20 +21,17 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
             $response = $this->httpClient->request('POST', $url, [
                 'auth_bearer' => $this->getApiKey(),
                 'json' => [
-                    'input_file_id' => $request->getFileUri(),
-                    'endpoint' => '',
                     'completion_window' => '24h',
+                    'endpoint' => $request->getEndpoint(),
+                    'input_file_id' => $request->getFileUri(),
                 ],
             ]);
 
-            /**
-             * @var array<string, mixed> $responseContent
-             */
-            $responseContent = $response->toArray(true);
+            $batch = $this->denormalizer->denormalize($response->toArray(true), Batch::class);
         } catch (HttpClientExceptionInterface $e) {
             $this->handleHttpException($e);
         }
 
-        throw new \Exception('Not implemented');
+        return new CreateResponse($request->getModel(), $batch->id);
     }
 }

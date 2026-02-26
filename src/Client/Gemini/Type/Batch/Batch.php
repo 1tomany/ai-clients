@@ -15,7 +15,6 @@ final readonly class Batch
         // public Stats $batchStats,
         // public State $state,
         // public bool $done = false,
-    )
-    {
+    ) {
     }
 }

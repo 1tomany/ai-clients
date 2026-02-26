@@ -13,7 +13,6 @@ final readonly class RequestCounts
         public int $total = 0,
         public int $completed = 0,
         public int $failed = 0,
-    )
-    {
+    ) {
     }
 }

@@ -13,6 +13,11 @@ final readonly class CreateResponse extends BaseResponse
     public function __construct(
         string $model,
         private string $uri,
+        // private string $fileUri,
+        private bool $isCompleted = false,
+        private bool $isFailed = false,
+        private bool $isCancelled = false,
+        private bool $isExpired = false,
     ) {
         parent::__construct($model);
     }
@@ -23,5 +28,25 @@ final readonly class CreateResponse extends BaseResponse
     public function getUri(): string
     {
         return $this->uri;
+    }
+
+    public function isCompleted(): bool
+    {
+        return $this->isCompleted;
+    }
+
+    public function isFailed(): bool
+    {
+        return $this->isFailed;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->isCancelled;
+    }
+
+    public function isExpired(): bool
+    {
+        return $this->isExpired;
     }
 }

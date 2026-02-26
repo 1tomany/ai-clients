@@ -32,6 +32,6 @@ final readonly class BatchClient extends BaseClient implements BatchClientInterf
             $this->handleHttpException($e);
         }
 
-        return new CreateResponse($request->getModel(), $batch->id);
+        return new CreateResponse($request->getModel(), $batch->id, $batch->status->isCompleted(), $batch->status->isFailed(), $batch->status->isCancelled(), $batch->status->isExpired());
     }
 }

@@ -28,4 +28,36 @@ enum Status: string
     {
         return $this->value;
     }
+
+    /**
+     * @phpstan-assert-if-true self::Completed $this
+     */
+    public function isCompleted(): bool
+    {
+        return self::Completed === $this;
+    }
+
+    /**
+     * @phpstan-assert-if-true self::Failed $this
+     */
+    public function isFailed(): bool
+    {
+        return self::Failed === $this;
+    }
+
+    /**
+     * @phpstan-assert-if-true self::Cancelled $this
+     */
+    public function isCancelled(): bool
+    {
+        return self::Cancelled === $this;
+    }
+
+    /**
+     * @phpstan-assert-if-true self::Expired $this
+     */
+    public function isExpired(): bool
+    {
+        return self::Expired === $this;
+    }
 }

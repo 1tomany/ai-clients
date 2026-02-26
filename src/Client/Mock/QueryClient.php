@@ -21,6 +21,8 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
      */
     public function compile(CompileRequest $request): CompileResponse
     {
+        $url = $this->generateUrl('generate');
+
         $requestContent = [
             'model' => $request->getModel(),
         ];
@@ -48,7 +50,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
             }
         }
 
-        return new CompileResponse($request->getModel(), 'https://mock-llm.service/api/generate', $requestContent);
+        return new CompileResponse($request->getModel(), $url, $this->convertToBatchRequest($request->getBatchKey(), $requestContent));
     }
 
     /**
@@ -62,5 +64,16 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
         $output = json_encode(['tag' => $this->faker->word(), 'summary' => $this->faker->sentence(10)]);
 
         return new ExecuteResponse($request->getModel(), $id, $output, ['id' => $id, 'output' => $output], random_int(100, 10000));
+    }
+
+    /**
+     * @param ?non-empty-string $batchKey
+     * @param array<string, mixed> $request
+     *
+     * @return array<string, mixed>
+     */
+    private function convertToBatchRequest(?string $batchKey, array $request): array
+    {
+        return null === $batchKey ? $request : ['batchKey' => $batchKey, 'request' => $request];
     }
 }

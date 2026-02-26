@@ -85,7 +85,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
             }
         }
 
-        return new CompileResponse($request->getModel(), $url, $this->convertToBatchRequest($request->getKey(), $url, $requestContent));
+        return new CompileResponse($request->getModel(), $url, $this->convertToBatchRequest($request->getBatchKey(), $url, $requestContent));
     }
 
     /**
@@ -132,18 +132,14 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     }
 
     /**
-     * @param ?non-empty-string $key
+     * @param ?non-empty-string $batchKey
      * @param non-empty-string $url
      * @param array<string, mixed> $request
      *
      * @return array<string, mixed>
      */
-    private function convertToBatchRequest(?string $key, $url, array $request): array
+    private function convertToBatchRequest(?string $batchKey, string $url, array $request): array
     {
-        if (null === $key) {
-            return $request;
-        }
-
-        return ['custom_id' => $key, 'method' => 'POST', 'url' => parse_url($url, PHP_URL_PATH), 'body' => $request];
+        return null === $batchKey ? $request : ['custom_id' => $batchKey, 'method' => 'POST', 'url' => parse_url($url, PHP_URL_PATH), 'body' => $request];
     }
 }

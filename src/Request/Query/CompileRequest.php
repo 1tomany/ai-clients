@@ -16,16 +16,16 @@ class CompileRequest extends BaseRequest
     /**
      * @var ?non-empty-string
      */
-    private ?string $key = null;
+    private ?string $batchKey = null;
 
     /**
      * @var list<ComponentInterface>
      */
     private array $components = [];
 
-    public function withKey(?string $key): static
+    public function withBatchKey(?string $batchKey): static
     {
-        $this->key = trim($key ?? '') ?: null;
+        $this->batchKey = trim($batchKey ?? '') ?: null;
 
         return $this;
     }
@@ -33,9 +33,9 @@ class CompileRequest extends BaseRequest
     /**
      * @return ?non-empty-string
      */
-    public function getKey(): ?string
+    public function getBatchKey(): ?string
     {
-        return $this->key;
+        return $this->batchKey;
     }
 
     /**

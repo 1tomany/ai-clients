@@ -24,6 +24,8 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
      */
     public function compile(CompileRequest $request): CompileResponse
     {
+        $url = $this->generateUrl($request->getModel(), 'generateContent');
+
         $requestContent = [
             'contents' => [],
         ];
@@ -71,7 +73,11 @@ final readonly class QueryClient extends GeminiClient implements QueryClientInte
             }
         }
 
-        return new CompileResponse($request->getModel(), $this->generateUrl($request->getModel(), 'generateContent'), $requestContent);
+        if ($key = $request->getBatchKey()) {
+            $requestContent = ['key' => $key, 'request' => $requestContent];
+        }
+
+        return new CompileResponse($request->getModel(), $url, $requestContent);
     }
 
     /**

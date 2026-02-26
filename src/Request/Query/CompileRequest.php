@@ -12,9 +12,29 @@ use OneToMany\LlmSdk\Request\Query\Component\TextComponent;
 class CompileRequest extends BaseRequest
 {
     /**
+     * @var ?non-empty-string
+     */
+    private ?string $batchKey = null;
+
+    /**
      * @var list<ComponentInterface>
      */
     private array $components = [];
+
+    public function withBatchKey(?string $batchKey): static
+    {
+        $this->batchKey = \trim($batchKey ?? '') ?: null;
+
+        return $this;
+    }
+
+    /**
+     * @return ?non-empty-string
+     */
+    public function getBatchKey(): ?string
+    {
+        return $this->batchKey;
+    }
 
     /**
      * @param non-empty-string $fileUri

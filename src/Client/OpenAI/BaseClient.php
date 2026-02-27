@@ -13,7 +13,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function array_merge;
 use function implode;
-use function in_array;
 use function ltrim;
 use function sprintf;
 
@@ -80,7 +79,7 @@ abstract readonly class BaseClient
             /** @var array<mixed> $content */
             $content = $response->toArray(false);
 
-            if (!in_array($statusCode, [200, 201]) || isset($content['error'])) {
+            if ($statusCode >= 300 || isset($content['error'])) {
                 $error = $this->denormalize($content, Error::class, [
                     UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
                 ]);

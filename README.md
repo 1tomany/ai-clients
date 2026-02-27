@@ -38,8 +38,8 @@ See the [`basic_query.php`](https://github.com/1tomany/llm-sdk/blob/master/examp
 | Feature     | Claude | Gemini | Mock | OpenAI |
 | ----------- | :----: | :----: | :--: | :----: |
 | **Batches** |        |        |      |        |
-| Create      |   ❌   |   ❌   |  ❌  |   ❌   |
-| Read        |   ❌   |   ❌   |  ❌  |   ❌   |
+| Create      |   ❌   |   ✅   |  ✅  |   ✅   |
+| Read        |   ❌   |   ✅   |  ✅  |   ✅   |
 | Cancel      |   ❌   |   ❌   |  ❌  |   ❌   |
 | **Files**   |        |        |      |        |
 | Upload      |   ✅   |   ✅   |  ✅  |   ✅   |

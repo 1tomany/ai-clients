@@ -137,7 +137,7 @@ class UploadRequest extends BaseRequest
     /**
      * @return resource
      *
-     * @throws RuntimeException opening the file failed
+     * @throws RuntimeException when opening the file fails
      */
     public function openFileHandle(): mixed
     {

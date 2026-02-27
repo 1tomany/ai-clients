@@ -2,6 +2,10 @@
 
 namespace OneToMany\LlmSdk\Client\Gemini\Type\Content;
 
+use function array_map;
+use function implode;
+use function trim;
+
 final readonly class Candidate
 {
     /**
@@ -11,5 +15,10 @@ final readonly class Candidate
         public Content $content,
         public string $finishReason,
     ) {
+    }
+
+    public function getOutput(): ?string
+    {
+        return trim(implode('', array_map(fn ($p) => $p->text, $this->content->parts))) ?: null;
     }
 }

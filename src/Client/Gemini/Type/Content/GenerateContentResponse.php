@@ -4,6 +4,7 @@ namespace OneToMany\LlmSdk\Client\Gemini\Type\Content;
 
 use OneToMany\LlmSdk\Exception\RuntimeException;
 
+use function array_map;
 use function sprintf;
 use function trim;
 
@@ -29,7 +30,9 @@ final readonly class GenerateContentResponse
     {
         $output = null;
 
-        if ([] !== $this->candidates && [] !== $this->candidates[0]->content->parts) {
+        if ([] !== $this->candidates) {
+            $output = array_map(fn ($c) => $c->getOutput(), $this->candidates);
+
             $output = trim($this->candidates[0]->content->parts[0]->text) ?: null;
         }
 

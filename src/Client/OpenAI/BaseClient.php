@@ -34,14 +34,6 @@ abstract readonly class BaseClient
     }
 
     /**
-     * @return non-empty-string
-     */
-    public function getApiKey(): string
-    {
-        return $this->apiKey;
-    }
-
-    /**
      * @see OneToMany\LlmSdk\Contract\Client\ClientInterface
      *
      * @return non-empty-list<non-empty-lowercase-string>

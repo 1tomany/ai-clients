@@ -2,7 +2,6 @@
 
 namespace OneToMany\LlmSdk\Client\OpenAI;
 
-use OneToMany\LlmSdk\Client\Exception\DecodingResponseContentFailedException;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Input\Enum\Type as InputType;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Response;
 use OneToMany\LlmSdk\Contract\Client\QueryClientInterface;
@@ -102,7 +101,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
 
             $response = $this->denormalizer->denormalize($content, Response::class);
         } catch (SerializerExceptionInterface $e) {
-            throw new DecodingResponseContentFailedException($request, $e);
+            throw new RuntimeException($e->getMessage(), previous: $e);
         } finally {
             $timer->stop();
         }
@@ -111,7 +110,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
             throw new RuntimeException($response->error->getMessage());
         }
 
-        return new ExecuteResponse($response->model, $response->id, $response->getOutput(), $content, $timer->getDuration(), $response->usage->toResponse());
+        return new ExecuteResponse($request->getModel(), $response->id, $response->getOutput(), $content, $timer->getDuration(), $response->usage->toResponse());
     }
 
     /**

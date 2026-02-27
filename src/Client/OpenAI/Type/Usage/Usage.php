@@ -47,6 +47,9 @@ final readonly class Usage implements UsageInterface
         return $this->output_tokens;
     }
 
+    /**
+     * @see OneToMany\LlmSdk\Contract\Client\Type\Usage\UsageInterface
+     */
     public function toResponse(): UsageResponse
     {
         return new UsageResponse($this->input_tokens, $this->getCachedTokens(), $this->output_tokens);

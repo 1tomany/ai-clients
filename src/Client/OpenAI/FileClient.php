@@ -2,11 +2,11 @@
 
 namespace OneToMany\LlmSdk\Client\OpenAI;
 
-use OneToMany\LlmSdk\Client\Exception\DecodingResponseContentFailedException;
 use OneToMany\LlmSdk\Client\OpenAI\Type\File\DeletedFile;
 use OneToMany\LlmSdk\Client\OpenAI\Type\File\Enum\Purpose;
 use OneToMany\LlmSdk\Client\OpenAI\Type\File\File;
 use OneToMany\LlmSdk\Contract\Client\FileClientInterface;
+use OneToMany\LlmSdk\Exception\RuntimeException;
 use OneToMany\LlmSdk\Request\File\DeleteRequest;
 use OneToMany\LlmSdk\Request\File\UploadRequest;
 use OneToMany\LlmSdk\Response\File\DeleteResponse;
@@ -25,16 +25,16 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
         try {
             $purpose = Purpose::create($request->getPurpose());
 
-            $data = $this->doRequest('POST', $url, [
+            $content = $this->doRequest('POST', $url, [
                 'body' => [
                     'purpose' => $purpose->getValue(),
                     'file' => $request->openFileHandle(),
                 ],
             ]);
 
-            $file = $this->denormalizer->denormalize($data, File::class);
+            $file = $this->denormalizer->denormalize($content, File::class);
         } catch (SerializerExceptionInterface $e) {
-            throw new DecodingResponseContentFailedException($request, $e);
+            throw new RuntimeException($e->getMessage(), previous: $e);
         }
 
         return new UploadResponse($request->getModel(), $file->id, $file->filename, $file->purpose->getValue(), $file->getExpiresAt());
@@ -45,12 +45,12 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
      */
     public function delete(DeleteRequest $request): DeleteResponse
     {
-        $data = $this->doRequest('DELETE', $this->generateUrl('files', $request->getUri()));
+        $url = $this->generateUrl('files', $request->getUri());
 
         try {
-            $deletedFile = $this->denormalizer->denormalize($data, DeletedFile::class);
+            $deletedFile = $this->denormalizer->denormalize($this->doRequest('DELETE', $url), DeletedFile::class);
         } catch (SerializerExceptionInterface $e) {
-            throw new DecodingResponseContentFailedException($request, $e);
+            throw new RuntimeException($e->getMessage(), previous: $e);
         }
 
         return new DeleteResponse($request->getModel(), $deletedFile->id);

@@ -140,11 +140,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
             $responseContent['candidates'][0]['content']['parts'][0]['text'],
             $responseContent,
             $timer->getDuration(),
-            new UsageResponse(
-                $usage->getInputTokens(),
-                $usage->getCachedTokens(),
-                $usage->getOutputTokens(),
-            ),
+            $usage->toResponse(),
         );
     }
 

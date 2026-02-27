@@ -3,6 +3,7 @@
 namespace OneToMany\LlmSdk\Client\Gemini\Type\Content;
 
 use OneToMany\LlmSdk\Contract\Client\Type\Usage\UsageInterface;
+use OneToMany\LlmSdk\Response\Query\UsageResponse;
 
 final readonly class UsageMetadata implements UsageInterface
 {
@@ -46,5 +47,13 @@ final readonly class UsageMetadata implements UsageInterface
     public function getOutputTokens(): int
     {
         return $this->candidatesTokenCount + $this->toolUsePromptTokenCount + $this->thoughtsTokenCount;
+    }
+
+    /**
+     * @see OneToMany\LlmSdk\Contract\Client\Type\Usage\UsageInterface
+     */
+    public function toResponse(): UsageResponse
+    {
+        return new UsageResponse($this->getInputTokens(), $this->getCachedTokens(), $this->getOutputTokens());
     }
 }

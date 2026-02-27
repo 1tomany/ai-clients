@@ -31,6 +31,10 @@ final readonly class GenerateContentResponse
     {
         $output = array_map(fn ($c) => $c->getOutput(), $this->candidates);
 
-        return trim(implode('', $output)) ?: throw new RuntimeException(sprintf('The model "%s" failed to generate any output.', $this->modelVersion));
+        if (!$output = trim(implode('', $output))) {
+            throw new RuntimeException(sprintf('The model "%s" failed to generate any output.', $this->modelVersion));
+        }
+
+        return $output;
     }
 }

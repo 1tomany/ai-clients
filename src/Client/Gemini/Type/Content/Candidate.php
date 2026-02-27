@@ -10,7 +10,6 @@ final readonly class Candidate
     public function __construct(
         public Content $content,
         public string $finishReason,
-    )
-    {
+    ) {
     }
 }

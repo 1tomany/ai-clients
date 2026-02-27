@@ -10,7 +10,6 @@ final readonly class Content
     public function __construct(
         public array $parts,
         public string $role,
-    )
-    {
+    ) {
     }
 }

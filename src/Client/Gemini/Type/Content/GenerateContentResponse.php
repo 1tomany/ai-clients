@@ -2,8 +2,10 @@
 
 namespace OneToMany\LlmSdk\Client\Gemini\Type\Content;
 
-use OneToMany\LlmSdk\Client\Gemini\Type\Content\Candidate;
 use OneToMany\LlmSdk\Exception\RuntimeException;
+
+use function sprintf;
+use function trim;
 
 final readonly class GenerateContentResponse
 {
@@ -28,11 +30,11 @@ final readonly class GenerateContentResponse
         $output = null;
 
         if ([] !== $this->candidates) {
-            print_r($this->candidates[0]->content->parts[0]); exit;
+            // print_r($this->candidates[0]->content->parts[0]); exit;
 
             $output = $this->candidates[0]->content->parts[0]->text;
         }
 
-        return \trim($output ?? '') ?: throw new RuntimeException(\sprintf('The model "%s" failed to generate any output.', $this->modelVersion));
+        return trim($output ?? '') ?: throw new RuntimeException(sprintf('The model "%s" failed to generate any output.', $this->modelVersion));
     }
 }

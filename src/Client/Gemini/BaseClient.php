@@ -4,17 +4,12 @@ namespace OneToMany\LlmSdk\Client\Gemini;
 
 use OneToMany\LlmSdk\Client\Gemini\Type\Error\Error;
 use OneToMany\LlmSdk\Client\Trait\DenormalizerTrait;
-use OneToMany\LlmSdk\Client\Trait\HttpExceptionTrait;
 use OneToMany\LlmSdk\Client\Trait\SupportsModelTrait;
-use OneToMany\LlmSdk\Contract\Client\Type\Error\ErrorInterface;
 use OneToMany\LlmSdk\Exception\RuntimeException;
-use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 use function implode;
 use function ltrim;

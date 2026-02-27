@@ -14,7 +14,6 @@ use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Stopwatch\Stopwatch;
-use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 final readonly class QueryClient extends BaseClient implements QueryClientInterface
 {
@@ -82,56 +81,17 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     {
         $timer = new Stopwatch(true)->start('execute');
 
-        try {
-            $response = $this->httpClient->request('POST', $request->getUrl(), [
-                'headers' => [
-                    'x-goog-api-key' => $this->getApiKey(),
-                ],
-                'json' => $request->getRequest(),
-            ]);
+        $response = $this->doRequest('POST', $request->getUrl(), [
+            'json' => $request->getRequest(),
+        ]);
 
-            /**
-             * @var array{
-             *   candidates: non-empty-list<
-             *     array{
-             *       content: array{
-             *         parts: non-empty-list<
-             *           array{
-             *             text: non-empty-string,
-             *           },
-             *         >,
-             *         role: 'model',
-             *       },
-             *       finishReason: non-empty-uppercase-string,
-             *       index: non-negative-int,
-             *     },
-             *   >,
-             *   usageMetadata: array{
-             *     promptTokenCount?: non-negative-int,
-             *     cachedContentTokenCount?: non-negative-int,
-             *     candidatesTokenCount?: non-negative-int,
-             *     toolUsePromptTokenCount?: non-negative-int,
-             *     thoughtsTokenCount?: non-negative-int,
-             *     totalTokenCount?: non-negative-int,
-             *   },
-             *   modelVersion: non-empty-lowercase-string,
-             *   responseId: non-empty-string,
-             * } $responseContent
-             */
-            $responseContent = $response->toArray(true);
-        } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
-        } finally {
-            $timer->stop();
-        }
-
-        try {
-            $usage = $this->denormalizer->denormalize($responseContent, UsageMetadata::class, null, [
-                UnwrappingDenormalizer::UNWRAP_PATH => '[usageMetadata]',
-            ]);
-        } catch (SerializerExceptionInterface) {
-            $usage = new UsageMetadata();
-        }
+        // try {
+        //     $usage = $this->denormalizer->denormalize($responseContent, UsageMetadata::class, null, [
+        //         UnwrappingDenormalizer::UNWRAP_PATH => '[usageMetadata]',
+        //     ]);
+        // } catch (SerializerExceptionInterface) {
+        //     $usage = new UsageMetadata();
+        // }
 
         return new ExecuteResponse(
             $request->getModel(),

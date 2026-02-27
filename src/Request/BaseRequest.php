@@ -8,14 +8,16 @@ use function trim;
 abstract class BaseRequest
 {
     /**
-     * @var non-empty-lowercase-string
+     * @param non-empty-lowercase-string $model
      */
-    private string $model;
-
-    public function __construct(string $model = 'mock')
+    public function __construct(private string $model = 'mock')
     {
-        $this->forModel($model);
     }
+
+    /**
+     * @return non-empty-lowercase-string
+     */
+    abstract public function getRequestType(): string;
 
     public function forModel(string $model): static
     {

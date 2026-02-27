@@ -13,9 +13,11 @@ use OneToMany\LlmSdk\Request\Query\Component\TextComponent;
 use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
 use OneToMany\LlmSdk\Response\Query\CompileResponse;
 use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
-use OneToMany\LlmSdk\Response\Query\UsageResponse;
 use Symfony\Component\Stopwatch\Stopwatch;
-use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
+
+use function parse_url;
+
+use const PHP_URL_PATH;
 
 final readonly class QueryClient extends BaseClient implements QueryClientInterface
 {
@@ -24,12 +26,17 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
      */
     public function compile(CompileRequest $request): CompileResponse
     {
+        $url = $this->generateUrl('responses');
+
         $requestContent = [
             'model' => $request->getModel(),
-            'input' => [],
         ];
 
         foreach ($request->getComponents() as $component) {
+            if (!isset($requestContent['input'])) {
+                $requestContent['input'] = [];
+            }
+
             if ($component instanceof TextComponent) {
                 $inputType = InputType::InputText;
 
@@ -76,7 +83,7 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
             }
         }
 
-        return new CompileResponse($request->getModel(), $this->generateUrl('responses'), $requestContent);
+        return new CompileResponse($request->getModel(), $url, $this->convertToBatchRequest($request->getBatchKey(), $url, $requestContent));
     }
 
     /**
@@ -86,39 +93,28 @@ final readonly class QueryClient extends BaseClient implements QueryClientInterf
     {
         $timer = new Stopwatch(true)->start('execute');
 
-        try {
-            $response = $this->httpClient->request('POST', $request->getUrl(), [
-                'auth_bearer' => $this->getApiKey(),
-                'json' => $request->getRequest(),
-            ]);
+        $content = $this->doRequest('POST', $request->getUrl(), [
+            'json' => $request->getRequest(),
+        ]);
 
-            /**
-             * @var array<string, mixed> $responseContent
-             */
-            $responseContent = $response->toArray(true);
-        } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
-        } finally {
-            $timer->stop();
+        $response = $this->denormalize($content, Response::class);
+
+        if (null !== $response->error) {
+            throw new RuntimeException($response->error->getMessage());
         }
 
-        $output = $this->denormalizer->denormalize($responseContent, Response::class);
+        return new ExecuteResponse($request->getModel(), $response->id, $response->getOutput(), $content, $timer->getDuration(), $response->usage->toResponse());
+    }
 
-        if (null !== $output->error) {
-            throw new RuntimeException($output->error->getMessage());
-        }
-
-        return new ExecuteResponse(
-            $request->getModel(),
-            $output->id,
-            $output->getOutput(),
-            $responseContent,
-            $timer->getDuration(),
-            new UsageResponse(
-                $output->usage->getInputTokens(),
-                $output->usage->getCachedTokens(),
-                $output->usage->getOutputTokens(),
-            ),
-        );
+    /**
+     * @param ?non-empty-string $batchKey
+     * @param non-empty-string $url
+     * @param array<string, mixed> $request
+     *
+     * @return array<string, mixed>
+     */
+    private function convertToBatchRequest(?string $batchKey, string $url, array $request): array
+    {
+        return null === $batchKey ? $request : ['custom_id' => $batchKey, 'method' => 'POST', 'url' => parse_url($url, PHP_URL_PATH), 'body' => $request];
     }
 }

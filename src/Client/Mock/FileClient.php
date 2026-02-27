@@ -8,7 +8,7 @@ use OneToMany\LlmSdk\Request\File\UploadRequest;
 use OneToMany\LlmSdk\Response\File\DeleteResponse;
 use OneToMany\LlmSdk\Response\File\UploadResponse;
 
-final readonly class FileClient extends MockClient implements FileClientInterface
+final readonly class FileClient extends BaseClient implements FileClientInterface
 {
     /**
      * @see OneToMany\LlmSdk\Contract\Client\FileClientInterface

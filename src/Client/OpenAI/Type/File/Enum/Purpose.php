@@ -20,7 +20,7 @@ enum Purpose: string
     }
 
     /**
-     * @return 'Assistants'|'Batch'|'Evals'|'FineTune'|'UserData'|'Vision'
+     * @return non-empty-string
      */
     public function getName(): string
     {
@@ -28,7 +28,7 @@ enum Purpose: string
     }
 
     /**
-     * @return 'assistants'|'batch'|'evals'|'fine-tune'|'user_data'|'vision'
+     * @return non-empty-lowercase-string
      */
     public function getValue(): string
     {

@@ -3,26 +3,25 @@
 namespace OneToMany\LlmSdk\Client\OpenAI;
 
 use OneToMany\LlmSdk\Client\OpenAI\Type\Error\Error;
-use OneToMany\LlmSdk\Client\Trait\HttpExceptionTrait;
+use OneToMany\LlmSdk\Client\Trait\DenormalizerTrait;
 use OneToMany\LlmSdk\Client\Trait\SupportsModelTrait;
-use OneToMany\LlmSdk\Contract\Client\Type\Error\ErrorInterface;
 use OneToMany\LlmSdk\Exception\RuntimeException;
-use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
+use function array_merge;
 use function implode;
 use function ltrim;
 use function sprintf;
 
 abstract readonly class BaseClient
 {
-    use HttpExceptionTrait;
+    use DenormalizerTrait;
     use SupportsModelTrait;
+
+    public const string BASE_URI = 'https://api.openai.com/v1';
 
     /**
      * @param non-empty-string $apiKey
@@ -32,14 +31,6 @@ abstract readonly class BaseClient
         protected HttpClientInterface $httpClient,
         #[\SensitiveParameter] protected string $apiKey,
     ) {
-    }
-
-    /**
-     * @return non-empty-string
-     */
-    public function getApiKey(): string
-    {
-        return $this->apiKey;
     }
 
     /**
@@ -70,27 +61,46 @@ abstract readonly class BaseClient
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
+     * @return array<mixed>
+     */
+    protected function doRequest(string $method, string $url, array $options = []): array
+    {
+        $options = array_merge($options, [
+            'auth_bearer' => $this->apiKey,
+        ]);
+
+        try {
+            $response = $this->httpClient->request($method, $url, $options);
+
+            /** @var int<100, 599> $statusCode */
+            $statusCode = $response->getStatusCode();
+
+            /** @var array<mixed> $content */
+            $content = $response->toArray(false);
+
+            if ($statusCode >= 300 || isset($content['error'])) {
+                $error = $this->denormalize($content, Error::class, [
+                    UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
+                ]);
+
+                throw new RuntimeException($error->getMessage(), $statusCode);
+            }
+        } catch (HttpClientExceptionInterface $e) {
+            throw new RuntimeException($e->getMessage(), previous: $e);
+        }
+
+        return $content;
+    }
+
+    /**
      * @param non-empty-string $paths
      *
      * @return non-empty-string
      */
     protected function generateUrl(string ...$paths): string
     {
-        return sprintf('https://api.openai.com/v1/%s', ltrim(implode('/', $paths), '/'));
-    }
-
-    protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
-    {
-        try {
-            $error = $this->denormalizer->denormalize($response->toArray(false), Error::class, null, [
-                UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
-            ]);
-        } catch (HttpClientExceptionInterface $e) {
-            $error = new Error($e instanceof HttpClientDecodingExceptionInterface ? $e->getMessage() : $response->getContent(false));
-        } catch (SerializerExceptionInterface $e) {
-            throw new RuntimeException($e->getMessage(), previous: $e);
-        }
-
-        return $error;
+        return sprintf('%s/%s', self::BASE_URI, ltrim(implode('/', $paths), '/'));
     }
 }

@@ -5,6 +5,7 @@ namespace OneToMany\LlmSdk\Client\OpenAI\Type\Response;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Error\Error;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Enum\Status;
 use OneToMany\LlmSdk\Client\OpenAI\Type\Response\Output\Output;
+use OneToMany\LlmSdk\Client\OpenAI\Type\Usage\Usage;
 use OneToMany\LlmSdk\Exception\RuntimeException;
 
 use function array_map;
@@ -42,10 +43,12 @@ final readonly class Response
      */
     public function getOutput(): string
     {
-        if (null !== $this->output && [] !== $this->output) {
-            $output = array_map(fn ($o) => $o->getOutput(), $this->output);
+        $output = array_map(fn ($o) => $o->getOutput(), $this->output ?? []);
+
+        if (!$output = trim(implode('', $output))) {
+            throw new RuntimeException(sprintf('The model "%s" failed to generate any output.', $this->model));
         }
 
-        return trim(implode('', $output ?? [])) ?: throw new RuntimeException(sprintf('The model "%s" failed to generate any output.', $this->model));
+        return $output;
     }
 }

@@ -17,7 +17,7 @@ use function fread;
 use function sprintf;
 use function strlen;
 
-final readonly class FileClient extends GeminiClient implements FileClientInterface
+final readonly class FileClient extends BaseClient implements FileClientInterface
 {
     /**
      * @see OneToMany\LlmSdk\Contract\Client\FileClientInterface
@@ -28,31 +28,24 @@ final readonly class FileClient extends GeminiClient implements FileClientInterf
      */
     public function upload(UploadRequest $request): UploadResponse
     {
-        // Files are uploaded in 8MB chunks
-        $uploadChunkByteCount = 8 * 1024 * 1024;
-
-        // Ensure the file can be opened and read before
-        // doing anything that requires an HTTP request
+        // Ensure the file can be opened first
         $fileHandle = $request->openFileHandle();
 
-        // Calculate the total number of chunks needed to upload the entire file
-        $uploadChunkCount = (int) ceil($request->getSize() / $uploadChunkByteCount);
-
-        if (0 === $uploadChunkCount || 0 === $request->getSize()) {
+        if (0 === $fileSize = $request->getSize()) {
             throw new RuntimeException('Empty files cannot be uploaded.');
         }
 
         try {
-            // Generate a signed URL to upload the file to
-            $url = $this->generateUrl('/upload/v1beta/files');
+            // Generate a signed URL to upload the file with
+            $url = $this->generateUrl('upload', $this->apiVersion, 'files');
 
             $response = $this->httpClient->request('POST', $url, [
                 'headers' => [
-                    'x-goog-api-key' => $this->getApiKey(),
+                    'x-goog-api-key' => $this->apiKey,
                     'x-goog-upload-command' => 'start',
                     'x-goog-upload-protocol' => 'resumable',
+                    'x-goog-upload-header-content-length' => $fileSize,
                     'x-goog-upload-header-content-type' => $request->getFormat(),
-                    'x-goog-upload-header-content-length' => $request->getSize(),
                 ],
                 'json' => [
                     'file' => [
@@ -62,23 +55,31 @@ final readonly class FileClient extends GeminiClient implements FileClientInterf
             ]);
 
             if (200 !== $response->getStatusCode()) {
-                throw new RuntimeException(sprintf('Generating the signed URL failed: %s.', $this->decodeErrorResponse($response)->getInlineMessage()), $response->getStatusCode());
+                throw new RuntimeException('Generating the signed upload URL failed.', $response->getStatusCode());
             }
 
+            $headers = $response->getHeaders(true);
+
             /** @var non-empty-string $uploadUrl */
-            $uploadUrl = $response->getHeaders(true)['x-goog-upload-url'][0];
+            $uploadUrl = $headers['x-goog-upload-url'][0];
+
+            /** @var positive-int $uploadChunkSize */
+            $uploadChunkSize = (int) $headers['x-goog-upload-chunk-granularity'][0];
+
+            // Calculate the number of chunks needed to upload the file
+            $uploadChunkCount = (int) ceil($fileSize / $uploadChunkSize);
 
             // Counters to track progress
             $uploadChunk = $uploadOffset = 0;
 
-            while ($fileChunk = fread($fileHandle, $uploadChunkByteCount)) {
+            while ($fileChunk = fread($fileHandle, $uploadChunkSize)) {
                 // Determine the command to let the server know if we're done uploading or not
                 $uploadCommand = (++$uploadChunk >= $uploadChunkCount) ? 'upload, finalize' : 'upload';
 
                 $response = $this->httpClient->request('POST', $uploadUrl, [
                     'headers' => [
-                        'content-length' => $request->getSize(),
-                        'x-goog-api-key' => $this->getApiKey(),
+                        'content-length' => $fileSize,
+                        'x-goog-api-key' => $this->apiKey,
                         'x-goog-upload-offset' => $uploadOffset,
                         'x-goog-upload-command' => $uploadCommand,
                     ],
@@ -86,18 +87,17 @@ final readonly class FileClient extends GeminiClient implements FileClientInterf
                 ]);
 
                 if (200 !== $response->getStatusCode()) {
-                    throw new RuntimeException(sprintf('Chunk %d of %d was rejected by the server: %s.', $uploadChunk, $uploadChunkCount, $this->decodeErrorResponse($response)->getInlineMessage()), $response->getStatusCode());
+                    throw new RuntimeException(sprintf('Chunk %d of %d was rejected by the server.', $uploadChunk, $uploadChunkCount), $response->getStatusCode());
                 }
 
-                // Don't assume the chunk was an even 8MB
                 $uploadOffset = $uploadOffset + strlen($fileChunk);
             }
 
-            $file = $this->denormalizer->denormalize($response->toArray(true), File::class, null, [
+            $file = $this->denormalize($response->toArray(true), File::class, [
                 UnwrappingDenormalizer::UNWRAP_PATH => '[file]',
             ]);
         } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
+            throw new RuntimeException($e->getMessage(), previous: $e);
         }
 
         return new UploadResponse($request->getModel(), $file->uri, $file->name, null, $file->expirationTime);
@@ -108,17 +108,7 @@ final readonly class FileClient extends GeminiClient implements FileClientInterf
      */
     public function delete(DeleteRequest $request): DeleteResponse
     {
-        try {
-            $response = $this->httpClient->request('DELETE', $request->getUri(), [
-                'headers' => [
-                    'x-goog-api-key' => $this->getApiKey(),
-                ],
-            ]);
-
-            $response->toArray(true); // Force the response to be handled
-        } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
-        }
+        $this->doRequest('DELETE', $request->getUri());
 
         return new DeleteResponse($request->getModel(), $request->getUri());
     }

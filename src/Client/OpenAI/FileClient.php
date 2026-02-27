@@ -10,7 +10,6 @@ use OneToMany\LlmSdk\Request\File\DeleteRequest;
 use OneToMany\LlmSdk\Request\File\UploadRequest;
 use OneToMany\LlmSdk\Response\File\DeleteResponse;
 use OneToMany\LlmSdk\Response\File\UploadResponse;
-use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 
 final readonly class FileClient extends BaseClient implements FileClientInterface
 {
@@ -21,21 +20,16 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
     {
         $url = $this->generateUrl('files');
 
-        try {
-            $purpose = Purpose::create($request->getPurpose());
+        $purpose = Purpose::create($request->getPurpose());
 
-            $response = $this->httpClient->request('POST', $url, [
-                'auth_bearer' => $this->getApiKey(),
-                'body' => [
-                    'purpose' => $purpose->getValue(),
-                    'file' => $request->openFileHandle(),
-                ],
-            ]);
+        $content = $this->doRequest('POST', $url, [
+            'body' => [
+                'purpose' => $purpose->getValue(),
+                'file' => $request->openFileHandle(),
+            ],
+        ]);
 
-            $file = $this->denormalizer->denormalize($response->toArray(true), File::class);
-        } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
-        }
+        $file = $this->denormalize($content, File::class);
 
         return new UploadResponse($request->getModel(), $file->id, $file->filename, $file->purpose->getValue(), $file->getExpiresAt());
     }
@@ -45,17 +39,9 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
      */
     public function delete(DeleteRequest $request): DeleteResponse
     {
-        $url = $this->generateUrl('files', $request->getUri());
+        $content = $this->doRequest('DELETE', $this->generateUrl('files', $request->getUri()));
 
-        try {
-            $response = $this->httpClient->request('DELETE', $url, [
-                'auth_bearer' => $this->getApiKey(),
-            ]);
-
-            $deletedFile = $this->denormalizer->denormalize($response->toArray(true), DeletedFile::class);
-        } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
-        }
+        $deletedFile = $this->denormalize($content, DeletedFile::class);
 
         return new DeleteResponse($request->getModel(), $deletedFile->id);
     }

@@ -55,7 +55,7 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
             ]);
 
             if (200 !== $response->getStatusCode()) {
-                throw new RuntimeException('Generating the signed upload URL failed: %s.', $response->getStatusCode());
+                throw new RuntimeException('Generating the signed upload URL failed.', $response->getStatusCode());
             }
 
             $headers = $response->getHeaders(true);

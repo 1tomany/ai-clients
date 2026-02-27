@@ -11,7 +11,6 @@ use OneToMany\LlmSdk\Request\Query\Component\TextComponent;
 use OneToMany\LlmSdk\Request\Query\ExecuteRequest;
 use OneToMany\LlmSdk\Response\Query\CompileResponse;
 use OneToMany\LlmSdk\Response\Query\ExecuteResponse;
-use OneToMany\LlmSdk\Response\Query\UsageResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
 use Symfony\Component\Stopwatch\Stopwatch;

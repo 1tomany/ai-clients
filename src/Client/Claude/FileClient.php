@@ -23,17 +23,13 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
     {
         $url = $this->generateUrl('files');
 
-        try {
-            $response = $this->doRequest('POST', $url, [
-                'body' => [
-                    'file' => $request->openFileHandle(),
-                ],
-            ]);
+        $response = $this->doRequest('POST', $url, [
+            'body' => [
+                'file' => $request->openFileHandle(),
+            ],
+        ]);
 
-            $file = $this->denormalizer->denormalize($response->toArray(true), File::class);
-        } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
-        }
+        $file = $this->denormalizer->denormalize($response->toArray(true), File::class);
 
         return new UploadResponse($request->getModel(), $file->id, $file->filename);
     }
@@ -55,8 +51,6 @@ final readonly class FileClient extends BaseClient implements FileClientInterfac
     }
 
     /**
-     * @param 'GET'|'POST'|'PUT'|'DELETE' $method
-     * @param non-empty-string $url
      * @param array<mixed> $options
      */
     protected function doRequest(string $method, string $url, array $options = []): ResponseInterface

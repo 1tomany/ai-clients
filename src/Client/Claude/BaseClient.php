@@ -3,17 +3,13 @@
 namespace OneToMany\LlmSdk\Client\Claude;
 
 use OneToMany\LlmSdk\Client\Gemini\Type\Error\Error;
-use OneToMany\LlmSdk\Client\Trait\HttpExceptionTrait;
 use OneToMany\LlmSdk\Client\Trait\SupportsModelTrait;
-use OneToMany\LlmSdk\Contract\Client\Type\Error\ErrorInterface;
 use OneToMany\LlmSdk\Exception\RuntimeException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 use function array_merge_recursive;
 use function implode;
@@ -22,7 +18,6 @@ use function sprintf;
 
 abstract readonly class BaseClient
 {
-    use HttpExceptionTrait;
     use SupportsModelTrait;
 
     public const string BASE_URI = 'https://api.anthropic.com/v1';
@@ -72,6 +67,62 @@ abstract readonly class BaseClient
     }
 
     /**
+     * @param array<mixed> $options
+     *
+     * @return array<mixed>
+     */
+    protected function doRequest(string $method, string $url, array $options = []): array
+    {
+        $options = array_merge_recursive($options, [
+            'headers' => [
+                'x-api-key' => $this->getApiKey(),
+                'anthropic-version' => $this->getApiVersion(),
+            ],
+        ]);
+
+        try {
+            $response = $this->httpClient->request($method, $url, $options);
+
+            /** @var int<100, 599> $statusCode */
+            $statusCode = $response->getStatusCode();
+
+            /** @var array<mixed> $content */
+            $content = $response->toArray(false);
+
+            if ($statusCode >= 300 || isset($content['error'])) {
+                $error = $this->denormalize($content, Error::class, [
+                    UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
+                ]);
+
+                throw new RuntimeException($error->getMessage(), $statusCode);
+            }
+        } catch (HttpClientExceptionInterface $e) {
+            throw new RuntimeException($e->getMessage(), previous: $e);
+        }
+
+        return $content;
+    }
+
+    /**
+     * @template T of object
+     *
+     * @param class-string<T> $type
+     * @param array<string, mixed> $context
+     *
+     * @return T
+     */
+    protected function denormalize(mixed $content, string $type, array $context = []): object
+    {
+        try {
+            $object = $this->denormalizer->denormalize($content, $type, null, $context);
+        } catch (SerializerExceptionInterface $e) {
+            throw new RuntimeException($e->getMessage(), previous: $e);
+        }
+
+        return $object;
+    }
+
+    /**
      * @param non-empty-string $paths
      *
      * @return non-empty-string
@@ -79,37 +130,5 @@ abstract readonly class BaseClient
     protected function generateUrl(string ...$paths): string
     {
         return sprintf('%s/%s', self::BASE_URI, ltrim(implode('/', $paths), '/'));
-    }
-
-    /**
-     * @param 'GET'|'POST'|'PUT'|'DELETE' $method
-     * @param non-empty-string $url
-     * @param array<mixed> $options
-     */
-    protected function doRequest(string $method, string $url, array $options = []): ResponseInterface
-    {
-        $headers = [
-            'headers' => [
-                'x-api-key' => $this->getApiKey(),
-                'anthropic-version' => $this->getApiVersion(),
-            ],
-        ];
-
-        return $this->httpClient->request($method, $url, array_merge_recursive($headers, $options));
-    }
-
-    protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
-    {
-        try {
-            $error = $this->denormalizer->denormalize($response->toArray(false), Error::class, null, [
-                UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
-            ]);
-        } catch (HttpClientExceptionInterface $e) {
-            $error = new Error($response->getStatusCode(), $e instanceof HttpClientDecodingExceptionInterface ? $e->getMessage() : $response->getContent(false));
-        } catch (SerializerExceptionInterface $e) {
-            throw new RuntimeException($e->getMessage(), previous: $e);
-        }
-
-        return $error;
     }
 }

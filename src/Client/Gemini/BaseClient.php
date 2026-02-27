@@ -3,6 +3,7 @@
 namespace OneToMany\LlmSdk\Client\Gemini;
 
 use OneToMany\LlmSdk\Client\Gemini\Type\Error\Error;
+use OneToMany\LlmSdk\Client\Trait\DenormalizerTrait;
 use OneToMany\LlmSdk\Client\Trait\HttpExceptionTrait;
 use OneToMany\LlmSdk\Client\Trait\SupportsModelTrait;
 use OneToMany\LlmSdk\Contract\Client\Type\Error\ErrorInterface;
@@ -21,7 +22,7 @@ use function sprintf;
 
 abstract readonly class BaseClient
 {
-    use HttpExceptionTrait;
+    use DenormalizerTrait;
     use SupportsModelTrait;
 
     public const string BASE_URI = 'https://generativelanguage.googleapis.com';
@@ -76,21 +77,34 @@ abstract readonly class BaseClient
     /**
      * @param array<mixed> $options
      *
-     * @return list<array<string, mixed>>|array<string, mixed>
+     * @return array<mixed>
      */
     protected function doRequest(string $method, string $url, array $options = []): array
     {
-        try {
-            $options = array_merge_recursive($options, [
-                'headers' => [
-                    'x-goog-api-key' => $this->getApiKey(),
-                ],
-            ]);
+        $options = array_merge_recursive($options, [
+            'headers' => [
+                'x-goog-api-key' => $this->apiKey,
+            ],
+        ]);
 
-            /** @var list<array<string, mixed>>|array<string, mixed> $content */
-            $content = $this->httpClient->request($method, $url, $options)->toArray(true);
+        try {
+            $response = $this->httpClient->request($method, $url, $options);
+
+            /** @var int<100, 599> $statusCode */
+            $statusCode = $response->getStatusCode();
+
+            /** @var array<mixed> $content */
+            $content = $response->toArray(false);
+
+            if ($statusCode >= 300 || isset($content['error'])) {
+                $error = $this->denormalize($content, Error::class, [
+                    UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
+                ]);
+
+                throw new RuntimeException($error->getMessage(), $statusCode);
+            }
         } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
+            throw new RuntimeException($e->getMessage(), previous: $e);
         }
 
         return $content;
@@ -115,20 +129,5 @@ abstract readonly class BaseClient
     protected function generateModelUrl(string $model, string $action): string
     {
         return $this->generateUrl($this->getApiVersion(), 'models', sprintf('%s:%s', $model, $action));
-    }
-
-    protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
-    {
-        try {
-            $error = $this->denormalizer->denormalize($response->toArray(false), Error::class, null, [
-                UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
-            ]);
-        } catch (HttpClientExceptionInterface $e) {
-            $error = new Error($response->getStatusCode(), $e instanceof HttpClientDecodingExceptionInterface ? $e->getMessage() : $response->getContent(false));
-        } catch (SerializerExceptionInterface $e) {
-            throw new RuntimeException($e->getMessage(), previous: $e);
-        }
-
-        return $error;
     }
 }

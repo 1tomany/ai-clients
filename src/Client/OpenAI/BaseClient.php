@@ -3,26 +3,22 @@
 namespace OneToMany\LlmSdk\Client\OpenAI;
 
 use OneToMany\LlmSdk\Client\OpenAI\Type\Error\Error;
-use OneToMany\LlmSdk\Client\Trait\HttpExceptionTrait;
 use OneToMany\LlmSdk\Client\Trait\SupportsModelTrait;
-use OneToMany\LlmSdk\Contract\Client\Type\Error\ErrorInterface;
 use OneToMany\LlmSdk\Exception\RuntimeException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\UnwrappingDenormalizer;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface as HttpClientDecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
-use function array_merge_recursive;
+use function array_merge;
 use function implode;
+use function in_array;
 use function ltrim;
 use function sprintf;
 
 abstract readonly class BaseClient
 {
-    use HttpExceptionTrait;
     use SupportsModelTrait;
 
     public const string BASE_URI = 'https://api.openai.com/v1';
@@ -73,16 +69,6 @@ abstract readonly class BaseClient
     }
 
     /**
-     * @param non-empty-string $paths
-     *
-     * @return non-empty-string
-     */
-    protected function generateUrl(string ...$paths): string
-    {
-        return sprintf('%s/%s', self::BASE_URI, ltrim(implode('/', $paths), '/'));
-    }
-
-    /**
      * @param array<mixed> $options
      *
      * @return list<array<string, mixed>>|array<string, mixed>
@@ -90,31 +76,37 @@ abstract readonly class BaseClient
     protected function doRequest(string $method, string $url, array $options = []): array
     {
         try {
-            $options = array_merge_recursive($options, [
+            $response = $this->httpClient->request($method, $url, array_merge($options, [
                 'auth_bearer' => $this->getApiKey(),
-            ]);
+            ]));
 
-            /** @var list<array<string, mixed>>|array<string, mixed> $content */
-            $content = $this->httpClient->request($method, $url, $options)->toArray(true);
-        } catch (HttpClientExceptionInterface $e) {
-            $this->handleHttpException($e);
+            /** @var int<100, 599> $statusCode */
+            $statusCode = $response->getStatusCode();
+
+            /** @var array<mixed> $content */
+            $content = $response->toArray(false);
+
+            if (!in_array($statusCode, [200, 201]) || isset($content['error'])) {
+                $error = $this->denormalizer->denormalize($content, Error::class, null, [
+                    UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
+                ]);
+
+                throw new RuntimeException($error->getMessage(), $statusCode);
+            }
+        } catch (HttpClientExceptionInterface|SerializerExceptionInterface $e) {
+            throw new RuntimeException($e->getMessage(), previous: $e);
         }
 
         return $content;
     }
 
-    protected function decodeErrorResponse(ResponseInterface $response): ErrorInterface
+    /**
+     * @param non-empty-string $paths
+     *
+     * @return non-empty-string
+     */
+    protected function generateUrl(string ...$paths): string
     {
-        try {
-            $error = $this->denormalizer->denormalize($response->toArray(false), Error::class, null, [
-                UnwrappingDenormalizer::UNWRAP_PATH => '[error]',
-            ]);
-        } catch (HttpClientExceptionInterface $e) {
-            $error = new Error($e instanceof HttpClientDecodingExceptionInterface ? $e->getMessage() : $response->getContent(false));
-        } catch (SerializerExceptionInterface $e) {
-            throw new RuntimeException($e->getMessage(), previous: $e);
-        }
-
-        return $error;
+        return sprintf('%s/%s', self::BASE_URI, ltrim(implode('/', $paths), '/'));
     }
 }
